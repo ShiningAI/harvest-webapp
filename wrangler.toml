@@ -16,8 +16,10 @@ pages_build_output_dir = ".vercel/output/static"
 # - https://developers.cloudflare.com/pages/functions/bindings/#environment-variables
 # Note: Use secrets to store sensitive data.
 # - https://developers.cloudflare.com/pages/functions/bindings/#secrets
-# [vars]
-# MY_VARIABLE = "production_value"
+[vars]
+API_BASE_URL= "https://harvest-api.prius.ai"
+NOTION_OAUTH_CLIENT_ID = "b0f11c5f-07f8-469a-a59e-45ce9ca8bc14"
+NOTION_OAUTH_REDIRECT_URI = "https://app.harvest.prius.ai/auth/notion/callback"
 
 # Bind the Workers AI model catalog. Run machine learning models, powered by serverless GPUs, on Cloudflare’s global network
 # Docs: https://developers.cloudflare.com/pages/functions/bindings/#workers-ai
