@@ -2,29 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "edge";
 
-if (
-  !process.env.NOTION_OAUTH_CLIENT_ID ||
-  !process.env.NOTION_OAUTH_CLIENT_SECRET ||
-  !process.env.NOTION_OAUTH_REDIRECT_URI
-) {
-  console.log(
-    'The .env file is not configured. Follow the instructions in the readme to configure the .env file. https://github.com/stripe-samples/subscription-use-cases'
-  )
-  console.log('')
-  process.env.NOTION_OAUTH_CLIENT_ID
-    ? ''
-    : console.log('Add NOTION_OAUTH_CLIENT_ID to your .env file.')
-
-  process.env.NOTION_OAUTH_CLIENT_SECRET
-    ? ''
-    : console.log('Add NOTION_OAUTH_CLIENT_SECRET to your .env file.')
-
-  process.env.NOTION_OAUTH_REDIRECT_URI
-    ? ''
-    : console.log('Add NOTION_OAUTH_REDIRECT_URI to your .env file.')
-  process.exit()
-}
-
 const clientId = process.env.NOTION_OAUTH_CLIENT_ID;
 const clientSecret = process.env.NOTION_OAUTH_CLIENT_SECRET;
 const redirectUri = process.env.NOTION_OAUTH_REDIRECT_URI;
@@ -38,7 +15,7 @@ export async function POST(request: NextRequest) {
     state: string;
   };
 
-  if (!code || !state) {
+  if (!code || !state || !clientId || !clientSecret || !redirectUri) {
     return NextResponse.json({ ok: false });
   }
 

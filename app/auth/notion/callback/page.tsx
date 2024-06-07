@@ -3,7 +3,7 @@
 import { useRequest } from "ahooks";
 import { useSearchParams } from "next/navigation";
 
-export default function Home() {
+export default function Page() {
   const params = useSearchParams();
   const code = params.get("code") as string;
   const state = params.get("state") as string;
@@ -30,13 +30,12 @@ function Auth({ code, state }: AuthProps) {
     }).then((res) => res.json() as any);
   });
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-3xl">Notion Auth</h1>
+    <>
       {loading ? (
         <p>Loading...</p>
       ) : (
         <p>{`Code: ${code}. ${data.ok ? "授权成功" : "授权失败"}`}</p>
       )}
-    </main>
+    </>
   );
 }
