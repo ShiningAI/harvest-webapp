@@ -19,31 +19,39 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false });
   }
 
-  const decode = JSON.parse(Buffer.from(state, "base64").toString("utf8"));
+  try {
+    const decode = JSON.parse(Buffer.from(state, "base64").toString("utf8"));
 
-  const notion_auth_form = new FormData();
-  notion_auth_form.append("grant_type", "authorization_code");
-  notion_auth_form.append("code", code);
-  notion_auth_form.append("redirect_uri", redirectUri);
+    const notion_auth_form = new FormData();
+    notion_auth_form.append("grant_type", "authorization_code");
+    notion_auth_form.append("code", code);
+    notion_auth_form.append("redirect_uri", redirectUri);
 
-  const notion_auth_resp = await fetch(
-    `${process.env.API_BASE_URL}/v1/oauth/token`,
-    {
-      method: "POST",
-      body: notion_auth_form,
-      headers: { Authorization: `Basic ${encoded}` },
+    const notion_auth_resp = await fetch(
+      `${process.env.API_BASE_URL}/v1/oauth/token`,
+      {
+        method: "POST",
+        body: notion_auth_form,
+        headers: { Authorization: `Basic ${encoded}` },
+      }
+    ).then((res) => res.json() as any);
+
+    if (notion_auth_resp.detail) {
+      return NextResponse.json({ ok: false, error: notion_auth_resp.detail });
     }
-  ).then((res) => res.json() as any);
 
-  const resp = await fetch(`${process.env.API_BASE_URL}/v1/oauth/wx_user`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      access_token: notion_auth_resp.access_token,
-      user_id: decode.contactId,
-    }),
-  }).then((res) => res.json() as any);
-  return NextResponse.json(resp);
+    const resp = await fetch(`${process.env.API_BASE_URL}/v1/oauth/wx_user`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        access_token: notion_auth_resp.access_token,
+        user_id: decode.contactId,
+      }),
+    }).then((res) => res.json() as any);
+    return NextResponse.json(resp);
+  } catch (error: any) {
+    return NextResponse.json({ ok: false, error: error.message });
+  }
 }
