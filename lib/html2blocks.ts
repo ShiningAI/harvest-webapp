@@ -111,7 +111,7 @@ const block2blocks = (block: Block) => {
   return blocks;
 };
 
-export const html2blocks = async ({ url, content, saveto = true }: Params) => {
+export const html2blocks = async ({ url, content, saveto }: Params) => {
   try {
     let blocks: Block[] = [];
     if (
@@ -119,6 +119,7 @@ export const html2blocks = async ({ url, content, saveto = true }: Params) => {
       url.startsWith("https://youtube.com")
     ) {
       let transcriptBlocks: any[] = [];
+      // TODO: 从youtube获取transcript
       if (saveto) {
         transcriptBlocks = await fetch("/api/nice/transcript/format", {
           method: "POST",
