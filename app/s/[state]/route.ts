@@ -1,25 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
-if (
-  !process.env.NOTION_OAUTH_REDIRECT_URI ||
-  !process.env.NOTION_OAUTH_CLIENT_ID
-) {
-  console.log(
-    "The .env file is not configured. Follow the instructions in the readme to configure the .env file."
-  );
-  console.log("");
-  process.env.NOTION_OAUTH_REDIRECT_URI
-    ? ""
-    : console.log("Add STRIPE_SECRET_KEY to your .env file.");
+export const runtime = 'edge'
 
-  process.env.NOTION_OAUTH_CLIENT_ID
-    ? ""
-    : console.log("Add STRIPE_PUBLISHABLE_KEY to your .env file.");
-
-  process.exit();
-}
-
-export function GET(request: NextRequest, params: { state: string }) {
+export function GET(request: NextRequest, { params }: { params: { state: string } }) {
   if (!params.state) {
     return NextResponse.json({ error: "Missing state" }, { status: 400 });
   }
