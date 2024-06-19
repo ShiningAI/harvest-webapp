@@ -12,12 +12,13 @@ export const SelectForm = ({
   switchRoute,
 }: BaseProps & { first?: boolean }) => {
   const { loading, data: collections } = useRequest(async () => {
-    const collections = await getCollections();
     const collectionId = await getCollectionId();
     if (collectionId && first) {
       switchRoute("savePage", {});
       return [];
     }
+
+    const collections = await getCollections();
     return collections;
   });
 

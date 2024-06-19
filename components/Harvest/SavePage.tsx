@@ -21,8 +21,8 @@ import { html2blocks } from "@/lib/html2blocks";
 
 export const SavePage = ({ switchRoute }: BaseProps) => {
   const { loading, data: collection } = useRequest(async () => {
-    const collections = await getCollections();
     const collectionId = await getCollectionId();
+    const collections = await getCollections();
 
     const c = collections?.find((c) => c.id === collectionId);
     if (!c) return null;
