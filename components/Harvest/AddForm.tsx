@@ -82,9 +82,14 @@ export const AddForm = ({ switchRoute }: BaseProps) => {
       const blocks = Object.values(ret.recordMap?.block || {})
         .map((b: any) => b.value)
         .filter((b) => b.type === "collection_view_page");
+
       const collections = Object.values(ret.recordMap?.collection || {})
         .map((v: any) => {
           const block = blocks.find((b) => b.collection_id === v.value.id);
+
+          if (block?.format?.app_config_uri?.startsWith?.("notion://wiki")) {
+            return null as unknown as CollectionInfo;
+          }
 
           const c = {
             id: v.value?.id || "",
