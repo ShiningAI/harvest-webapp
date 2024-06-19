@@ -1,42 +1,55 @@
-import React from 'react'
-import { PlusCircledIcon } from '@radix-ui/react-icons'
-import { BaseProps, CollectionInfo } from './types'
-import { Button } from '@/components/ui/button'
-import { useLocalStorageState, useMount } from 'ahooks'
-import { Collection } from './Collection'
-import { SELECTD_FORMS, SELECTED_FORM } from '@/lib/constant'
+import React from "react";
+import { PlusCircledIcon } from "@radix-ui/react-icons";
+import { BaseProps } from "./types";
+import { Button } from "@/components/ui/button";
+import { useRequest } from "ahooks";
+import { Collection } from "./Collection";
+import { getCollectionId, getCollections, setCollectionId } from "./utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const SelectForm = ({
   first,
-  switchRoute
+  switchRoute,
 }: BaseProps & { first?: boolean }) => {
-  const [collections] = useLocalStorageState(SELECTD_FORMS, {
-    defaultValue: [] as CollectionInfo[]
-  })
-  const [collectionId] = useLocalStorageState(SELECTED_FORM, {
-    defaultValue: '' as string
-  })
-
-  useMount(() => {
+  const { loading, data: collections } = useRequest(async () => {
+    const collections = await getCollections();
+    const collectionId = await getCollectionId();
     if (collectionId && first) {
-      switchRoute('savePage', {})
+      switchRoute("savePage", {});
+      return [];
     }
-  })
+    return collections;
+  });
+
+  if (loading) {
+    return (
+      <div className="w-full flex items-center space-x-4">
+        <Skeleton className="h-12 w-12 rounded-full" />
+        <div className="flex-1 space-y-2">
+          <Skeleton className="h-4 w-2/5" />
+          <Skeleton className="h-4 w-4/5" />
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className='p-6 pt-3 grid gap-1'>
+    <div className="p-6 pt-3 grid gap-1">
       {collections?.map((collection) => (
         <Collection
           key={collection.id}
           collection={collection}
-          onClick={() => switchRoute('savePage', { collection })}
+          onClick={async () => {
+            await setCollectionId(collection.id);
+            switchRoute("savePage", { collection });
+          }}
         />
       ))}
 
-      <Button onClick={() => switchRoute('addForm')}>
+      <Button onClick={() => switchRoute("addForm")}>
         <PlusCircledIcon />
-        <span className='ml-1'>Add New Form</span>
+        <span className="ml-1">Add New Form</span>
       </Button>
     </div>
-  )
-}
+  );
+};

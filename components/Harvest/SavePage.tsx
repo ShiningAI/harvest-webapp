@@ -1,6 +1,6 @@
 import React from "react";
 import { v4 as uuid } from "uuid";
-import { useLocalStorageState, useRequest } from "ahooks";
+import { useRequest } from "ahooks";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -9,19 +9,21 @@ import {
   PaperPlaneIcon,
   ChevronLeftIcon,
 } from "@radix-ui/react-icons";
-import { BaseProps, CollectionInfo } from "./types";
-import { SELECTD_FORMS, SELECTED_FORM } from "@/lib/constant";
-import { getWebContent, loadPageChunk, submitTransaction } from "./utils";
+import { BaseProps } from "./types";
+import {
+  getCollectionId,
+  getCollections,
+  getWebContent,
+  loadPageChunk,
+  submitTransaction,
+} from "./utils";
 import { html2blocks } from "@/lib/html2blocks";
 
 export const SavePage = ({ switchRoute }: BaseProps) => {
-  const [collections] = useLocalStorageState(SELECTD_FORMS, {
-    defaultValue: [] as CollectionInfo[],
-  });
-  const [collectionId] = useLocalStorageState(SELECTED_FORM, {
-    defaultValue: "" as string,
-  });
   const { loading, data: collection } = useRequest(async () => {
+    const collections = await getCollections();
+    const collectionId = await getCollectionId();
+
     const c = collections?.find((c) => c.id === collectionId);
     if (!c) return null;
     return loadPageChunk(collectionId!, c.user_id).then((res) => {

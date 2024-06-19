@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocalStorageState, useRequest } from "ahooks";
+import { useRequest } from "ahooks";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -19,6 +19,8 @@ import {
   getSpaces,
   removeDuplicates,
   searchDatabases,
+  setCollectionId,
+  useStorageState,
 } from "./utils";
 import {
   BaseProps,
@@ -31,9 +33,11 @@ import { SELECTD_FORMS } from "@/lib/constant";
 
 export const AddForm = ({ switchRoute }: BaseProps) => {
   const [spaceId, setSpaceId] = React.useState("");
-  const [collections, setCollections] = useLocalStorageState(SELECTD_FORMS, {
-    defaultValue: [] as CollectionInfo[],
-  });
+  const [spinning, collections, setCollections] = useStorageState(
+    SELECTD_FORMS,
+    [] as CollectionInfo[],
+    () => run()
+  );
 
   const { loading, data, run } = useRequest(
     async (
@@ -101,6 +105,7 @@ export const AddForm = ({ switchRoute }: BaseProps) => {
       return { collections, spaceIds, spaces, pages };
     },
     {
+      manual: true,
       debounceWait: 300,
       onSuccess(data) {
         if (!spaceId) setSpaceId(data.spaceIds[0]);
@@ -158,7 +163,7 @@ export const AddForm = ({ switchRoute }: BaseProps) => {
           onChange={(ev) => onSearch(ev.target.value, spaceId)}
         />
       </div>
-      {loading ? (
+      {loading || spinning ? (
         <div className="w-full flex items-center space-x-4">
           <Skeleton className="h-12 w-12 rounded-full" />
           <div className="flex-1 space-y-2">
@@ -172,10 +177,11 @@ export const AddForm = ({ switchRoute }: BaseProps) => {
             <Collection
               key={collection.id}
               collection={collection}
-              onClick={() => {
-                setCollections(
+              onClick={async () => {
+                await setCollections(
                   removeDuplicates([...(collections || []), collection], "id")
                 );
+                await setCollectionId(collection.id);
                 switchRoute("savePage", { collection });
               }}
             />

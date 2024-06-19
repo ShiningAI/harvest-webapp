@@ -13,20 +13,17 @@ import type { RouteType } from "@/components/Harvest";
 import { getUserId, updateHeight } from "@/components/Harvest/utils";
 
 import PubSub from "@/lib/PubSub";
-import { SELECTED_FORM } from "@/lib/constant";
-import { useLocalStorageState, useMount } from "ahooks";
+import { useMount } from "ahooks";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 
 // const isDev = process.env.NEXT_PUBLIC_NODE_ENV === 'development'
+
 const SaveToNotion = () => {
   const [userId, setUserId] = useState("");
   const [loading, setLoading] = useState(true);
   const [pageData, setPageData] = useState<any>({});
   const [route, setRoute] = useState<RouteType | null>(null);
-  const [, selectFormToStorage] = useLocalStorageState(SELECTED_FORM, {
-    defaultValue: "" as string,
-  });
 
   useEffect(() => {
     function onmessage(event: MessageEvent) {
@@ -35,6 +32,9 @@ const SaveToNotion = () => {
       switch (type) {
         case "fetchData":
           PubSub.pub("fetchData", value);
+          break;
+        case "storage":
+          PubSub.pub("storageFetch", value);
           break;
         case "getWebContent":
           PubSub.pub("getWebContent", value);
@@ -70,34 +70,30 @@ const SaveToNotion = () => {
     setRoute(null);
   }, []);
 
-  const switchRoute = useCallback(
-    (route: RouteType, data?: any) => {
-      setRoute(route);
-      switch (route) {
-        case "addForm":
-          updateHeight(560);
-          break;
-        case "login":
-          updateHeight(240);
-          break;
-        case "savePage":
-          updateHeight(480);
-          if (data?.collection?.id) selectFormToStorage(data.collection.id);
-          break;
-        case "selectForm":
-          updateHeight(320);
-          break;
+  const switchRoute = useCallback((route: RouteType, data?: any) => {
+    setRoute(route);
+    switch (route) {
+      case "addForm":
+        updateHeight(560);
+        break;
+      case "login":
+        updateHeight(240);
+        break;
+      case "savePage":
+        updateHeight(480);
+        break;
+      case "selectForm":
+        updateHeight(320);
+        break;
 
-        case "saveDone":
-          updateHeight(240);
-          if (data?.pageId) setPageData(data);
-          break;
-        default:
-          break;
-      }
-    },
-    [selectFormToStorage]
-  );
+      case "saveDone":
+        updateHeight(240);
+        if (data?.pageId) setPageData(data);
+        break;
+      default:
+        break;
+    }
+  }, []);
 
   const renderSkeleton = () => (
     <div className="w-full p-3 flex items-center space-x-4">

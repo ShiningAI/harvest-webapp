@@ -1,7 +1,10 @@
 import { v4 as uuid } from "uuid";
 
 import PubSub from "@/lib/PubSub";
-import { SpaceInfo, UserInfoWithSpace } from "./types";
+import { CollectionInfo, SpaceInfo, UserInfoWithSpace } from "./types";
+import { useState } from "react";
+import { useMount } from "ahooks";
+import { SELECTD_FORMS, SELECTED_FORM } from "@/lib/constant";
 
 const EXEC_TIMEOUT = 30 * 1000;
 
@@ -12,10 +15,16 @@ export const updateHeight = (height: number) => {
   );
 };
 
-export const getWebContent = exec_timeout("请求数据超时", async () => {
-  return new Promise<{ title: string; url: string; content: string }>(
-    (resolve, reject) => {
-      PubSub.sub("getWebContent", (res) => {
+type StorageFetchParams = {
+  action: "get" | "set";
+  payload: { key: string; value?: any };
+};
+
+const storageFetch = exec_timeout(
+  "[storage]请求数据超时",
+  async (value: StorageFetchParams) => {
+    return new Promise<any>((resolve, reject) => {
+      PubSub.sub("storageFetch", (res) => {
         if (res.ok) {
           resolve(res.data);
         } else {
@@ -26,12 +35,79 @@ export const getWebContent = exec_timeout("请求数据超时", async () => {
       });
 
       window.parent.postMessage(
-        { s: "notion-harvest", type: "getWebContent" },
+        { s: "notion-harvest", type: "storage", value },
         "*"
       );
-    }
-  );
-});
+    });
+  }
+);
+
+export const setStorageState = <T>(key: string) => {
+  return (value: T) => storageFetch({ action: "set", payload: { key, value } });
+};
+export const getStorageState = <T>(key: string) => {
+  return (): Promise<T> => storageFetch({ action: "get", payload: { key } });
+};
+
+export const setCollectionId = setStorageState<string>(SELECTED_FORM);
+export const getCollections = getStorageState<CollectionInfo[]>(SELECTD_FORMS);
+export const getCollectionId = getStorageState<string>(SELECTED_FORM);
+
+export const useStorageState = <T>(
+  key: string,
+  defaultValue: T,
+  onSuccess?: () => void
+) => {
+  const [loging, setLoading] = useState(true);
+  const [value, setValue] = useState<T>(defaultValue);
+  useMount(() => {
+    storageFetch({ action: "get", payload: { key } })
+      .then((data) => {
+        setValue(data);
+      })
+      .catch((err) => {
+        console.error(err);
+        setValue(defaultValue);
+      })
+      .finally(() => {
+        setLoading(false);
+        onSuccess?.();
+      });
+  });
+
+  const set = async (value: T) => {
+    setValue(value);
+    await storageFetch({ action: "set", payload: { key, value } });
+  };
+
+  return [loging, value, set] as const;
+};
+
+export const getWebContent = exec_timeout(
+  "[getWebContent]请求数据超时",
+  async () => {
+    return new Promise<{ title: string; url: string; content: string }>(
+      (resolve, reject) => {
+        PubSub.sub("getWebContent", (res) => {
+          if (res.ok) {
+            setTimeout(() => {
+              resolve(res.data);
+            }, 300);
+          } else {
+            const err: any = Error(res.error || "请求数据失败");
+            err.code = res.code;
+            reject(err);
+          }
+        });
+
+        window.parent.postMessage(
+          { s: "notion-harvest", type: "getWebContent" },
+          "*"
+        );
+      }
+    );
+  }
+);
 
 export const fetchData = exec_timeout(
   "请求数据超时",
