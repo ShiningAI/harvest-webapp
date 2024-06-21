@@ -49,8 +49,10 @@ export const getStorageState = <T>(key: string) => {
   return (): Promise<T> => storageFetch({ action: "get", payload: { key } });
 };
 
-export const setCollectionId = setStorageState<string>(SELECTED_FORM);
+export const setCollections = setStorageState<CollectionInfo[]>(SELECTD_FORMS);
 export const getCollections = getStorageState<CollectionInfo[]>(SELECTD_FORMS);
+
+export const setCollectionId = setStorageState<string>(SELECTED_FORM);
 export const getCollectionId = getStorageState<string>(SELECTED_FORM);
 
 export const useStorageState = <T>(
