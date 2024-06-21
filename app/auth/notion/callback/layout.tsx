@@ -13,9 +13,9 @@ export default function RootLayout({
 }>) {
   return (
     <Suspense>
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <main className="flex min-h-screen flex-col items-center p-6">
         <h1 className="text-3xl">Notion Auth</h1>
-        {children}
+        <div className="flex-1 flex-col items-center">{children}</div>
       </main>
     </Suspense>
   );

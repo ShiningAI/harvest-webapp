@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export const runtime = 'edge'
+export const runtime = "edge";
 
-export function GET(request: NextRequest, { params }: { params: { state: string } }) {
+export function GET(
+  request: NextRequest,
+  { params }: { params: { state: string } }
+) {
   if (!params.state) {
     return NextResponse.json({ error: "Missing state" }, { status: 400 });
   }

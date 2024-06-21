@@ -1,7 +1,7 @@
 "use client";
 
 import { useRequest } from "ahooks";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Page() {
   const params = useSearchParams();
@@ -20,22 +20,26 @@ interface AuthProps {
 }
 
 function Auth({ code, state }: AuthProps) {
-  const { loading, data } = useRequest(() => {
-    return fetch("/api/notion", {
-      method: "POST",
-      body: JSON.stringify({ code, state }),
-      headers: {
-        "Content-Type": "application/json",
+  const { replace } = useRouter();
+  useRequest(
+    async () => {
+      return fetch("/api/notion", {
+        method: "POST",
+        body: JSON.stringify({ code, state }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => res.json() as any);
+    },
+    {
+      onSuccess: (data) => {
+        if (data.ok) {
+          replace("/auth/notion/callback/success")
+        } else {
+          replace("/auth/notion/callback/failed")
+        }
       },
-    }).then((res) => res.json() as any);
-  });
-  return (
-    <>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <p>{`Code: ${code}. ${data.ok ? "授权成功" : "授权失败"}`}</p>
-      )}
-    </>
+    }
   );
+  return <p>Loading...</p>;
 }
