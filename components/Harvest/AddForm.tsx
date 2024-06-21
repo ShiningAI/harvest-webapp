@@ -32,6 +32,7 @@ import { Collection } from "./Collection";
 import { SELECTD_FORMS } from "@/lib/constant";
 
 export const AddForm = ({ switchRoute }: BaseProps) => {
+  const [userId, setUserId] = React.useState("");
   const [spaceId, setSpaceId] = React.useState("");
   const [spinning, collections, setCollections] = useStorageState(
     SELECTD_FORMS,
@@ -42,6 +43,7 @@ export const AddForm = ({ switchRoute }: BaseProps) => {
   const { loading, data, run } = useRequest(
     async (
       query = "",
+      userId = "",
       spaceId = "",
       spaceIds: string[] = [],
       spaces: UserInfoWithSpace[] = []
@@ -63,7 +65,6 @@ export const AddForm = ({ switchRoute }: BaseProps) => {
       if (!spaceId) {
         spaceId = spaceIds[0];
       }
-      const userId = spaces.find((s) => s.spaceIds.includes(spaceId))?.id || "";
 
       const ret = await searchDatabases(spaceId, userId, query);
 
@@ -117,8 +118,8 @@ export const AddForm = ({ switchRoute }: BaseProps) => {
       },
     }
   );
-  const onSearch = (query: string, spaceId: string) => {
-    run(query, spaceId, data?.spaceIds || [], data?.spaces || []);
+  const onSearch = (query: string, spaceId: string, userId: string) => {
+    run(query, userId, spaceId, data?.spaceIds || [], data?.spaces || []);
   };
   return (
     <div className="p-3">
@@ -137,10 +138,14 @@ export const AddForm = ({ switchRoute }: BaseProps) => {
 
         {!!data?.spaces && (
           <Select
-            value={spaceId}
-            onValueChange={(spaceId) => {
+            value={
+              userId && spaceId ? JSON.stringify([userId, spaceId]) : undefined
+            }
+            onValueChange={(value) => {
+              const [userId, spaceId] = JSON.parse(value);
+              setUserId(userId);
               setSpaceId(spaceId);
-              onSearch("", spaceId);
+              onSearch("", spaceId, userId);
             }}
           >
             <SelectTrigger className="w-[120px]">
@@ -151,7 +156,7 @@ export const AddForm = ({ switchRoute }: BaseProps) => {
                 <SelectGroup key={user.id}>
                   <SelectLabel>{user.email}</SelectLabel>
                   {user.spaces.map(({ id, name }) => (
-                    <SelectItem key={id} value={id}>
+                    <SelectItem key={id} value={JSON.stringify([user.id, id])}>
                       {name}
                     </SelectItem>
                   ))}
@@ -165,7 +170,7 @@ export const AddForm = ({ switchRoute }: BaseProps) => {
         <Input
           type="text"
           placeholder="Search Databases"
-          onChange={(ev) => onSearch(ev.target.value, spaceId)}
+          onChange={(ev) => onSearch(ev.target.value, spaceId, userId)}
         />
       </div>
       {loading || spinning ? (
