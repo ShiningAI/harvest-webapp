@@ -29,7 +29,7 @@ ${error.stack}
     });
     const data = await resp.json();
     return NextResponse.json({ ok: true, data });
-  } catch (error) {
+  } catch (error: any) {
     return NextResponse.json({ ok: false, error: error.message });
   }
 }
