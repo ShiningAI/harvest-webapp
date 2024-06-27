@@ -66,6 +66,10 @@ export const AddForm = ({ switchRoute }: BaseProps) => {
         spaceId = spaceIds[0];
       }
 
+      if (!userId) {
+        return { collections: [], spaceIds, spaces, pages: [] };
+      }
+
       const ret = await searchDatabases(spaceId, userId, query);
 
       const pages = Object.values(ret.recordMap?.block || {})
