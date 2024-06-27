@@ -149,6 +149,18 @@ export const SavePage = ({ switchRoute }: BaseProps) => {
         }
         // TODO: show error
       },
+      onError: (error) => {
+        fetch("/api/notify/exception", {
+          method: "POST",
+          body: JSON.stringify({
+            error: {
+              name: error.name,
+              message: error.message,
+              stack: error.stack,
+            },
+          }),
+        });
+      },
     }
   );
 
@@ -200,6 +212,11 @@ export const SavePage = ({ switchRoute }: BaseProps) => {
               )}
               <span className="ml-1">Save Page</span>
             </Button>
+            {!saveReq.loading && saveReq.error && (
+              <div className="text-red-500 mt-2">
+                Error: {saveReq.error.message}
+              </div>
+            )}
           </>
         )}
       </div>
