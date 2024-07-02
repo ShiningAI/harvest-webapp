@@ -1,5 +1,6 @@
 import { SelectDatabases } from "./SelectDatabases";
 
+export const runtime = 'edge';
 export default async function Page({ params }: { params: { state: string } }) {
   try {
     const decode = JSON.parse(
