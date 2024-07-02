@@ -1,19 +1,21 @@
 import React from "react";
 import Link from "next/link";
-// import { NotionAPI } from "notion-client";
 import { Button } from "@/components/ui/button";
-
-// import NotionPage from "./NotionPage";
-
-// const notion = new NotionAPI();
+import NotionPage from "./NotionPage";
 
 export default async function Page({ params }: { params: { state: string } }) {
-  // const recordMap = await notion.getPage("ee4242f76b7744478bdc87b955b89250");
+  const recordMap: any = await fetch("https://harvest.prius.ai/api/get-page", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ pageId: "ee4242f76b7744478bdc87b955b89250" }),
+  }).then((res) => res.json());
 
   return (
     <div>
-      {/* <NotionPage recordMap={recordMap} /> */}
-      <div className="mx-auto max-w-md space-y-6 py-12">
+      {recordMap && <NotionPage recordMap={recordMap} />}
+      <div className="mx-auto max-w-2xl space-y-6 py-2">
         <Link href={`/s/${params.state}/redirect`}>
           <Button>Go to Notion to Authorize</Button>
         </Link>
@@ -22,4 +24,4 @@ export default async function Page({ params }: { params: { state: string } }) {
   );
 }
 
-export const runtime = 'edge';
+export const runtime = "edge";
