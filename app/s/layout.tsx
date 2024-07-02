@@ -6,10 +6,10 @@ export default function Layout({ children }: PropsWithChildren) {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <header className="flex items-center justify-between px-6 py-4 shadow">
-        <div className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2">
           <CropIcon className="h-6 w-6 text-primary" />
           <span className="text-lg font-medium">Harvest</span>
-        </div>
+        </Link>
         <div className="flex items-center gap-2">
           <NotebookIcon className="h-6 w-6 text-primary" />
           <span className="text-lg font-medium">Notion</span>

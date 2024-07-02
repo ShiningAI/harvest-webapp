@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { PropsWithChildren } from "react";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/toaster";
+
 import "./globals.css";
 
 const fontHeading = Inter({
@@ -18,7 +20,6 @@ const fontBody = Inter({
   variable: "--font-body",
 });
 
-
 export const metadata: Metadata = {
   title: "Harvest",
   description: "Save the Web to Notion",
@@ -31,6 +32,7 @@ export default function Layout({ children }: PropsWithChildren) {
         className={cn("antialiased", fontHeading.variable, fontBody.variable)}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );

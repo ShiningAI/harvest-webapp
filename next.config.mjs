@@ -8,7 +8,16 @@ if (process.env.NODE_ENV === "development") {
 }
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  rewrites: async () => {
+    return [
+      {
+        source: "/api/harvest/:path*",
+        destination: `https://harvest-api.prius.ai/v1/:path*`,
+      },
+    ];
+  },
+};
 
 if (process.env.NODE_ENV === "development") {
   nextConfig.reactStrictMode = false;
