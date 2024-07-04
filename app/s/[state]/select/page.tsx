@@ -1,3 +1,4 @@
+import { notifyException } from "@/lib/notify";
 import { SelectDatabases } from "./SelectDatabases";
 
 export const runtime = "edge";
@@ -25,7 +26,7 @@ export default async function Page({ params }: { params: { state: string } }) {
       </div>
     );
   } catch (error: any) {
-    console.error(error);
+    notifyException(error);
     return (
       <div className="max-w-md mx-auto w-full space-y-4 text-center">
         Error: {error.message}
