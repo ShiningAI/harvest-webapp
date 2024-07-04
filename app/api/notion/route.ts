@@ -20,7 +20,8 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const decode = JSON.parse(Buffer.from(state, "base64").toString("utf8"));
+    const s = decodeURIComponent(state);
+    const decode = JSON.parse(Buffer.from(s, "base64").toString("utf8"));
 
     const notion_auth_form = new FormData();
     notion_auth_form.append("grant_type", "authorization_code");
