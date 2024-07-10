@@ -8,6 +8,8 @@
   },
   "Database": {
     "save": "保存",
+    "close": "关闭页面",
+    "reauthorization": "重新授权",
     "SelectedDatabase": {
       "title": "请选择一个数据库",
       "description": "你需要选择一个数据库，作为保存数据的容器"

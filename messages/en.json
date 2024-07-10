@@ -8,6 +8,8 @@
   },
   "Database": {
     "save": "Save",
+    "close": "Close Page",
+    "reauthorization": "Reauthorization",
     "SelectedDatabase": {
       "title": "Please select a database",
       "description": "You need to select a database as the container for storing data"
