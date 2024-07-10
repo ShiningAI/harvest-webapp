@@ -10,14 +10,13 @@ import {
 import React, { useState, useCallback, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { RouteType } from "@/components/Harvest";
-import { getUserId, updateHeight } from "@/components/Harvest/utils";
+import { updateHeight } from "@/components/Harvest/utils";
 
 import PubSub from "@/lib/PubSub";
-import { useMount } from "ahooks";
 import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
+import { XIcon } from "lucide-react";
 
-export const runtime = "edge";
+// export const runtime = "edge";
 
 // const isDev = process.env.NEXT_PUBLIC_NODE_ENV === 'development'
 
@@ -28,6 +27,8 @@ const SaveToNotion = () => {
   const [route, setRoute] = useState<RouteType | null>(null);
 
   useEffect(() => {
+    window.parent.postMessage({ s: "notion-harvest", type: "getUserId" }, "*");
+
     function onmessage(event: MessageEvent) {
       if (event.data?.s !== "notion-harvest") return;
       const { type, value } = event.data;
@@ -41,6 +42,16 @@ const SaveToNotion = () => {
         case "getWebContent":
           PubSub.pub("getWebContent", value);
           break;
+        case "getUserId": {
+          if (value.ok) {
+            setUserId(value.data);
+            switchRoute("firstSelectForm");
+          } else {
+            switchRoute("login");
+          }
+          setLoading(false);
+          break;
+        }
         default:
           break;
       }
@@ -50,22 +61,8 @@ const SaveToNotion = () => {
     return () => {
       window.removeEventListener("message", onmessage);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  useMount(() => {
-    setTimeout(() => {
-      getUserId()
-        .then((userId) => {
-          setUserId(userId);
-          switchRoute("firstSelectForm");
-        })
-        .catch(() => {
-          switchRoute("login");
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }, 300);
-  });
 
   const closeModal = useCallback(() => {
     window.parent.postMessage({ s: "notion-harvest", type: "closeModal" }, "*");
@@ -133,7 +130,7 @@ const SaveToNotion = () => {
       <div className="flex items-center justify-between p-2 rounded-t-xl">
         <div className="pl-2 font-medium leading-none">Notion Harvest</div>
         <Button size="icon" variant="ghost" onClick={closeModal}>
-          <X />
+          <XIcon />
         </Button>
       </div>
       {render()}

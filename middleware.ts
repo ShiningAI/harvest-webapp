@@ -7,7 +7,7 @@ import {
 } from "./lib/navigation";
 import { NextRequest } from "next/server";
 
-export default (request: NextRequest) => {
+const middleware = (request: NextRequest) => {
   const acceptLanguage = request.headers.get("accept-language");
   const default_locale =
     localeItems.find((v) => acceptLanguage?.includes(v.iso))?.code ||
@@ -20,6 +20,7 @@ export default (request: NextRequest) => {
     localeDetection: false,
   })(request);
 };
+export default middleware;
 
 export const config = {
   // Include all paths that should be internationalized,
@@ -28,4 +29,4 @@ export const config = {
   matcher: ["/((?!_next|.*\\..*|api/.*).*)"],
 };
 
-export const runtime = "experimental-edge";
+// export const runtime = "experimental-edge";
