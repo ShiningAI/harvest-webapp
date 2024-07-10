@@ -7,7 +7,9 @@ export default async function Page({ params }: { params: { state: string } }) {
     const state = decodeURIComponent(params.state);
     const decode = JSON.parse(Buffer.from(state, "base64").toString("utf8"));
     if (decode.contactId) {
-      return <SelectDatabases contactId={decode.contactId} />;
+      return (
+        <SelectDatabases state={params.state} contactId={decode.contactId} />
+      );
     }
     return (
       <div className="max-w-md mx-auto w-full space-y-4 text-center">

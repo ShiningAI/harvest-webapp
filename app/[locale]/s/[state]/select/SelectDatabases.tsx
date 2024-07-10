@@ -4,16 +4,19 @@ import Link from "next/link";
 import { useRequest } from "ahooks";
 import { request } from "@/lib/request";
 import { useRouter } from "next/navigation";
-import { LoaderCircle, CheckCheckIcon } from "lucide-react";
+import { LoaderCircle, LinkIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useToast } from "@/components/ui/use-toast";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { PropsWithChildren, useState } from "react";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { cn } from "@/lib/utils";
 
 interface Props {
   contactId: string;
+  state: string;
 }
 
 interface Database {
@@ -27,11 +30,11 @@ interface DatabasesResponse {
   databases: Database[];
 }
 
-export const SelectDatabases = ({ contactId }: Props) => {
+export const SelectDatabases = ({ state, contactId }: Props) => {
   const { toast } = useToast();
   const { replace } = useRouter();
   const t = useTranslations("Database");
-  const [selectedDatabase, setSelectedDatabase] = useState<string | null>(null);
+  const [selectedDatabase, setSelectedDatabase] = useState<string>("");
   const { loading, data, error } = useRequest(async () => {
     const access_token = await getAccessToken(contactId);
     const resp = await request
@@ -91,12 +94,25 @@ export const SelectDatabases = ({ contactId }: Props) => {
 
   if (loading || !data) {
     return (
-      <div className="mx-auto max-w-md space-y-6 py-12">
+      <div className="mx-auto max-w-md space-y-6">
         <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold w-1/3 h-9 bg-muted animate-pulse"></h1>
-          <p className="text-muted-foreground w-1/2 h-6 bg-muted animate-pulse"></p>
+          <h1 className="text-3xl font-bold w-1/3 hidden h-9 bg-muted animate-pulse"></h1>
+          <p className="text-muted-foreground w-4/5 h-6 bg-muted animate-pulse"></p>
         </div>
-        <div>loading...</div>
+        <Card>
+          <CardContent className="space-y-4 pt-6 py-4 max-h-[calc(100vh-320px)] overflow-auto">
+            {Array.from({ length: 10 }).map((_, index) => (
+              <div
+                key={index}
+                className="flex items-center h-8 font-medium rounded-md bg-muted animate-pulse"
+              ></div>
+            ))}
+          </CardContent>
+
+          <CardFooter className="flex justify-end mt-4 gap-2">
+            <div className="w-16 h-9 rounded-md bg-muted animate-pulse"></div>
+          </CardFooter>
+        </Card>
       </div>
     );
   }
@@ -106,7 +122,13 @@ export const SelectDatabases = ({ contactId }: Props) => {
       <Wrap
         title={t("NoDatabase.title")}
         description={t("NoDatabase.description")}
-      ></Wrap>
+      >
+        <div className="py-6 flex flex-col items-center">
+          <Link replace href={`/s/${state}`}>
+            <Button>{t("reauthorization")}</Button>
+          </Link>
+        </div>
+      </Wrap>
     );
   }
 
@@ -125,41 +147,41 @@ export const SelectDatabases = ({ contactId }: Props) => {
       description={t("MultipleDatabases.description")}
     >
       <Card>
-        <CardContent className="space-y-4">
-          <div className="grid gap-4 pt-4 box-content">
+        <CardContent className="space-y-4 pt-6 py-4 max-h-[calc(100vh-320px)] overflow-auto">
+          <RadioGroup
+            value={selectedDatabase}
+            onValueChange={(value) => setSelectedDatabase(value)}
+          >
             {data.databases.map((database) => (
-              <div
+              <Label
                 key={database.database_id}
+                htmlFor={database.database_id}
                 className={cn(
-                  "w-full p-2 flex items-center justify-between rounded-md cursor-pointer overflow-hidden transition-colors",
-                  database.database_id === selectedDatabase
-                    ? "bg-primary text-primary-foreground"
-                    : "hover:bg-accent hover:text-accent-foreground"
+                  "flex items-center space-x-2 px-2 font-medium rounded-md hover:bg-gray-50 transition-colors duration-200 ease-in-out cursor-pointer",
+                  selectedDatabase === database.database_id && "bg-gray-100"
                 )}
-                onClick={() => setSelectedDatabase(database.database_id)}
               >
-                <div className="flex-1 overflow-hidden">
-                  <h3 className="font-medium">{database.database_title}</h3>
-                  <Link
-                    href={database.database_url}
-                    target="_blank"
-                    className="text-sm text-muted-foreground hover:underline"
-                    prefetch={false}
-                  >
-                    <span className="truncate block">
-                      {database.database_url}
-                    </span>
-                  </Link>
-                </div>
-
-                {database.database_id === selectedDatabase && (
-                  <CheckCheckIcon size={20} className="w-6 h-6" />
-                )}
-              </div>
+                <RadioGroupItem
+                  value={database.database_id}
+                  id={database.database_id}
+                />
+                <div className="py-2 flex-1">{database.database_title}</div>
+                <Link
+                  href={database.database_url}
+                  target="_blank"
+                  className="text-base w-5 h-5 flex items-center justify-center text-muted-foreground rounded-sm cursor-pointer hover:bg-primary hover:text-primary-foreground"
+                  prefetch={false}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
+                  <LinkIcon size={12} />
+                </Link>
+              </Label>
             ))}
-          </div>
+          </RadioGroup>
         </CardContent>
-        <CardFooter className="flex justify-end gap-2">
+        <CardFooter className="flex justify-end mt-4 gap-2">
           {/* <Button variant="outline">取消</Button> */}
           <Button
             disabled={saveReq.loading}
@@ -188,9 +210,9 @@ export const Wrap = ({
   children,
 }: PropsWithChildren<WrapProps>) => {
   return (
-    <div className="mx-auto max-w-md space-y-6 py-12">
+    <div className="mx-auto max-w-md space-y-6">
       <div className="space-y-2 text-center">
-        <h1 className="text-3xl font-bold">{title}</h1>
+        <h1 className="text-3xl font-bold hidden">{title}</h1>
         <p className="text-muted-foreground">{description}</p>
       </div>
       {children}
