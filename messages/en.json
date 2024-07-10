@@ -8,6 +8,10 @@
   },
   "Database": {
     "save": "Save",
+    "SelectedDatabase": {
+      "title": "Please select a database",
+      "description": "You need to select a database as the container for storing data"
+    },
     "MultipleDatabases": {
       "title": "Select multiple databases",
       "description": "You have authorized multiple databases, please select one as the container for storing data"

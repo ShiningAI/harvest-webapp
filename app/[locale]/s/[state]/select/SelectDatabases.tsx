@@ -10,7 +10,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { PropsWithChildren, useState } from "react";
 
 interface Props {
   contactId: string;
@@ -55,8 +55,8 @@ export const SelectDatabases = ({ contactId }: Props) => {
     async () => {
       if (!selectedDatabase) {
         toast({
-          title: "Please select a database",
-          description: "Please select a database to save data to Notion",
+          title: t("SelectedDatabase.title"),
+          description: t("SelectedDatabase.description"),
         });
         return;
       }
@@ -103,36 +103,27 @@ export const SelectDatabases = ({ contactId }: Props) => {
 
   if (data.databases.length === 0) {
     return (
-      <div className="mx-auto max-w-md space-y-6 py-12">
-        <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold">{t("NoDatabase.title")}</h1>
-          <p className="text-muted-foreground">{t("NoDatabase.description")}</p>
-        </div>
-      </div>
+      <Wrap
+        title={t("NoDatabase.title")}
+        description={t("NoDatabase.description")}
+      ></Wrap>
     );
   }
 
   if (data.databases.length === 1) {
     return (
-      <div className="mx-auto max-w-md space-y-6 py-12">
-        <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold">{t("SingleDatabase.title")}</h1>
-          <p className="text-muted-foreground">
-            {t("SingleDatabase.description")}
-          </p>
-        </div>
-      </div>
+      <Wrap
+        title={t("SingleDatabase.title")}
+        description={t("SingleDatabase.description")}
+      ></Wrap>
     );
   }
 
   return (
-    <div className="mx-auto max-w-md space-y-6 py-12">
-      <div className="space-y-2 text-center">
-        <h1 className="text-3xl font-bold">{t("MultipleDatabases.title")}</h1>
-        <p className="text-muted-foreground">
-          {t("MultipleDatabases.description")}
-        </p>
-      </div>
+    <Wrap
+      title={t("MultipleDatabases.title")}
+      description={t("MultipleDatabases.description")}
+    >
       <Card>
         <CardContent className="space-y-4">
           <div className="grid gap-4 pt-4 box-content">
@@ -170,7 +161,11 @@ export const SelectDatabases = ({ contactId }: Props) => {
         </CardContent>
         <CardFooter className="flex justify-end gap-2">
           {/* <Button variant="outline">取消</Button> */}
-          <Button onClick={saveReq.run} className="space-x-1">
+          <Button
+            disabled={saveReq.loading}
+            onClick={saveReq.run}
+            className="space-x-1"
+          >
             {saveReq.loading && (
               <LoaderCircle size={16} className="w-4 h-4 animate-spin" />
             )}
@@ -178,6 +173,27 @@ export const SelectDatabases = ({ contactId }: Props) => {
           </Button>
         </CardFooter>
       </Card>
+    </Wrap>
+  );
+};
+
+interface WrapProps {
+  title: string;
+  description: string;
+}
+
+export const Wrap = ({
+  title,
+  description,
+  children,
+}: PropsWithChildren<WrapProps>) => {
+  return (
+    <div className="mx-auto max-w-md space-y-6 py-12">
+      <div className="space-y-2 text-center">
+        <h1 className="text-3xl font-bold">{title}</h1>
+        <p className="text-muted-foreground">{description}</p>
+      </div>
+      {children}
     </div>
   );
 };

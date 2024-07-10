@@ -8,6 +8,10 @@
   },
   "Database": {
     "save": "保存",
+    "SelectedDatabase": {
+      "title": "请选择一个数据库",
+      "description": "你需要选择一个数据库，作为保存数据的容器"
+    },
     "MultipleDatabases": {
       "title": "选择多个数据库",
       "description": "你授权了多个数据库，请从中选择一个作为保存数据的容器"
