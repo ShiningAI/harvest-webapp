@@ -1,23 +1,23 @@
 import { PropsWithChildren } from "react";
 import Link from "next/link";
-import { CropIcon, NotebookIcon } from "lucide-react";
+import Image from "next/image";
 
 export default function Layout({ children }: PropsWithChildren) {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <header className="flex items-center justify-between px-6 py-4 shadow">
         <Link href="/" className="flex items-center gap-2">
-          <CropIcon className="h-6 w-6 text-primary" />
+          <Image src="/icon.png" alt="logo" width={24} height={24} />
           <span className="text-lg font-medium">Harvest</span>
         </Link>
-        <div className="flex items-center gap-2">
-          <NotebookIcon className="h-6 w-6 text-primary" />
-          <span className="text-lg font-medium">Notion</span>
-        </div>
+        <div className="flex items-center gap-2"></div>
       </header>
-      <main className="flex-1 px-6 py-12">{children}</main>
+      <main className="flex-1 px-3 py-6 sm:px-6">{children}</main>
       <footer className="flex items-center justify-between border-t px-6 py-4 text-muted-foreground">
-        <p>&copy; 2024 Harvest. All rights reserved.</p>
+        <p className="flex flex-col sm:flex-row sm:items-center">
+          <span>&copy; 2024 Harvest.</span>
+          <span>All rights reserved.</span>
+        </p>
         <div className="flex items-center gap-4">
           <Link
             href="https://harvest.prius.ai/privacy-policy"

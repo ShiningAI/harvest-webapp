@@ -25,6 +25,9 @@
     "SingleDatabase": {
       "title": "授权成功",
       "description": "你授权了一个数据库，将默认使用它作为保存数据的容器"
+    },
+    "Authorize": {
+      "goto": "前往 Notion 进行授权"
     }
   },
   "NotFoundPage": {

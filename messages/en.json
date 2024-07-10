@@ -25,6 +25,9 @@
     "SingleDatabase": {
       "title": "Authorization successful",
       "description": "You have authorized a database, it will be used as the default container for storing data"
+    },
+    "Authorize": {
+      "goto": "Go to Notion to Authorize"
     }
   },
   "NotFoundPage": {

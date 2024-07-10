@@ -94,7 +94,7 @@ export const SelectDatabases = ({ state, contactId }: Props) => {
 
   if (loading || !data) {
     return (
-      <div className="mx-auto max-w-md space-y-6">
+      <div className="mx-auto max-w-md space-y-6 py-6">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold w-1/3 hidden h-9 bg-muted animate-pulse"></h1>
           <p className="text-muted-foreground w-4/5 h-6 bg-muted animate-pulse"></p>
@@ -210,8 +210,8 @@ export const Wrap = ({
   children,
 }: PropsWithChildren<WrapProps>) => {
   return (
-    <div className="mx-auto max-w-md space-y-6">
-      <div className="space-y-2 text-center">
+    <div className="mx-auto max-w-md space-y-6 py-6">
+      <div className="space-y-2 px-3 text-center">
         <h1 className="text-3xl font-bold hidden">{title}</h1>
         <p className="text-muted-foreground">{description}</p>
       </div>
