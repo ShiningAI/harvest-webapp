@@ -2,6 +2,10 @@
   "Index": {
     "title": "Hello world!"
   },
+  "GlobalError": {
+    "title": "Something went wrong!",
+    "reset": "Try again"
+  },
   "Database": {
     "save": "Save",
     "MultipleDatabases": {

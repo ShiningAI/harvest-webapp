@@ -1,21 +1,24 @@
 {
-    "Index": {
-      "title": "你好 世界！"
+  "Index": {
+    "title": "你好 世界！"
+  },
+  "GlobalError": {
+    "title": "出错了！",
+    "reset": "重试"
+  },
+  "Database": {
+    "save": "保存",
+    "MultipleDatabases": {
+      "title": "选择多个数据库",
+      "description": "你授权了多个数据库，请从中选择一个作为保存数据的容器"
     },
-    "Database": {
-      "save": "保存",
-      "MultipleDatabases": {
-        "title": "选择多个数据库",
-        "description": "你授权了多个数据库，请从中选择一个作为保存数据的容器"
-      },
-      "NoDatabase": {
-        "title": "没有数据库",
-        "description": "你没有授权任何数据库，请重新授权"
-      },
-      "SingleDatabase": {
-        "title": "授权成功",
-        "description": "你授权了一个数据库，将默认使用它作为保存数据的容器"
-      }
+    "NoDatabase": {
+      "title": "没有数据库",
+      "description": "你没有授权任何数据库，请重新授权"
+    },
+    "SingleDatabase": {
+      "title": "授权成功",
+      "description": "你授权了一个数据库，将默认使用它作为保存数据的容器"
     }
   }
-  
+}
