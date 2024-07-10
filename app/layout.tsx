@@ -1,39 +1,12 @@
-// This is the root layout component for your Next.js app.
-// Learn more: https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#root-layout-required
-import type { Metadata } from "next";
-import { PropsWithChildren } from "react";
-import { Inter } from "next/font/google";
-import { cn } from "@/lib/utils";
-import { Toaster } from "@/components/ui/toaster";
-
-import "./globals.css";
-
-const fontHeading = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-heading",
-});
-
-const fontBody = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-body",
-});
+import { PropsWithChildren } from 'react'
+import './global.css'
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: "Harvest",
   description: "Save the Web to Notion",
 };
 
-export default function Layout({ children }: PropsWithChildren) {
-  return (
-    <html lang="en">
-      <body
-        className={cn("antialiased", fontHeading.variable, fontBody.variable)}
-      >
-        {children}
-        <Toaster />
-      </body>
-    </html>
-  );
+export default async function RootLayout({ children }: PropsWithChildren) {
+  return children
 }
