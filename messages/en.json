@@ -1,5 +1,11 @@
 {
   "Index": {
     "title": "Hello world!"
+  },
+  "Database": {
+    "MultipleDatabases": {
+      "title": "Select multiple databases",
+      "description": "You have authorized multiple databases, please select one as the container for storing data"
+    }
   }
 }

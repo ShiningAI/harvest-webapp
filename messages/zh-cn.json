@@ -1,1 +1,12 @@
-{}
+{
+    "Index": {
+      "title": "你好 世界！"
+    },
+    "Database": {
+      "MultipleDatabases": {
+        "title": "选择多个数据库",
+        "description": "你授权了多个数据库，请从中选择一个作为保存数据的容器"
+      }
+    }
+  }
+  
