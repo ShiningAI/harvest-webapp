@@ -11,6 +11,7 @@
     "save": "Save",
     "close": "Close Page",
     "reauthorization": "Reauthorization",
+    "success": "Database selection successful. \nPlease close the page.",
     "SelectedDatabase": {
       "title": "Please select a database",
       "description": "You need to select a database as the container for storing data"

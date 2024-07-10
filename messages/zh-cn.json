@@ -29,7 +29,8 @@
     },
     "Authorize": {
       "goto": "前往 Notion 进行授权"
-    }
+    },
+    "success": "数据库选择成功。\n请关闭页面。"
   },
   "NotFoundPage": {
     "title": "未找到页面"
