@@ -17,6 +17,8 @@ import { useMount } from "ahooks";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 
+export const runtime = "edge";
+
 // const isDev = process.env.NEXT_PUBLIC_NODE_ENV === 'development'
 
 const SaveToNotion = () => {

@@ -3,6 +3,8 @@
 import { useRequest } from "ahooks";
 import { useRouter, useSearchParams } from "next/navigation";
 
+export const runtime = "edge";
+
 export default function Page() {
   const params = useSearchParams();
   const code = params.get("code") as string;
@@ -34,9 +36,9 @@ function Auth({ code, state }: AuthProps) {
     {
       onSuccess: (data) => {
         if (data.ok) {
-          replace("/auth/notion/callback/success")
+          replace("/auth/notion/callback/success");
         } else {
-          replace("/auth/notion/callback/failed")
+          replace("/auth/notion/callback/failed");
         }
       },
     }
