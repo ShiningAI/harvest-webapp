@@ -90,14 +90,48 @@ export const SelectDatabases = ({ contactId }: Props) => {
   }
 
   if (loading || !data) {
-    return <div>Loading...</div>;
+    return (
+      <div className="mx-auto max-w-md space-y-6 py-12">
+        <div className="space-y-2 text-center">
+          <h1 className="text-3xl font-bold w-1/3 h-9 bg-muted animate-pulse"></h1>
+          <p className="text-muted-foreground w-1/2 h-6 bg-muted animate-pulse"></p>
+        </div>
+        <div>loading...</div>
+      </div>
+    );
+  }
+
+  if (data.databases.length === 0) {
+    return (
+      <div className="mx-auto max-w-md space-y-6 py-12">
+        <div className="space-y-2 text-center">
+          <h1 className="text-3xl font-bold">{t("NoDatabase.title")}</h1>
+          <p className="text-muted-foreground">{t("NoDatabase.description")}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (data.databases.length === 1) {
+    return (
+      <div className="mx-auto max-w-md space-y-6 py-12">
+        <div className="space-y-2 text-center">
+          <h1 className="text-3xl font-bold">{t("SingleDatabase.title")}</h1>
+          <p className="text-muted-foreground">
+            {t("SingleDatabase.description")}
+          </p>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="mx-auto max-w-md space-y-6 py-12">
       <div className="space-y-2 text-center">
         <h1 className="text-3xl font-bold">{t("MultipleDatabases.title")}</h1>
-        <p className="text-muted-foreground">{t("MultipleDatabases.description")}</p>
+        <p className="text-muted-foreground">
+          {t("MultipleDatabases.description")}
+        </p>
       </div>
       <Card>
         <CardContent className="space-y-4">
@@ -140,7 +174,7 @@ export const SelectDatabases = ({ contactId }: Props) => {
             {saveReq.loading && (
               <LoaderCircle size={16} className="w-4 h-4 animate-spin" />
             )}
-            <span>Save</span>
+            <span>{t("save")}</span>
           </Button>
         </CardFooter>
       </Card>

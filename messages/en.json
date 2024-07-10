@@ -3,9 +3,18 @@
     "title": "Hello world!"
   },
   "Database": {
+    "save": "Save",
     "MultipleDatabases": {
       "title": "Select multiple databases",
       "description": "You have authorized multiple databases, please select one as the container for storing data"
+    },
+    "NoDatabase": {
+      "title": "No database",
+      "description": "You have not authorized any databases, please reauthorize"
+    },
+    "SingleDatabase": {
+      "title": "Authorization successful",
+      "description": "You have authorized a database, it will be used as the default container for storing data"
     }
   }
 }
