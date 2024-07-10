@@ -1,6 +1,7 @@
 // This is the root layout component for your Next.js app.
 // Learn more: https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#root-layout-required
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { PropsWithChildren } from "react";
 import { Inter } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
@@ -22,10 +23,18 @@ const fontBody = Inter({
   variable: "--font-body",
 });
 
-export const metadata: Metadata = {
-  title: "Harvest",
-  description: "Save the Web to Notion",
-};
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  const t = await getTranslations({ locale });
+
+  return {
+    title: t("Metadata.title"),
+    description: t("Metadata.description"),
+  } as Metadata;
+}
 
 export default async function LocaleLayout({
   children,
