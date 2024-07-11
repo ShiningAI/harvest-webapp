@@ -8,8 +8,8 @@ export default async function Page() {
   const cookieStore = cookies();
   const token = cookieStore.get("access_token");
 
-  if (token) {
-    return <SaveToNotion />;
+  if (token?.value) {
+    return <SaveToNotion token={token.value} />;
   }
 
   const data = { t: Date.now() };
