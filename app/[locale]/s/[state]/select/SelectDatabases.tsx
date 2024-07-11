@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRequest } from "ahooks";
 import { request } from "@/lib/request";
 import { useRouter } from "next/navigation";
-import { LoaderCircle, LinkIcon } from "lucide-react";
+import { LoaderCircleIcon, LinkIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useToast } from "@/components/ui/use-toast";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -19,17 +19,6 @@ interface Props {
   state: string;
 }
 
-interface Database {
-  database_id: string;
-  database_url: string;
-  database_title: string;
-}
-
-interface DatabasesResponse {
-  num_of_databases: number;
-  databases: Database[];
-}
-
 export const SelectDatabases = ({ state, contactId }: Props) => {
   const { toast } = useToast();
   const { replace } = useRouter();
@@ -38,7 +27,7 @@ export const SelectDatabases = ({ state, contactId }: Props) => {
   const { loading, data, error } = useRequest(async () => {
     const access_token = await getAccessToken(contactId);
     const resp = await request
-      .post<DatabasesResponse>(
+      .post<Databases.Response>(
         "/sync_notion_databases",
         {},
         {
@@ -189,7 +178,7 @@ export const SelectDatabases = ({ state, contactId }: Props) => {
             className="space-x-1"
           >
             {saveReq.loading && (
-              <LoaderCircle size={16} className="w-4 h-4 animate-spin" />
+              <LoaderCircleIcon size={16} className="w-4 h-4 animate-spin" />
             )}
             <span>{t("save")}</span>
           </Button>

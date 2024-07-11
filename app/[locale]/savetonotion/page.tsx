@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
-import { SaveToNotion } from "./SaveToNotion";
 import { LogIn } from "./LogIn";
+import { SaveToNotionPage } from "./SaveToNotionPage";
 
 export const runtime = "edge";
 
@@ -9,7 +9,7 @@ export default async function Page() {
   const token = cookieStore.get("access_token");
 
   if (token?.value) {
-    return <SaveToNotion token={token.value} />;
+    return <SaveToNotionPage access_token={token.value} />;
   }
 
   const data = { t: Date.now() };

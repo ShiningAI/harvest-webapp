@@ -13,7 +13,7 @@ export default function Layout({ children }: PropsWithChildren) {
 
   useEffect(() => {
     if (size?.height) {
-      updateHeight(size.height);
+      updateHeight(size.height + 56);
     }
   }, [size?.height]);
 
@@ -22,15 +22,7 @@ export default function Layout({ children }: PropsWithChildren) {
       if (event.data?.s !== "notion-harvest") return;
       const { type, value } = event.data;
       switch (type) {
-        case "fetchData":
-          PubSub.pub("fetchData", value);
-          break;
-        case "storage":
-          PubSub.pub("storageFetch", value);
-          break;
         case "getWebContent":
-          console.log("getWebContent", value);
-
           PubSub.pub("getWebContent", value);
           break;
         default:
@@ -44,14 +36,16 @@ export default function Layout({ children }: PropsWithChildren) {
     };
   }, []);
   return (
-    <div ref={ref} className="flex flex-col w-full h-full rounded-xl pb-2">
-      <div className="flex items-center justify-between p-2 rounded-t-xl">
+    <div className="flex flex-col w-full h-full">
+      <div className="flex px-3 items-center justify-between h-14 border-b">
         <div className="pl-2 font-medium leading-none">Notion Harvest</div>
         <Button size="icon" variant="ghost" onClick={closeModal}>
           <XIcon />
         </Button>
       </div>
-      {children}
+      <main ref={ref} className="flex flex-col w-full flex-1">
+        {children}
+      </main>
     </div>
   );
 }

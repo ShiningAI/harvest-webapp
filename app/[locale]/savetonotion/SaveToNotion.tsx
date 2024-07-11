@@ -4,7 +4,7 @@ import { useRequest } from "ahooks";
 import { getWebContent } from "./utility";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { LoaderCircleIcon, SendIcon, ChevronLeftIcon } from "lucide-react";
+import { LoaderCircleIcon, SendIcon } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { request } from "@/lib/request";
@@ -53,8 +53,9 @@ export const SaveToNotion = ({ token }: SaveToNotionProps) => {
       onSuccess: (ret) => {
         if (ret) {
           push(`/savetonotion/done/${ret}`);
+        } else {
+          // TODO: Add error message
         }
-        // TODO: show error
       },
       onError: (error) => {
         fetch("/api/notify/exception", {
@@ -72,14 +73,9 @@ export const SaveToNotion = ({ token }: SaveToNotionProps) => {
   );
 
   return (
-    <div className="flex flex-col p-3 h-60">
+    <div className="flex flex-col p-3 h-80">
       <div className="flex items-center justify-between p-2">
-        <div className="flex items-center">
-          <Button size="icon" variant="secondary" className="rounded-full">
-            <ChevronLeftIcon />
-          </Button>
-          <span className="ml-2">form</span>
-        </div>
+        <div className="flex items-center">form</div>
         {/* {collection?.name ? (
           <div className="pl-2 font-medium leading-none">{collection.name}</div>
         ) : (
@@ -106,14 +102,18 @@ export const SaveToNotion = ({ token }: SaveToNotionProps) => {
                 placeholder="Search Databases"
               />
             </div>
-            <Button disabled={saveReq.loading} onClick={saveReq.run}>
-              {saveReq.loading ? (
-                <LoaderCircleIcon className="animate-spin" />
-              ) : (
-                <SendIcon />
-              )}
-              <span className="ml-1">Save Page</span>
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button disabled={saveReq.loading} onClick={saveReq.run}>
+                {saveReq.loading ? (
+                  <LoaderCircleIcon size={16} className="animate-spin" />
+                ) : (
+                  <SendIcon size={16} />
+                )}
+                <span className="ml-1">Save Page</span>
+              </Button>
+              <Button variant="secondary">Background</Button>
+            </div>
+
             {!saveReq.loading && saveReq.error && (
               <div className="text-red-500 mt-2">
                 Error: {saveReq.error.message}
