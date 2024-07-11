@@ -1,10 +1,7 @@
+import { redirectUri, clientId, clientSecret } from "@/lib/constant";
 import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "edge";
-
-const clientId = process.env.NOTION_OAUTH_CLIENT_ID;
-const clientSecret = process.env.NOTION_OAUTH_CLIENT_SECRET;
-const redirectUri = process.env.NOTION_OAUTH_REDIRECT_URI;
 
 // encode in base 64
 const encoded = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
@@ -35,23 +32,55 @@ export async function POST(request: NextRequest) {
         body: notion_auth_form,
         headers: { Authorization: `Basic ${encoded}` },
       }
-    ).then((res) => res.json() as any);
+    );
 
-    if (notion_auth_resp.detail) {
-      return NextResponse.json({ ok: false, error: notion_auth_resp.detail });
+    if (notion_auth_resp.status !== 200) {
+      return NextResponse.json({
+        ok: false,
+        error: "Notion auth failed",
+        message: await notion_auth_resp.text(),
+      });
     }
 
-    const resp = await fetch(`${process.env.API_BASE_URL}/v1/oauth/wx_user`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        access_token: notion_auth_resp.access_token,
-        user_id: decode.contactId,
-      }),
-    }).then((res) => res.json() as any);
-    return NextResponse.json(resp);
+    const notion_auth_resp_json = await notion_auth_resp.json<any>();
+
+    if (!notion_auth_resp_json.access_token) {
+      return NextResponse.json({
+        ok: false,
+        error: "Notion auth failed",
+        message: JSON.stringify(notion_auth_resp_json, null, 2),
+      });
+    }
+
+    if (decode.contactId) {
+      const resp = await fetch(`${process.env.API_BASE_URL}/v1/oauth/wx_user`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          access_token: notion_auth_resp_json.access_token,
+          user_id: decode.contactId,
+        }),
+      });
+
+      if (resp.status !== 200) {
+        return NextResponse.json({ ok: false, error: "Notion auth failed" });
+      }
+
+      const respJson = await resp.json<any>();
+
+      const response = NextResponse.json({ ok: true, data: respJson });
+      response.cookies.set("access_token", notion_auth_resp_json.access_token);
+      return response;
+    } else {
+      const response = NextResponse.json({
+        ok: true,
+        data: notion_auth_resp_json,
+      });
+      response.cookies.set("access_token", notion_auth_resp_json.access_token);
+      return response;
+    }
   } catch (error: any) {
     return NextResponse.json({ ok: false, error: error.message });
   }
