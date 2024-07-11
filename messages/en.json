@@ -7,6 +7,17 @@
     "title": "Something went wrong!",
     "reset": "Try again"
   },
+  "SaveToNotion": {
+    "LogIn": {
+      "title": "To save this page to Notion, you need to be logged in to your workspace first.",
+      "description": "By signing up, you agree to our <terms>Terms</terms> and <privacy>Privacy Policy</privacy>.",
+      "button": "Log-in with Notion",
+      "FQA": {
+        "title": "Can't login?",
+        "description": "If you keep getting logged out frequently or cannot login at all, try <a>enabling third party cookies</a>."
+      }
+    }
+  },
   "Database": {
     "save": "Save",
     "close": "Close Page",

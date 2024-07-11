@@ -34,5 +34,16 @@
   },
   "NotFoundPage": {
     "title": "未找到页面"
+  },
+  "SaveToNotion": {
+    "LogIn": {
+      "button": "使用 Notion 登录",
+      "description": "注册即表示您同意我们的 <terms>条款</terms> 和 <privacy>隐私政策</privacy> 。",
+      "title": "要将此页面保存到 Notion，您需要先登录到您的工作区。",
+      "FQA": {
+        "description": "如果您经常退出或根本无法登录，请尝试<a>启用第三方 cookie</a>。",
+        "title": "无法登录？"
+      }
+    }
   }
 }
