@@ -73,8 +73,8 @@ WECOM_BOT_WEBHOOK_URL = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=e9
 
 ######## PREVIEW environment config ########
 
-# [env.preview.vars]
-# API_KEY = "xyz789"
+[env.preview.vars]
+NOTION_OAUTH_REDIRECT_URI = "http://localhost:3000/auth/notion/callback"
 
 # [[env.preview.kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
