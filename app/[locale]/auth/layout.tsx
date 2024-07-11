@@ -1,11 +1,10 @@
 import { RootLayout } from "@/components/RootLayout";
+import { PropsWithChildren } from "react";
 
-export const runtime = "edge";
-
-export default function Home() {
+export default function Layout({ children }: PropsWithChildren) {
   return (
     <RootLayout className="w-full flex flex-col items-center">
-      <div></div>
+      {children}
     </RootLayout>
   );
 }

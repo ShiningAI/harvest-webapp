@@ -36,9 +36,9 @@ function Auth({ code, state }: AuthProps) {
     {
       onSuccess: (data) => {
         if (data.ok) {
-          replace("/auth/notion/callback/success");
+          replace("/auth/notion/success");
         } else {
-          replace("/auth/notion/callback/failed");
+          replace("/auth/notion/failed");
         }
       },
     }
