@@ -108,7 +108,7 @@ export const SaveToNotion = ({ token }: SaveToNotionProps) => {
             )}
             <span className="ml-1">Save Page</span>
           </Button>
-          <Button variant="secondary">Background</Button>
+          {/* <Button variant="secondary">Background</Button> */}
         </div>
 
         {!saveReq.loading && saveReq.error && (
