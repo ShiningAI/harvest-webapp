@@ -43,5 +43,12 @@ function Auth({ code, state }: AuthProps) {
       },
     }
   );
-  return <p>Loading...</p>;
+  return (
+    <div className="mx-auto max-w-md space-y-6 py-6">
+      <div className="space-y-2 text-center">
+        <h1 className="text-3xl font-bold w-1/3 h-9 bg-muted animate-pulse"></h1>
+        <p className="text-muted-foreground w-4/5 h-6 bg-muted animate-pulse"></p>
+      </div>
+    </div>
+  );
 }
