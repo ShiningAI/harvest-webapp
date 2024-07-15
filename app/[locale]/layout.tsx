@@ -1,15 +1,13 @@
 // This is the root layout component for your Next.js app.
 // Learn more: https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#root-layout-required
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
-import { PropsWithChildren } from "react";
 import { Inter } from "next/font/google";
+import { PropsWithChildren } from "react";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getTranslations, getMessages } from "next-intl/server";
+
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
-
-import "../globals.css";
 
 const fontHeading = Inter({
   subsets: ["latin"],

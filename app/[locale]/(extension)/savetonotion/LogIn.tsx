@@ -4,7 +4,7 @@ import React from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { closeModal } from "./utility";
+import { closeModal } from "../utility";
 
 interface Props {
   state: string;

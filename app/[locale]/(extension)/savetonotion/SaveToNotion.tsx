@@ -1,7 +1,7 @@
 "use client";
 
 import { useRequest } from "ahooks";
-import { getWebContent } from "./utility";
+import { getWebContent } from "../utility";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { LoaderCircleIcon, SendIcon } from "lucide-react";

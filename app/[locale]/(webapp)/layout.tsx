@@ -1,12 +1,8 @@
 import { PropsWithChildren } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 
-export function RootLayout({
-  className,
-  children,
-}: PropsWithChildren<{ className?: string }>) {
+function RootLayout({ children }: PropsWithChildren) {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <header className="flex items-center justify-between px-6 py-4 shadow">
@@ -16,9 +12,7 @@ export function RootLayout({
         </Link>
         <div className="flex items-center gap-2"></div>
       </header>
-      <main className={cn("flex-1 px-3 py-6 sm:px-6", className)}>
-        {children}
-      </main>
+      <main className="flex-1 px-3 py-6 sm:px-6">{children}</main>
       <footer className="flex items-center justify-between border-t px-6 py-4 text-muted-foreground">
         <p className="flex flex-col sm:flex-row sm:items-center">
           <span>&copy; 2024 Harvest.</span>
@@ -46,3 +40,5 @@ export function RootLayout({
     </div>
   );
 }
+
+export default RootLayout;
