@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 
 interface Props {
   state: string;
-  isAuth: boolean;
+  isAuth?: boolean;
 }
 
 export const LogIn = ({ state, isAuth }: Props) => {

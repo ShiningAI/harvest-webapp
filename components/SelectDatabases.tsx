@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 import { Wrap } from "./Wrap";
 
 interface Props {
-  isAuth: boolean;
+  isAuth?: boolean;
   access_token: string;
   state: string;
 }
