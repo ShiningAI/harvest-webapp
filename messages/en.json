@@ -27,6 +27,16 @@
     "close": "Close Page",
     "reauthorization": "Reauthorization",
     "success": "Database selection successful. \nPlease close the page.",
+    "Auth": {
+      "Fail": {
+        "title": "Authorization failed",
+        "description": "Authorization failed, please re-authorize"
+      },
+      "Success": {
+        "title": "Authorization successful",
+        "description": "Synchronizing Notion database information"
+      }
+    },
     "LogIn": {
       "title": "Please log in to Notion",
       "description": "To save this page to Notion, you need to be logged in to your workspace first."

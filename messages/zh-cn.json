@@ -38,6 +38,16 @@
     "LogIn": {
       "description": "要将此页面保存到 Notion，您需要先登录到您的工作区。",
       "title": "请登录到 Notion"
+    },
+    "Auth": {
+      "Fail": {
+        "description": "授权失败，请重新授权",
+        "title": "授权失败"
+      },
+      "Success": {
+        "description": "同步Notion数据库信息",
+        "title": "授权成功"
+      }
     }
   },
   "NotFoundPage": {

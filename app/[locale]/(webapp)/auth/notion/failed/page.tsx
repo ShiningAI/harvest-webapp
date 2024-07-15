@@ -1,5 +1,17 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+import { Wrap } from "@/components/Wrap";
+
 export const runtime = "edge";
 
 export default function Page() {
-  return <div>授权失败，请重新授权</div>;
+  const t = useTranslations("Database");
+  return (
+    <Wrap
+      hideTitle
+      title={t("Auth.Fail.title")}
+      description={t("Auth.Fail.description")}
+    ></Wrap>
+  );
 }
