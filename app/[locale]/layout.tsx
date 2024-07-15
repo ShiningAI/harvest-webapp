@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { PropsWithChildren } from "react";
 import { NextIntlClientProvider } from "next-intl";
-import { getTranslations, getMessages } from "next-intl/server";
+import { getMessages } from "next-intl/server";
 
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
@@ -21,18 +21,10 @@ const fontBody = Inter({
   variable: "--font-body",
 });
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
-  const t = await getTranslations({ locale });
-
-  return {
-    title: t("Metadata.title"),
-    description: t("Metadata.description"),
-  } as Metadata;
-}
+export const metadata: Metadata = {
+  title: "Harvest",
+  description: "Save the Web to Notion",
+};
 
 export default async function LocaleLayout({
   children,
