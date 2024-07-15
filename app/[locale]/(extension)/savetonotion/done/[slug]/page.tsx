@@ -1,7 +1,7 @@
 "use client";
 
 import { CircleCheckIcon } from "lucide-react";
-import { closeModal } from "../../utility";
+import { closeModal } from "../../../utility";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 

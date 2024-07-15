@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    if (decode.contactId) {
+    if (decode.wxId) {
       const resp = await fetch(`${process.env.API_BASE_URL}/v1/oauth/wx_user`, {
         method: "POST",
         headers: {
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
         },
         body: JSON.stringify({
           access_token: notion_auth_resp_json.access_token,
-          user_id: decode.contactId,
+          user_id: decode.wxId,
         }),
       });
 
@@ -71,7 +71,10 @@ export async function POST(request: NextRequest) {
       const respJson = await resp.json<any>();
 
       const response = NextResponse.json({ ok: true, data: respJson });
+
       response.cookies.set("access_token", notion_auth_resp_json.access_token);
+      response.cookies.set("wx_id", decode.wxId);
+
       return response;
     } else {
       const response = NextResponse.json({

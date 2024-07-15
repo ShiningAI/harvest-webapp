@@ -1,7 +1,7 @@
-// export const runtime = "edge";
-
 function Home() {
-  return <div>22</div>;
+  return <div>Todo...</div>;
 }
 
 export default Home;
+
+export const runtime = "edge";

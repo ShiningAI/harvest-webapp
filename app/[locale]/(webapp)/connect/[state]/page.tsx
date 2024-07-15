@@ -17,13 +17,13 @@ export default async function Page({ params }: { params: { state: string } }) {
   return (
     <div>
       <div className="mx-auto max-w-2xl space-y-6 py-2">
-        <Link href={`/s/redirect/${params.state}`}>
+        <Link href={`/redirect/${params.state}`}>
           <Button>{t("Database.Authorize.goto")}</Button>
         </Link>
       </div>
       {recordMap && <NotionPage recordMap={recordMap} />}
       <div className="mx-auto max-w-2xl space-y-6 py-2">
-        <Link href={`/s/redirect/${params.state}`}>
+        <Link href={`/redirect/${params.state}`}>
           <Button>{t("Database.Authorize.goto")}</Button>
         </Link>
       </div>

@@ -7,6 +7,10 @@
     "title": "Something went wrong!",
     "reset": "Try again"
   },
+  "Maintain": {
+    "title": "We are currently under maintenance",
+    "description": "We are working hard to bring you a better experience. Please come back later."
+  },
   "SaveToNotion": {
     "LogIn": {
       "title": "To save this page to Notion, you need to be logged in to your workspace first.",
@@ -23,6 +27,10 @@
     "close": "Close Page",
     "reauthorization": "Reauthorization",
     "success": "Database selection successful. \nPlease close the page.",
+    "LogIn": {
+      "title": "Please log in to Notion",
+      "description": "To save this page to Notion, you need to be logged in to your workspace first."
+    },
     "SelectedDatabase": {
       "title": "Please select a database",
       "description": "You need to select a database as the container for storing data"

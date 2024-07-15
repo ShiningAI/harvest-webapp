@@ -16,7 +16,7 @@ export const LogIn = ({ state }: Props) => {
     <div className="flex-1 flex flex-col px-3 items-center justify-center text-sm">
       <h2 className="block text-center mt-auto mb-4">{t("title")}</h2>
 
-      <Link href={`/s/redirect/${state}`} target="_blank" onClick={closeModal}>
+      <Link href={`/s/${state}`} target="_blank" onClick={closeModal}>
         <Button>{t("button")}</Button>
       </Link>
 

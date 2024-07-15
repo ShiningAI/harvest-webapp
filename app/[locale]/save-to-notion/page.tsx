@@ -18,3 +18,4 @@ const SaveToNotion = () => {
   );
 };
 export default SaveToNotion;
+export const runtime = 'edge';

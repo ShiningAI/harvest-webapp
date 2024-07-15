@@ -9,23 +9,23 @@ import { useTranslations } from "next-intl";
 import { useToast } from "@/components/ui/use-toast";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { PropsWithChildren, useState } from "react";
+import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
+import { Wrap } from "./Wrap";
 
 interface Props {
-  contactId: string;
+  access_token: string;
   state: string;
 }
 
-export const SelectDatabases = ({ state, contactId }: Props) => {
+export const SelectDatabases = ({ state, access_token }: Props) => {
   const { toast } = useToast();
   const { replace } = useRouter();
   const t = useTranslations("Database");
   const [selectedDatabase, setSelectedDatabase] = useState<string>("");
   const { loading, data, error } = useRequest(async () => {
-    const access_token = await getAccessToken(contactId);
     const resp = await request
       .post<Databases.Response>(
         "/sync_notion_databases",
@@ -53,7 +53,6 @@ export const SelectDatabases = ({ state, contactId }: Props) => {
         return;
       }
 
-      const access_token = await getAccessToken(contactId);
       const resp = await request
         .post(
           "/connect_to_notion",
@@ -185,27 +184,6 @@ export const SelectDatabases = ({ state, contactId }: Props) => {
         </CardFooter>
       </Card>
     </Wrap>
-  );
-};
-
-interface WrapProps {
-  title: string;
-  description: string;
-}
-
-export const Wrap = ({
-  title,
-  description,
-  children,
-}: PropsWithChildren<WrapProps>) => {
-  return (
-    <div className="mx-auto max-w-md space-y-6 py-6">
-      <div className="space-y-2 px-3 text-center">
-        <h1 className="text-3xl font-bold hidden">{title}</h1>
-        <p className="text-muted-foreground">{description}</p>
-      </div>
-      {children}
-    </div>
   );
 };
 

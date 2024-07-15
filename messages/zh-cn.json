@@ -7,6 +7,10 @@
     "title": "出错了！",
     "reset": "重试"
   },
+  "Maintain": {
+    "title": "页面正在升级维护中",
+    "description": "我们正在努力为您提供更好的服务,请稍后再来访问。感谢您的理解和耐心。"
+  },
   "Database": {
     "save": "保存",
     "close": "关闭页面",
@@ -30,7 +34,11 @@
     "Authorize": {
       "goto": "前往 Notion 进行授权"
     },
-    "success": "数据库选择成功。\n请关闭页面。"
+    "success": "数据库选择成功。\n请关闭页面。",
+    "LogIn": {
+      "description": "要将此页面保存到 Notion，您需要先登录到您的工作区。",
+      "title": "请登录到 Notion"
+    }
   },
   "NotFoundPage": {
     "title": "未找到页面"
