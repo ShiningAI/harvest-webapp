@@ -13,7 +13,7 @@ interface Props {
 export const LogIn = ({ state }: Props) => {
   const t = useTranslations("SaveToNotion.LogIn");
   return (
-    <div className="flex-1 flex flex-col px-3 items-center justify-center text-sm">
+    <div className="flex-1 flex flex-col p-3 items-center justify-center text-sm">
       <h2 className="block text-center mt-auto mb-4">{t("title")}</h2>
 
       <Link href={`/s/${state}`} target="_blank" onClick={closeModal}>

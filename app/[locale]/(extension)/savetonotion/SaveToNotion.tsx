@@ -72,6 +72,54 @@ export const SaveToNotion = ({ token }: SaveToNotionProps) => {
     }
   );
 
+  const render = () => {
+    if (req.loading) {
+      return (
+        <div className="w-full flex items-center space-x-4">
+          <Skeleton className="h-12 w-12 rounded-full" />
+          <div className="flex-1 space-y-2">
+            <Skeleton className="h-4 w-2/5" />
+            <Skeleton className="h-4 w-4/5" />
+          </div>
+        </div>
+      );
+    }
+
+    if (req.error) {
+      return <div className="text-red-500">Error: {req.error.message}</div>;
+    }
+
+    return (
+      <>
+        <div className="mb-4">
+          <Input
+            disabled
+            type="text"
+            value={req.data?.title}
+            placeholder="Search Databases"
+          />
+        </div>
+        <div className="flex items-center gap-2">
+          <Button disabled={saveReq.loading} onClick={saveReq.run}>
+            {saveReq.loading ? (
+              <LoaderCircleIcon size={16} className="animate-spin" />
+            ) : (
+              <SendIcon size={16} />
+            )}
+            <span className="ml-1">Save Page</span>
+          </Button>
+          <Button variant="secondary">Background</Button>
+        </div>
+
+        {!saveReq.loading && saveReq.error && (
+          <div className="text-red-500 mt-2">
+            Error: {saveReq.error.message}
+          </div>
+        )}
+      </>
+    );
+  };
+
   return (
     <div className="flex flex-col p-3 h-80">
       <div className="flex items-center justify-between p-2">
@@ -83,45 +131,7 @@ export const SaveToNotion = ({ token }: SaveToNotionProps) => {
         )} */}
       </div>
 
-      <div className="w-full flex-1">
-        {req.loading ? (
-          <div className="w-full flex items-center space-x-4">
-            <Skeleton className="h-12 w-12 rounded-full" />
-            <div className="flex-1 space-y-2">
-              <Skeleton className="h-4 w-2/5" />
-              <Skeleton className="h-4 w-4/5" />
-            </div>
-          </div>
-        ) : (
-          <>
-            <div className="mb-4">
-              <Input
-                disabled
-                type="text"
-                value={req.data?.title}
-                placeholder="Search Databases"
-              />
-            </div>
-            <div className="flex items-center gap-2">
-              <Button disabled={saveReq.loading} onClick={saveReq.run}>
-                {saveReq.loading ? (
-                  <LoaderCircleIcon size={16} className="animate-spin" />
-                ) : (
-                  <SendIcon size={16} />
-                )}
-                <span className="ml-1">Save Page</span>
-              </Button>
-              <Button variant="secondary">Background</Button>
-            </div>
-
-            {!saveReq.loading && saveReq.error && (
-              <div className="text-red-500 mt-2">
-                Error: {saveReq.error.message}
-              </div>
-            )}
-          </>
-        )}
-      </div>
+      <div className="w-full flex-1">{render()}</div>
     </div>
   );
 };
