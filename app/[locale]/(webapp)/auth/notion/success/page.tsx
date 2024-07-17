@@ -22,6 +22,7 @@ export default async function Page() {
       return <LogIn state={state} isAuth />;
     }
 
+    // TODO: is extension, can not need select databases
     return <SelectDatabases isAuth state={state} access_token={token.value} />;
   } catch (error: any) {
     notifyException(error);
