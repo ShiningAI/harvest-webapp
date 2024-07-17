@@ -7,7 +7,7 @@ declare namespace Databases {
 
   interface Response {
     num_of_databases: number;
-    selected_database_id: string;
+    // selected_database_id: string;
     databases: Database[];
   }
 }

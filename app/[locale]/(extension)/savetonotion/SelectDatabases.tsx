@@ -6,13 +6,13 @@ import { Label } from "@/components/ui/label";
 import { LinkIcon, StepForwardIcon, LoaderCircleIcon } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
-import { request } from "@/lib/request";
 import { useRequest } from "ahooks";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { closeModal } from "../utility";
 
 interface SelectDatabasesProps {
-  token: string;
+  state: string;
   selected: string;
   onSelected: (value: string) => void;
   databases: Databases.Info[];
@@ -20,7 +20,7 @@ interface SelectDatabasesProps {
 }
 
 export const SelectDatabases = ({
-  token,
+  state,
   selected,
   databases,
   onSuccess,
@@ -38,20 +38,7 @@ export const SelectDatabases = ({
         return;
       }
 
-      const resp = await request
-        .post(
-          "/connect_to_notion",
-          {
-            database_id: selected,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .then((res) => res.data);
-      return resp;
+      await fetch(`/api/notion/db/${selected}`, { method: "POST" });
     },
     {
       manual: true,
@@ -95,14 +82,17 @@ export const SelectDatabases = ({
         </RadioGroup>
       </div>
 
-      <div className="px-3 pt-3 flex items-center justify-end border-t">
+      <div className="px-3 pt-3 flex items-center justify-between border-t">
+        <Link href={`/s/${state}`} target="_blank" onClick={closeModal}>
+          <Button variant="outline">{t("reauthorization")}</Button>
+        </Link>
         <Button disabled={saveReq.loading} onClick={saveReq.run}>
           {saveReq.loading ? (
             <LoaderCircleIcon size={16} className="animate-spin" />
           ) : (
             <StepForwardIcon size={16} />
           )}
-          <span className="ml-1">Next Step</span>
+          <span className="ml-1">{t("next")}</span>
         </Button>
       </div>
     </div>

@@ -3,19 +3,25 @@
 import { useRequest } from "ahooks";
 import { getWebContent } from "../utility";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { LoaderCircleIcon, SendIcon } from "lucide-react";
+import { ChevronLeftIcon, LoaderCircleIcon, SendIcon } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { request } from "@/lib/request";
 
 interface SaveToNotionProps {
   token: string;
+  db_name?: string;
+  current_db?: string;
+  onBack?: () => void;
+  onSuccess?: (notion_page_id: string) => void;
 }
 interface NotionDataProgram {
   page_url?: string;
   page_html?: string;
   page_content?: string;
+  current_db?: {
+    database_id: string;
+  };
   page_properties?: {
     title?: string;
     authors?: string;
@@ -25,44 +31,62 @@ interface NotionDataProgram {
     keywords?: string[];
     abstract?: string;
   };
+  async_save?: boolean;
 }
 
-export const SaveToNotion = ({ token }: SaveToNotionProps) => {
-  const { push } = useRouter();
+export const SaveToNotion = ({
+  token,
+  db_name,
+  current_db,
+  onBack,
+  onSuccess,
+}: SaveToNotionProps) => {
   const req = useRequest(getWebContent);
   const saveReq = useRequest(
     async () => {
       if (!req.data?.content) return;
       const data: NotionDataProgram = {
+        async_save: true,
         page_html: req.data.content,
         page_url: req.data.url,
         page_properties: {
           title: req.data.title,
         },
       };
-      const resp = await request
-        .post("/save_page", data, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((res) => res.data);
+      if (current_db) {
+        data.current_db = { database_id: current_db };
+      }
+      try {
+        const resp = await request
+          .post("/save_page", data, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then((res) => res.data);
+        return (resp.notion_page_id as string).replace(/-/g, "");
+      } catch (error) {
+        const errorData = { ...data };
+        if (data.page_html) errorData.page_html = data.page_html.slice(0, 120);
 
-      return (resp.notion_page_id as string).replace(/-/g, "");
+        (error as any).data = JSON.stringify(errorData, null, 2);
+        throw error;
+      }
     },
     {
       manual: true,
       onSuccess: (ret) => {
         if (ret) {
-          push(`/savetonotion/done/${ret}`);
+          onSuccess?.(ret);
         } else {
           // TODO: Add error message
         }
       },
-      onError: (error) => {
+      onError: (error: any) => {
         fetch("/api/notify/exception", {
           method: "POST",
           body: JSON.stringify({
             error: {
               name: error.name,
+              data: error.data,
               message: error.message,
               stack: error.stack,
             },
@@ -108,7 +132,6 @@ export const SaveToNotion = ({ token }: SaveToNotionProps) => {
             )}
             <span className="ml-1">Save Page</span>
           </Button>
-          {/* <Button variant="secondary">Background</Button> */}
         </div>
 
         {!saveReq.loading && saveReq.error && (
@@ -123,12 +146,20 @@ export const SaveToNotion = ({ token }: SaveToNotionProps) => {
   return (
     <div className="flex flex-col p-3 h-80">
       <div className="flex items-center justify-between p-2">
-        <div className="flex items-center">form</div>
-        {/* {collection?.name ? (
-          <div className="pl-2 font-medium leading-none">{collection.name}</div>
-        ) : (
-          <Skeleton className="h-4 w-16" />
-        )} */}
+        <div className="flex items-center">
+          <Button
+            size="icon"
+            variant="secondary"
+            className="rounded-full text-foreground mr-2"
+            onClick={onBack}
+          >
+            <ChevronLeftIcon size={16} />
+          </Button>
+          <span>form</span>
+        </div>
+        {db_name && (
+          <div className="pl-2 font-medium leading-none">{db_name}</div>
+        )}
       </div>
 
       <div className="w-full flex-1">{render()}</div>
