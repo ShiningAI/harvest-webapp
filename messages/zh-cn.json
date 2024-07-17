@@ -13,7 +13,9 @@
   },
   "Database": {
     "save": "保存",
+    "next": "下一步",
     "close": "关闭页面",
+    "refresh": "刷新列表",
     "reauthorization": "重新授权",
     "SelectedDatabase": {
       "title": "请选择一个数据库",

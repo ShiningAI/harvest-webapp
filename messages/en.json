@@ -24,7 +24,9 @@
   },
   "Database": {
     "save": "Save",
+    "next": "Next Step",
     "close": "Close Page",
+    "refresh": "Refresh Databases",
     "reauthorization": "Reauthorization",
     "success": "Database selection successful. \nPlease close the page.",
     "Auth": {
