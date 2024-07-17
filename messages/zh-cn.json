@@ -50,7 +50,8 @@
         "description": "同步Notion数据库信息",
         "title": "授权成功"
       }
-    }
+    },
+    "tips": "如果没有出现您想要的数据库，请刷新并重试。"
   },
   "NotFoundPage": {
     "title": "未找到页面"

@@ -27,6 +27,7 @@
     "next": "Next Step",
     "close": "Close Page",
     "refresh": "Refresh Databases",
+    "tips": "If your desired database does not appear, please refresh and try again.",
     "reauthorization": "Reauthorization",
     "success": "Database selection successful. \nPlease close the page.",
     "Auth": {

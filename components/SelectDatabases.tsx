@@ -8,6 +8,12 @@ import { LoaderCircleIcon, LinkIcon, RotateCwIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useToast } from "@/components/ui/use-toast";
 import { Card, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
@@ -142,14 +148,27 @@ export const SelectDatabases = ({ state, access_token, isAuth }: Props) => {
         <Card>
           <CardTitle className="px-4 py-3 flex items-center justify-between">
             <div>{t("MultipleDatabases.title")}</div>
-            <Button disabled={loading} onClick={refresh}>
-              {loading ? (
-                <LoaderCircleIcon size={16} className="animate-spin" />
-              ) : (
-                <RotateCwIcon size={16} />
-              )}
-              <span className="ml-1">{t("refresh")}</span>
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="outline"
+                    disabled={loading}
+                    onClick={refresh}
+                  >
+                    {loading ? (
+                      <LoaderCircleIcon size={16} className="animate-spin" />
+                    ) : (
+                      <RotateCwIcon size={16} />
+                    )}
+                    <span className="ml-1">{t("refresh")}</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{t("tips")}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </CardTitle>
           <CardContent className="space-y-4 pt-6 py-4 max-h-[calc(100vh-320px)] overflow-auto">
             <RadioGroup
