@@ -4,10 +4,10 @@ import Link from "next/link";
 import { useRequest } from "ahooks";
 import { request } from "@/lib/request";
 import { useRouter } from "next/navigation";
-import { LoaderCircleIcon, LinkIcon } from "lucide-react";
+import { LoaderCircleIcon, LinkIcon, RotateCwIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useToast } from "@/components/ui/use-toast";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
@@ -26,7 +26,7 @@ export const SelectDatabases = ({ state, access_token, isAuth }: Props) => {
   const { replace } = useRouter();
   const t = useTranslations("Database");
   const [selectedDatabase, setSelectedDatabase] = useState<string>("");
-  const { loading, data, error } = useRequest(async () => {
+  const { loading, data, error, refresh } = useRequest(async () => {
     const resp = await request
       .post<Databases.Response>(
         "/sync_notion_databases",
@@ -82,7 +82,7 @@ export const SelectDatabases = ({ state, access_token, isAuth }: Props) => {
       return <div>Error: {error.message}</div>;
     }
 
-    if (loading || !data) {
+    if (!data) {
       return (
         <div className="mx-auto max-w-md space-y-6 py-6">
           <div className="space-y-2 text-center">
@@ -140,6 +140,17 @@ export const SelectDatabases = ({ state, access_token, isAuth }: Props) => {
         description={t("MultipleDatabases.description")}
       >
         <Card>
+          <CardTitle className="px-4 py-3 flex items-center justify-between">
+            <div>{t("MultipleDatabases.title")}</div>
+            <Button disabled={loading} onClick={refresh}>
+              {loading ? (
+                <LoaderCircleIcon size={16} className="animate-spin" />
+              ) : (
+                <RotateCwIcon size={16} />
+              )}
+              <span className="ml-1">{t("refresh")}</span>
+            </Button>
+          </CardTitle>
           <CardContent className="space-y-4 pt-6 py-4 max-h-[calc(100vh-320px)] overflow-auto">
             <RadioGroup
               value={selectedDatabase}
