@@ -9,9 +9,17 @@ import { NextRequest } from "next/server";
 
 const middleware = (request: NextRequest) => {
   const acceptLanguage = request.headers.get("accept-language");
-  const default_locale =
-    localeItems.find((v) => acceptLanguage?.includes(v.iso))?.code ||
-    defaultLocale;
+  const userAgent = request.headers.get("user-agent");
+
+  let default_locale: string = "";
+
+  if (userAgent?.includes("Weixin")) {
+    default_locale = "zh-cn";
+  } else {
+    default_locale =
+      localeItems.find((v) => acceptLanguage?.includes(v.iso))?.code ||
+      defaultLocale;
+  }
 
   return createMiddleware({
     locales,

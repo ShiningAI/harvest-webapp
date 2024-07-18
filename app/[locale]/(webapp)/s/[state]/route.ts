@@ -34,9 +34,6 @@ export async function GET(
         const user_resp_json = await user_resp.json<any>();
         const user = user_resp_json.data;
 
-        console.log("wx_user_id", wx_user_id);
-        console.log("user", JSON.stringify(user, null, 2));
-
         if (!user.access_token) {
           return NextResponse.json({ error: "Invalid user" }, { status: 400 });
         }
