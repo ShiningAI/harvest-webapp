@@ -14,18 +14,6 @@ export async function GET(
     const s = decodeURIComponent(params.state);
     const decode = JSON.parse(Buffer.from(s, "base64").toString("utf8"));
 
-    if (decode.t) {
-      // notion oauth authorize
-      const url = new URL("https://api.notion.com/v1/oauth/authorize");
-
-      url.searchParams.append("owner", "user");
-      url.searchParams.append("response_type", "code");
-      url.searchParams.append("redirect_uri", redirectUri);
-      url.searchParams.append("client_id", clientId);
-      url.searchParams.append("state", params.state);
-      return NextResponse.redirect(url.toString());
-    }
-
     if (decode.type === "select") {
       if (decode.wxId) {
         const wx_user_id = decode.wxId;
@@ -56,6 +44,20 @@ export async function GET(
 
         return response;
       }
+
+      return NextResponse.json({ error: "Invalid wx_id" }, { status: 400 });
+    }
+
+    if (decode.t) {
+      // notion oauth authorize
+      const url = new URL("https://api.notion.com/v1/oauth/authorize");
+
+      url.searchParams.append("owner", "user");
+      url.searchParams.append("response_type", "code");
+      url.searchParams.append("redirect_uri", redirectUri);
+      url.searchParams.append("client_id", clientId);
+      url.searchParams.append("state", params.state);
+      return NextResponse.redirect(url.toString());
     }
 
     return NextResponse.json({ error: "Invalid state" }, { status: 400 });
