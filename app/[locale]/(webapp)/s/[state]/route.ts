@@ -31,13 +31,19 @@ export async function GET(
         if (!user_resp.ok) {
           return NextResponse.json({ error: "Invalid wx_id" }, { status: 400 });
         }
-        const user = await user_resp.json<any>();
+        const user_resp_json = await user_resp.json<any>();
+        const user = user_resp_json.data;
+
+        console.log("wx_user_id", wx_user_id);
+        console.log("user", JSON.stringify(user, null, 2));
 
         if (!user.access_token) {
           return NextResponse.json({ error: "Invalid user" }, { status: 400 });
         }
+        const url = request.nextUrl.clone();
+        url.pathname = "/dashboard/select";
 
-        const response = NextResponse.redirect("/dashboard/select");
+        const response = NextResponse.redirect(url);
 
         response.cookies.set("access_token", user.access_token);
         response.cookies.set("wx_id", wx_user_id);
