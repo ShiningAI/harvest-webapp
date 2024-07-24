@@ -1,4 +1,5 @@
 import axios from "axios";
+import { pick } from "lodash-es";
 
 export const request = axios.create({
   // API 请求的默认前缀
@@ -17,8 +18,25 @@ request.interceptors.response.use(
     // Do something with response data
     return response;
   },
-  function (error) {
-    console.log("request error", error);
+  async function (error) {
+    if (error.response?.status == 401) {
+      await fetch("/api/logout", { method: "POST" });
+      window.location.href = window.location.href;
+      return Promise.reject(new Error("Unauthorized"));
+    }
+    const data = JSON.stringify(pick(error.config, ["data", "url"]), null, 2);
+
+    fetch("/api/notify/exception", {
+      method: "POST",
+      body: JSON.stringify({
+        error: {
+          data,
+          name: error.name,
+          message: error.message,
+          stack: error.stack,
+        },
+      }),
+    });
 
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error

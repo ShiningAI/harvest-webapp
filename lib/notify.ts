@@ -1,10 +1,15 @@
 "use server";
 
-export const notifyException = async (error: Error) => {
+export interface ExceptionError extends Error {
+  data: string;
+}
+
+export const notifyException = async (error: ExceptionError) => {
   try {
     const content = `<font color="warning">Webapp 异常通知</font>
     <font color="info">Name:</font> ${error.name}
     <font color="info">Message:</font> ${error.message}
+    <font color="info">Data:</font> ${error.data}
     
     \`\`\`
     ${error.stack}

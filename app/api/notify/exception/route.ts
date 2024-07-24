@@ -1,11 +1,11 @@
-import { notifyException } from "@/lib/notify";
+import { ExceptionError, notifyException } from "@/lib/notify";
 import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "edge";
 
 export async function POST(request: NextRequest) {
   const { error } = (await request.json()) as {
-    error: Error;
+    error: ExceptionError;
   };
 
   const resp = await notifyException(error);
