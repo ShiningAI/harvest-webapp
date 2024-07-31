@@ -1,5 +1,5 @@
 function Home() {
-  return <div>Todo...</div>;
+  return <div className="mt-20">Todo...</div>;
 }
 
 export default Home;

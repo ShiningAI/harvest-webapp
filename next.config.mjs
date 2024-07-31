@@ -18,6 +18,10 @@ const nextConfig = {
         source: "/api/harvest/:path*",
         destination: `https://harvest-api.prius.ai/v1/:path*`,
       },
+      {
+        source: "/api/mp/:path*",
+        destination: `http://api.harvest.prius.ai/mp/:path*`,
+      },
     ];
   },
 };
