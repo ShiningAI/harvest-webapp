@@ -7,7 +7,7 @@ import {
 } from "./lib/navigation";
 import { NextRequest } from "next/server";
 
-const middleware = (request: NextRequest) => {
+export default function middleware(request: NextRequest) {
   const acceptLanguage = request.headers.get("accept-language");
   const userAgent = request.headers.get("user-agent")?.toLowerCase();
 
@@ -28,7 +28,6 @@ const middleware = (request: NextRequest) => {
     localeDetection: false,
   })(request);
 };
-export default middleware;
 
 export const config = {
   // Include all paths that should be internationalized,
