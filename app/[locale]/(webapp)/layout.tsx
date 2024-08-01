@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { SignIn } from "@/components/SignIn";
+import { SignInButton } from "@/components/SignIn";
 
 function RootLayout({ children }: PropsWithChildren) {
   return (
@@ -30,7 +30,7 @@ function RootLayout({ children }: PropsWithChildren) {
             </div>
 
             <div className="hidden lg:ml-8 lg:flex lg:items-center lg:border-l lg:border-slate-900/15 lg:pl-8">
-              <SignIn />
+              <SignInButton />
             </div>
           </div>
         </nav>

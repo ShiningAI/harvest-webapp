@@ -1,6 +1,8 @@
 "use client";
 
-import { LoaderCircle, RotateCcw } from "lucide-react";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { LoaderCircle, LogOutIcon, RotateCcw } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,11 +12,49 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useCountDown, useRequest } from "ahooks";
 import { useState } from "react";
 
-export function SignIn() {
+export function SignInButton() {
+  const session = useSession();
   const [isOpen, setIsOpen] = useState(false);
+  console.log("session", session);
+
+  if (session.status === "authenticated") {
+    const username = session.data.user?.name || "";
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+            <span className="sr-only">{username}</span>
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>{username}</AvatarFallback>
+            </Avatar>
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem>Billing</DropdownMenuItem>
+          <DropdownMenuItem>Settings</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => signOut()}>
+            <LogOutIcon className="mr-2 h-4 w-4" />
+            <span>Log out</span>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+  }
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
@@ -25,16 +65,16 @@ export function SignIn() {
           <DialogTitle>Sign in</DialogTitle>
           <DialogDescription>微信扫码登录注册</DialogDescription>
         </DialogHeader>
-        <SignInContent onOpenChange={setIsOpen} />
+        <SignInContent onLogin={() => setIsOpen(false)} />
       </DialogContent>
     </Dialog>
   );
 }
 
 interface SignInContentProps {
-  onOpenChange(open: boolean): void;
+  onLogin?: () => void;
 }
-function SignInContent({ onOpenChange }: SignInContentProps) {
+export function SignInContent({ onLogin }: SignInContentProps) {
   const [targetDate, setTargetDate] = useState<number>();
   const [countdown] = useCountDown({ targetDate, onEnd: () => cancel() });
   const {
@@ -50,7 +90,7 @@ function SignInContent({ onOpenChange }: SignInContentProps) {
     },
     {
       onSuccess: () => {
-        setTargetDate(Date.now() + 9 * 1000);
+        setTargetDate(Date.now() + 59 * 1000);
         run();
       },
     }
@@ -63,9 +103,14 @@ function SignInContent({ onOpenChange }: SignInContentProps) {
       }
       const data: any = await response.json();
       if (data.ok) {
-        // 登录成功
+        console.log("Scan result", data);
+        if (!data.data.unionid) {
+          console.error("Invalid scan result", data);
+          return;
+        }
+        await signIn("credentials", { redirect: false, wx_id: data.data.unionid });
         cancel();
-        onOpenChange(false);
+        onLogin?.();
       }
     },
     {

@@ -7,7 +7,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 
 import { cn } from "@/lib/utils";
-import { Toaster } from "@/components/ui/toaster";
+import { AppProvider } from "@/components/AppProvider";
 
 const fontHeading = Inter({
   subsets: ["latin"],
@@ -38,8 +38,7 @@ export default async function LocaleLayout({
         className={cn("antialiased", fontHeading.variable, fontBody.variable)}
       >
         <NextIntlClientProvider messages={messages}>
-          {children}
-          <Toaster />
+          <AppProvider>{children}</AppProvider>
         </NextIntlClientProvider>
       </body>
     </html>
