@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { LoaderCircle, LogOutIcon, RotateCcw } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { CircleUserRound } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -34,7 +34,9 @@ export function SignInButton() {
   const [isOpen, setIsOpen] = useState(false);
 
   if (session.status === "loading") {
-    return null;
+    return (
+      <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full bg-muted animate-pulse"></span>
+    );
   }
 
   if (session.status === "authenticated") {
@@ -70,7 +72,9 @@ export function SignInButton() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost">Sign in</Button>
+        <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full cursor-pointer hover:bg-muted">
+          <CircleUserRound size={40} />
+        </span>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
