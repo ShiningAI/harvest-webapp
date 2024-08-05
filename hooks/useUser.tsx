@@ -23,7 +23,11 @@ export const useUser = () => {
           return session.data.user as UserInfo;
         }
 
-        return { ...session.data.user, ...user_resp.data } as UserInfo;
+        return {
+          ...session.data.user,
+          ...user_resp.data,
+          id: session.data.user.id,
+        } as UserInfo;
       }
     }
     return null;
