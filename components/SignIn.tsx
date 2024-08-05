@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { LoaderCircle, LogOutIcon, RotateCcw } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -22,11 +23,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useCountDown, useRequest } from "ahooks";
 import { useState } from "react";
+import { useUserMenu } from "@/hooks/useUserMenu";
+import Link from "next/link";
 
 export function SignInButton() {
   const session = useSession();
+  const t = useTranslations("UserMenu");
+
+  const [userMenuItems] = useUserMenu();
   const [isOpen, setIsOpen] = useState(false);
-  console.log("session", session);
+
+  if (session.status === "loading") {
+    return null;
+  }
 
   if (session.status === "authenticated") {
     const username = session.data.user?.name || "";
@@ -36,20 +45,23 @@ export function SignInButton() {
           <button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
             <span className="sr-only">{username}</span>
             <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>{username}</AvatarFallback>
+              <AvatarImage src="/images/avatar/default.png" />
+              <AvatarFallback>{username.slice(-4)}</AvatarFallback>
             </Avatar>
           </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuContent align="end">
+          <DropdownMenuLabel>{username}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>Billing</DropdownMenuItem>
-          <DropdownMenuItem>Settings</DropdownMenuItem>
+          {userMenuItems.map((item) => (
+            <DropdownMenuItem key={item.key} asChild>
+              <Link href={item.href}>{item.label}</Link>
+            </DropdownMenuItem>
+          ))}
+          <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => signOut()}>
             <LogOutIcon className="mr-2 h-4 w-4" />
-            <span>Log out</span>
+            <span>{t("LogOut")}</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -108,7 +120,10 @@ export function SignInContent({ onLogin }: SignInContentProps) {
           console.error("Invalid scan result", data);
           return;
         }
-        await signIn("credentials", { redirect: false, wx_id: data.data.unionid });
+        await signIn("credentials", {
+          redirect: false,
+          wx_id: data.data.unionid,
+        });
         cancel();
         onLogin?.();
       }
