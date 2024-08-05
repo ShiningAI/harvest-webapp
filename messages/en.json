@@ -12,6 +12,13 @@
     "Orders": "Orders",
     "LogOut": "Log Out"
   },
+  "Accounts": {
+    "title": "Accounts",
+    "desc": "Bind Account",
+    "load": "Loading...",
+    "bind": "Bind Account",
+    "rebind": "Rebind Account"
+  },
   "Maintain": {
     "title": "We are currently under maintenance",
     "description": "We are working hard to bring you a better experience. Please come back later."
