@@ -7,6 +7,11 @@
     "title": "Something went wrong!",
     "reset": "Try again"
   },
+  "UserMenu": {
+    "Accounts": "Accounts",
+    "Orders": "Orders",
+    "LogOut": "Log Out"
+  },
   "Maintain": {
     "title": "We are currently under maintenance",
     "description": "We are working hard to bring you a better experience. Please come back later."

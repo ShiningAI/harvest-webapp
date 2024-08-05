@@ -7,6 +7,11 @@
     "title": "出错了！",
     "reset": "重试"
   },
+  "UserMenu": {
+    "Accounts": "账号绑定",
+    "Orders": "订单记录",
+    "LogOut": "退出登录"
+  },
   "Maintain": {
     "title": "页面正在升级维护中",
     "description": "我们正在努力为您提供更好的服务,请稍后再来访问。感谢您的理解和耐心。"
