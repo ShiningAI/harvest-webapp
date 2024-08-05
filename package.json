@@ -23,6 +23,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.2.1",
     "@radix-ui/react-tooltip": "^1.1.2",
+    "@tabler/icons-react": "^3.11.0",
     "ahooks": "^3.8.0",
     "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
@@ -37,6 +38,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-notion-x": "^6.16.0",
+    "swr": "^2.2.5",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^10.0.0"
