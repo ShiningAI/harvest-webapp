@@ -5,9 +5,16 @@ import {
   localePrefix,
   locales,
 } from "./lib/navigation";
-import { NextRequest } from "next/server";
+import { auth } from "./auth";
+import { NextRequest, NextResponse } from "next/server";
 
-export default function middleware(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
+  if (request.nextUrl.pathname.startsWith("/user")) {
+    const session = await auth();
+    if (!session) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+  }
   const acceptLanguage = request.headers.get("accept-language");
   const userAgent = request.headers.get("user-agent")?.toLowerCase();
 
