@@ -152,7 +152,7 @@ export function SignInContent({ onLogin }: SignInContentProps) {
   );
   return (
     <>
-      <div className="flex flex-1 flexn flex-col items-center justify-center space-y-3 bg-white px-4 py-6 pt-8 text-center md:px-12"></div>
+      <div className="hidden md:flex flex-1 flexn flex-col items-center justify-center space-y-3 bg-white px-4 py-6 pt-8 text-center md:px-12"></div>
       <div className="flex flex-1 flex-col gap-3 items-center justify-center bg-gray-50 p-4 md:px-10 md:py-8">
         <div>
           <div>微信扫码登录注册</div>

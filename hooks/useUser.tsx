@@ -20,10 +20,6 @@ export const useUser = () => {
           .post("/get_user", { wx_user_id: session.data.user.id })
           .then((res) => res.data);
 
-        if (!user_resp.ok) {
-          return session.data.user as UserInfo;
-        }
-
         const state_resp = await fetch("/api/notion/state", {
           method: "POST",
           headers: {
@@ -40,6 +36,14 @@ export const useUser = () => {
 
         if (!state_json.ok) {
           return session.data.user as UserInfo;
+        }
+
+        if (!user_resp.ok) {
+          return {
+            ...session.data.user,
+            id: session.data.user.id,
+            state: state_json.data,
+          } as UserInfo;
         }
 
         return {
