@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { LoaderCircle, LogOutIcon, RotateCcw } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { CircleUserRound } from "lucide-react";
 import {
   Dialog,
@@ -76,10 +77,14 @@ export function SignInButton() {
           <CircleUserRound size={40} />
         </span>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="flex p-0 w-auto flex-col overflow-hidden shadow-xl md:min-h-[30rem] md:min-w-[40rem] md:max-w-3xl md:flex-row md:rounded-lg">
         <DialogHeader>
-          <DialogTitle>Sign in</DialogTitle>
-          <DialogDescription>微信扫码登录注册</DialogDescription>
+          <VisuallyHidden asChild>
+            <DialogTitle>Sign in</DialogTitle>
+          </VisuallyHidden>
+          <VisuallyHidden asChild>
+            <DialogDescription>微信扫码登录注册</DialogDescription>
+          </VisuallyHidden>
         </DialogHeader>
         <SignInContent onLogin={() => setIsOpen(false)} />
       </DialogContent>
@@ -139,38 +144,41 @@ export function SignInContent({ onLogin }: SignInContentProps) {
     }
   );
   return (
-    <div className="flex flex-col gap-3">
-      <div>
-        <div>微信扫码登录注册</div>
+    <>
+      <div className="flex flex-1 flexn flex-col items-center justify-center space-y-3 bg-white px-4 py-6 pt-8 text-center md:px-12"></div>
+      <div className="flex flex-1 flex-col gap-3 items-center justify-center bg-gray-50 p-4 md:px-10 md:py-8">
+        <div>
+          <div>微信扫码登录注册</div>
+        </div>
+        <div className="border rounded-lg relative flex flex-col justify-center items-center w-40 h-40">
+          {!!ticket && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={`https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${ticket}`}
+              alt=""
+              className="w-40 h-40 rounded-lg"
+            />
+          )}
+          {countdown === 0 && targetDate && (
+            <div
+              className="rounded-lg flex flex-col justify-center items-center gap-2 absolute inset-0 cursor-pointer text-white bg-black/70"
+              onClick={refresh}
+            >
+              <RotateCcw size={32} />
+              <div>二维码已失效</div>
+              <div>请点击刷新</div>
+            </div>
+          )}
+          {loading && (
+            <div className="rounded-lg absolute inset-0 flex items-center justify-center text-white bg-black/60">
+              <LoaderCircle size={36} className="animate-spin" />
+            </div>
+          )}
+        </div>
+        <div className="text-sm text-muted-foreground text-nowrap">
+          微信扫一扫关注公众号，极速注册登录
+        </div>
       </div>
-      <div className="border rounded-lg relative flex flex-col justify-center items-center w-40 h-40">
-        {!!ticket && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={`https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${ticket}`}
-            alt=""
-            className="w-40 h-40 rounded-lg"
-          />
-        )}
-        {countdown === 0 && targetDate && (
-          <div
-            className="rounded-lg flex flex-col justify-center items-center gap-2 absolute inset-0 cursor-pointer text-white bg-black/70"
-            onClick={refresh}
-          >
-            <RotateCcw size={32} />
-            <div>二维码已失效</div>
-            <div>请点击刷新</div>
-          </div>
-        )}
-        {loading && (
-          <div className="rounded-lg absolute inset-0 flex items-center justify-center text-white bg-black/60">
-            <LoaderCircle size={36} className="animate-spin" />
-          </div>
-        )}
-      </div>
-      <div className="text-muted-foreground">
-        微信扫一扫关注公众号，极速注册登录
-      </div>
-    </div>
+    </>
   );
 }
