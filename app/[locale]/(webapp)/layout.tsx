@@ -35,7 +35,7 @@ function RootLayout({ children }: PropsWithChildren) {
           </div>
         </nav>
       </header>
-      <main className="relative mx-auto w-full max-w-container flex-1 px-4 sm:px-6 lg:px-8">
+      <main className="relative mx-auto w-full max-w-container flex-1 flex flex-col px-4 sm:px-6 lg:px-8">
         {children}
       </main>
       <footer className="mx-auto w-full max-w-container px-4 py-4 sm:px-6 lg:px-8 flex items-center justify-between border-t text-muted-foreground">
