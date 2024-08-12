@@ -20,7 +20,7 @@ const nextConfig = {
       },
       {
         source: "/api/mp/:path*",
-        destination: `http://api.harvest.prius.ai/mp/:path*`,
+        destination: `http://api.notion-nice.com/mp/:path*`,
       },
     ];
   },
