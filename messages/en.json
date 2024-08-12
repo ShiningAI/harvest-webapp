@@ -15,6 +15,7 @@
   "Accounts": {
     "title": "Accounts",
     "desc": "Bind Account",
+    "bound": "Bound",
     "load": "Loading...",
     "bind": "Bind Account",
     "rebind": "Rebind Account"

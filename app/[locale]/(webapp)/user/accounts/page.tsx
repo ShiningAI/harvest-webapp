@@ -45,12 +45,12 @@ export default function Page() {
     <Box>
       <Item
         title="微信"
-        desc={user.id || t("load")}
+        desc={user.id ? t("bound") : t("load")}
         icon={<IconBrandWechat size={24} />}
       ></Item>
       <Item
         title="Notion"
-        desc={user.access_token ? user.access_token : t("desc")}
+        desc={user.access_token ? t("bound") : t("desc")}
         icon={<IconBrandNotion size={24} />}
       >
         {user.state &&

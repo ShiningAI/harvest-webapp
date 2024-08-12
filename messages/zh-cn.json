@@ -15,6 +15,7 @@
   "Accounts": {
     "title": "账号绑定",
     "desc": "账号绑定",
+    "bound": "已绑定",
     "load": "加载中...",
     "bind": "绑定",
     "rebind": "重新绑定"
