@@ -8,6 +8,7 @@ import { request } from "@/lib/request";
 
 type UserInfo = User & {
   access_token?: string;
+  state: string;
 };
 
 export const useUser = () => {
@@ -23,10 +24,29 @@ export const useUser = () => {
           return session.data.user as UserInfo;
         }
 
+        const state_resp = await fetch("/api/notion/state", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ wx_id: session.data.user.id }),
+        });
+
+        if (!state_resp.ok) {
+          return session.data.user as UserInfo;
+        }
+
+        const state_json: any = await state_resp.json();
+
+        if (!state_json.ok) {
+          return session.data.user as UserInfo;
+        }
+
         return {
           ...session.data.user,
           ...user_resp.data,
           id: session.data.user.id,
+          state: state_json.data,
         } as UserInfo;
       }
     }
@@ -37,5 +57,5 @@ export const useUser = () => {
     mutate();
   }, [mutate, session.status]);
 
-  return [data] as const;
+  return [data, session.status] as const;
 };
