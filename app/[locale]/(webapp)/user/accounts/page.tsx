@@ -3,8 +3,7 @@
 import { useTranslations } from "next-intl";
 import { IconBrandNotion, IconBrandWechat } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { PropsWithChildren, useEffect } from "react";
+import { PropsWithChildren } from "react";
 import { useUser } from "@/hooks/useUser";
 import Link from "next/link";
 
@@ -22,15 +21,8 @@ function Box({ children }: PropsWithChildren) {
 }
 
 export default function Page() {
-  const [user, status] = useUser();
-  const r = useRouter();
+  const [user] = useUser();
   const t = useTranslations("Accounts");
-
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      r.replace("/login");
-    }
-  }, [status, r]);
 
   if (!user) {
     return (
