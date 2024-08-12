@@ -157,6 +157,9 @@ export function SignInContent({ onLogin }: SignInContentProps) {
         <div>
           <div>微信扫码登录注册</div>
         </div>
+        <div className="text-sm text-muted-foreground text-nowrap">
+          微信扫一扫关注公众号，极速注册登录
+        </div>
         <div className="border rounded-lg relative flex flex-col justify-center items-center w-40 h-40">
           {!!ticket && (
             // eslint-disable-next-line @next/next/no-img-element
@@ -181,9 +184,6 @@ export function SignInContent({ onLogin }: SignInContentProps) {
               <LoaderCircle size={36} className="animate-spin" />
             </div>
           )}
-        </div>
-        <div className="text-sm text-muted-foreground text-nowrap">
-          微信扫一扫关注公众号，极速注册登录
         </div>
       </div>
     </>

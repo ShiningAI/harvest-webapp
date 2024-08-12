@@ -15,6 +15,14 @@ export default async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/login', request.url))
     }
   }
+
+  if (request.nextUrl.pathname.startsWith("/login")) {
+    const session = await auth();
+    if (session) {
+      return NextResponse.redirect(new URL('/user/accounts', request.url))
+    }
+  }
+
   const acceptLanguage = request.headers.get("accept-language");
   const userAgent = request.headers.get("user-agent")?.toLowerCase();
 
