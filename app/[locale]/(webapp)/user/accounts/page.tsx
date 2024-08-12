@@ -53,15 +53,16 @@ export default function Page() {
         desc={user.access_token ? user.access_token : t("desc")}
         icon={<IconBrandNotion size={24} />}
       >
-        {user.access_token ? (
-          <Link href={`/s/${user.state}`}>
-            <Button>{t("rebind")}</Button>
-          </Link>
-        ) : (
-          <Link href={`/s/${user.state}`}>
-            <Button>{t("bind")}</Button>
-          </Link>
-        )}
+        {user.state &&
+          (user.access_token ? (
+            <Link href={`/s/${user.state}`}>
+              <Button>{t("rebind")}</Button>
+            </Link>
+          ) : (
+            <Link href={`/s/${user.state}`}>
+              <Button>{t("bind")}</Button>
+            </Link>
+          ))}
       </Item>
     </Box>
   );
