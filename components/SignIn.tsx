@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { LoaderCircle, LogOutIcon, RotateCcw } from "lucide-react";
@@ -28,6 +29,7 @@ import { useUserMenu } from "@/hooks/useUserMenu";
 import Link from "next/link";
 
 export function SignInButton() {
+  const router = useRouter();
   const session = useSession();
   const t = useTranslations("UserMenu");
 
@@ -86,7 +88,12 @@ export function SignInButton() {
             <DialogDescription>微信扫码登录注册</DialogDescription>
           </VisuallyHidden>
         </DialogHeader>
-        <SignInContent onLogin={() => setIsOpen(false)} />
+        <SignInContent
+          onLogin={() => {
+            setIsOpen(false);
+            router.push("/user/accounts");
+          }}
+        />
       </DialogContent>
     </Dialog>
   );
