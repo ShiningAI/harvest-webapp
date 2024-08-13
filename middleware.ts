@@ -9,10 +9,14 @@ import { auth } from "./auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export default async function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname.startsWith("/user")) {
+  if (request.nextUrl.pathname.startsWith("/user") ||
+    request.nextUrl.pathname.startsWith("/databases")
+  ) {
     const session = await auth();
     if (!session) {
-      return NextResponse.redirect(new URL('/login', request.url))
+      const url = new URL('/login', request.url)
+      url.searchParams.set('callback', request.nextUrl.pathname)
+      return NextResponse.redirect(url)
     }
   }
 

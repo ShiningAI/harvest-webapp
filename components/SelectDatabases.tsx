@@ -27,7 +27,32 @@ interface Props {
   state: string;
 }
 
-export const SelectDatabases = ({ state, access_token, isAuth }: Props) => {
+const SelectDatabasesSkeleton = () => {
+  return (
+    <div className="mx-auto w-full max-w-md space-y-6 py-6">
+      <div className="space-y-2 text-center">
+        <h1 className="text-3xl font-bold w-1/3 hidden h-9 bg-muted animate-pulse"></h1>
+        <p className="text-muted-foreground w-4/5 h-6 bg-muted animate-pulse"></p>
+      </div>
+      <Card>
+        <CardContent className="space-y-4 pt-6 py-4 max-h-[calc(100vh-320px)] overflow-auto">
+          {Array.from({ length: 10 }).map((_, index) => (
+            <div
+              key={index}
+              className="flex items-center h-8 font-medium rounded-md bg-muted animate-pulse"
+            ></div>
+          ))}
+        </CardContent>
+
+        <CardFooter className="flex justify-end mt-4 gap-2">
+          <div className="w-16 h-9 rounded-md bg-muted animate-pulse"></div>
+        </CardFooter>
+      </Card>
+    </div>
+  );
+}
+
+const SelectDatabases = ({ state, access_token, isAuth }: Props) => {
   const { toast } = useToast();
   const { replace } = useRouter();
   const t = useTranslations("Database");
@@ -89,28 +114,7 @@ export const SelectDatabases = ({ state, access_token, isAuth }: Props) => {
     }
 
     if (!data) {
-      return (
-        <div className="mx-auto max-w-md space-y-6 py-6">
-          <div className="space-y-2 text-center">
-            <h1 className="text-3xl font-bold w-1/3 hidden h-9 bg-muted animate-pulse"></h1>
-            <p className="text-muted-foreground w-4/5 h-6 bg-muted animate-pulse"></p>
-          </div>
-          <Card>
-            <CardContent className="space-y-4 pt-6 py-4 max-h-[calc(100vh-320px)] overflow-auto">
-              {Array.from({ length: 10 }).map((_, index) => (
-                <div
-                  key={index}
-                  className="flex items-center h-8 font-medium rounded-md bg-muted animate-pulse"
-                ></div>
-              ))}
-            </CardContent>
-
-            <CardFooter className="flex justify-end mt-4 gap-2">
-              <div className="w-16 h-9 rounded-md bg-muted animate-pulse"></div>
-            </CardFooter>
-          </Card>
-        </div>
-      );
+      return <SelectDatabasesSkeleton />;
     }
 
     if (data.databases.length === 0) {
@@ -225,7 +229,7 @@ export const SelectDatabases = ({ state, access_token, isAuth }: Props) => {
   if (isAuth) {
     return (
       <>
-        <div className="mx-auto max-w-md pt-6">
+        <div className="mx-auto w-full max-w-md pt-6">
           <div className="space-y-2 px-3 text-center">
             <h1 className="text-3xl font-bol">{t("Auth.Success.title")}</h1>
             {loading && (
@@ -242,3 +246,7 @@ export const SelectDatabases = ({ state, access_token, isAuth }: Props) => {
 
   return render();
 };
+
+SelectDatabases.Skeleton = SelectDatabasesSkeleton
+
+export { SelectDatabases };
