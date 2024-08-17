@@ -52,15 +52,28 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    let notion_user: any = {}
+    if (notion_auth_resp_json.owner?.user) {
+      notion_user = {
+        id: notion_auth_resp_json.owner.user.id,
+        name: notion_auth_resp_json.owner.user.name,
+        avatar: notion_auth_resp_json.owner.user.avatar_url,
+      }
+      if (notion_auth_resp_json.owner.user?.person?.email) {
+        notion_user.email = notion_auth_resp_json.owner.user.person.email
+      }
+    }
+
     if (decode.wxId) {
-      const resp = await fetch(`${process.env.API_BASE_URL}/v1/oauth/wx_user`, {
+      const resp = await fetch(`http://api.notion-nice.com/mp/user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           access_token: notion_auth_resp_json.access_token,
-          user_id: decode.wxId,
+          unionid: decode.wxId,
+          notion_user: notion_user,
         }),
       });
 
