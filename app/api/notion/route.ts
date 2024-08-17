@@ -52,28 +52,16 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    let notion_user: any = {}
-    if (notion_auth_resp_json.owner?.user) {
-      notion_user = {
-        id: notion_auth_resp_json.owner.user.id,
-        name: notion_auth_resp_json.owner.user.name,
-        avatar: notion_auth_resp_json.owner.user.avatar_url,
-      }
-      if (notion_auth_resp_json.owner.user?.person?.email) {
-        notion_user.email = notion_auth_resp_json.owner.user.person.email
-      }
-    }
-
     if (decode.wxId) {
-      const resp = await fetch(`http://api.notion-nice.com/mp/user`, {
+      // TODO: 老版本的功能兼容，后续个微停服后删除
+      const resp = await fetch(`${process.env.API_BASE_URL}/v1/oauth/wx_user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           access_token: notion_auth_resp_json.access_token,
-          unionid: decode.wxId,
-          notion_user: notion_user,
+          user_id: decode.wxId,
         }),
       });
 
@@ -88,6 +76,40 @@ export async function POST(request: NextRequest) {
       response.cookies.set("access_token", notion_auth_resp_json.access_token);
       response.cookies.set("wx_id", decode.wxId);
 
+      return response;
+    }
+    else if (decode.unionid) {
+      let notion_user: any = {}
+      if (notion_auth_resp_json.owner?.user) {
+        notion_user = {
+          id: notion_auth_resp_json.owner.user.id,
+          name: notion_auth_resp_json.owner.user.name,
+          avatar: notion_auth_resp_json.owner.user.avatar_url,
+        }
+        if (notion_auth_resp_json.owner.user?.person?.email) {
+          notion_user.email = notion_auth_resp_json.owner.user.person.email
+        }
+      }
+
+      const resp = await fetch(`http://api.notion-nice.com/mp/user`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          access_token: notion_auth_resp_json.access_token,
+          unionid: decode.unionid,
+          notion_user: notion_user,
+        }),
+      });
+
+      if (resp.status !== 200) {
+        return NextResponse.json({ ok: false, error: "Notion auth failed" });
+      }
+
+      const respJson = await resp.json<any>();
+
+      const response = NextResponse.json({ ok: true, data: respJson });
       return response;
     } else {
       const response = NextResponse.json({

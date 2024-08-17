@@ -14,6 +14,7 @@ export async function GET(
     const s = decodeURIComponent(params.state);
     const decode = JSON.parse(Buffer.from(s, "base64").toString("utf8"));
 
+    // TODO: 老版本的功能兼容，后续个微停服后删除
     if (decode.type === "select") {
       if (decode.wxId) {
         const wx_user_id = decode.wxId;

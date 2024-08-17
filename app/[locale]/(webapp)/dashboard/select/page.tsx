@@ -12,6 +12,8 @@ export default async function Page() {
     const wxId = cookieStore.get("wx_id");
 
     const data: any = { t: Date.now() };
+    
+    // TODO: 老版本的功能兼容，后续个微停服后删除
     if (wxId?.value) {
       data.wxId = wxId.value;
     }
