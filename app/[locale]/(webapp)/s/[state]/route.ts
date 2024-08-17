@@ -18,17 +18,18 @@ export async function GET(
       if (decode.wxId) {
         const wx_user_id = decode.wxId;
         const user_resp = await fetch(
-          "http://api.notion-nice.com/mp/user?unionid=" + wx_user_id,
+          "https://harvest-api.prius.ai/v1/get_user",
           {
-            method: "GET",
+            method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
+            body: JSON.stringify({ wx_user_id }),
           }
         );
 
         if (!user_resp.ok) {
-          return NextResponse.json({ error: "Invalid wx_user_id" }, { status: 400 });
+          return NextResponse.json({ error: "Invalid wx_id" }, { status: 400 });
         }
         const user_resp_json = await user_resp.json<any>();
         const user = user_resp_json.data;
