@@ -1,3 +1,4 @@
+import { signIn } from "@/auth";
 import { clientId, redirectUri } from "@/lib/constant";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -50,6 +51,27 @@ export async function GET(
       }
 
       return NextResponse.json({ error: "Invalid wx_id" }, { status: 400 });
+    }
+
+    if (decode.type && decode.unionid) {
+      if (!decode.t) {
+        return NextResponse.json({ error: "Invalid state" }, { status: 400 });
+      }
+      // TODO: 需要根据 decode.t 判断链接是否过期，过期链接提示用户已过期
+
+      switch (decode.type) {
+        case 'database': {
+          await signIn("credentials", {
+            redirect: false,
+            wx_id: decode.unionid,
+          })
+          const url = request.nextUrl.clone();
+          url.pathname = "/databases/select";
+          return NextResponse.redirect(url)
+        }
+        default:
+          return NextResponse.json(decode, { status: 200 });
+      }
     }
 
     if (decode.t) {
