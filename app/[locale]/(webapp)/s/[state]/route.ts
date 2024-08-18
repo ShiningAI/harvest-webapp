@@ -69,6 +69,25 @@ export async function GET(
           url.pathname = "/databases/select";
           return NextResponse.redirect(url)
         }
+        case 'status': {
+          await signIn("credentials", {
+            redirect: false,
+            wx_id: decode.unionid,
+          })
+          const url = request.nextUrl.clone();
+          url.pathname = "/user/accounts";
+          return NextResponse.redirect(url)
+        }
+        case 'bind': {
+          const url = new URL("https://api.notion.com/v1/oauth/authorize");
+
+          url.searchParams.append("owner", "user");
+          url.searchParams.append("response_type", "code");
+          url.searchParams.append("redirect_uri", redirectUri);
+          url.searchParams.append("client_id", clientId);
+          url.searchParams.append("state", params.state);
+          return NextResponse.redirect(url.toString());
+        }
         default:
           return NextResponse.json(decode, { status: 200 });
       }
