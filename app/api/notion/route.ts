@@ -1,3 +1,4 @@
+import { signIn } from "@/auth";
 import { redirectUri, clientId, clientSecret } from "@/lib/constant";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -108,6 +109,11 @@ export async function POST(request: NextRequest) {
       }
 
       const respJson = await resp.json<any>();
+
+      await signIn("credentials", {
+        redirect: false,
+        wx_id: decode.unionid,
+      })
 
       const response = NextResponse.json({ ok: true, data: respJson });
       return response;
