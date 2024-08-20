@@ -79,14 +79,14 @@ export async function GET(
           return NextResponse.redirect(url)
         }
         case 'bind': {
-          const url = new URL("https://api.notion.com/v1/oauth/authorize");
+          await signIn("credentials", {
+            redirect: false,
+            wx_id: decode.unionid,
+          })
+          const url = request.nextUrl.clone();
+          url.pathname = "/databases/connect";
+          return NextResponse.redirect(url)
 
-          url.searchParams.append("owner", "user");
-          url.searchParams.append("response_type", "code");
-          url.searchParams.append("redirect_uri", redirectUri);
-          url.searchParams.append("client_id", clientId);
-          url.searchParams.append("state", params.state);
-          return NextResponse.redirect(url.toString());
         }
         default:
           return NextResponse.json(decode, { status: 200 });
