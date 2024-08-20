@@ -15,7 +15,7 @@ export default async function middleware(request: NextRequest) {
     const session = await auth();
     if (!session) {
       const url = new URL('/login', request.url)
-      url.searchParams.set('callback', request.nextUrl.pathname)
+      url.searchParams.set('callbackUrl', request.nextUrl.pathname)
       return NextResponse.redirect(url)
     }
   }
