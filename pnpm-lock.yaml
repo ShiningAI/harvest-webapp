@@ -149,7 +149,7 @@ devDependencies:
     specifier: ^34.2.5
     version: 34.4.0
   wrangler:
-    specifier: ^3.59.0
+    specifier: ^3.66.0
     version: 3.66.0(@cloudflare/workers-types@4.20240722.0)
 
 packages:

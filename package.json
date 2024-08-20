@@ -62,6 +62,6 @@
     "tailwindcss": "^3.3.0",
     "typescript": "^5",
     "vercel": "^34.2.5",
-    "wrangler": "^3.59.0"
+    "wrangler": "^3.66.0"
   }
 }
