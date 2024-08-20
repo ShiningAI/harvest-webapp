@@ -74,7 +74,8 @@
       "description": "You have authorized a database, it will be used as the default container for storing data"
     },
     "Authorize": {
-      "goto": "Go to Notion to Authorize"
+      "goto": "Go to Notion to Authorize",
+      "rebind": "Go to Notion to Authorize"
     }
   },
   "NotFoundPage": {

@@ -47,7 +47,8 @@
       "description": "你授权了一个数据库，将默认使用它作为保存数据的容器"
     },
     "Authorize": {
-      "goto": "前往 Notion 进行授权"
+      "goto": "前往 Notion 进行授权",
+      "rebind": "前往 Notion 重新授权"
     },
     "success": "数据库选择成功。\n请关闭页面。",
     "LogIn": {
