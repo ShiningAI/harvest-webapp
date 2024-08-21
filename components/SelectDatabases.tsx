@@ -20,11 +20,15 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 import { Wrap } from "./Wrap";
+import { useUser } from "@/hooks/useUser";
+import { NotionGuide } from "./NotionGuide";
 
 interface Props {
   isAuth?: boolean;
+  isWeChat?: boolean;
   access_token: string;
   state: string;
+  defaultDatabase?: string;
 }
 
 const SelectDatabasesSkeleton = () => {
@@ -50,13 +54,43 @@ const SelectDatabasesSkeleton = () => {
       </Card>
     </div>
   );
-}
+};
 
-const SelectDatabases = ({ state, access_token, isAuth }: Props) => {
+const SelectDatabasesByWeChat = () => {
+  const [user, isLoading] = useUser();
+
+  if (isLoading || !user) {
+    return <SelectDatabasesSkeleton />;
+  }
+
+  if (!user.access_token) {
+    return <NotionGuide state={user.state} />;
+  }
+
+  return (
+    <SelectDatabases
+      isAuth
+      isWeChat
+      state={user.state}
+      access_token={user.access_token}
+      defaultDatabase={user.database?.database_id}
+    />
+  );
+};
+
+const SelectDatabases = ({
+  state,
+  access_token,
+  defaultDatabase,
+  isAuth,
+  isWeChat,
+}: Props) => {
   const { toast } = useToast();
   const { replace } = useRouter();
   const t = useTranslations("Database");
-  const [selectedDatabase, setSelectedDatabase] = useState<string>("");
+  const [selectedDatabase, setSelectedDatabase] = useState<string>(
+    defaultDatabase || ""
+  );
   const { loading, data, error, refresh } = useRequest(async () => {
     const resp = await request
       .post<Databases.Response>(
@@ -85,24 +119,60 @@ const SelectDatabases = ({ state, access_token, isAuth }: Props) => {
         return;
       }
 
-      const resp = await request
-        .post(
-          "/connect_to_notion",
-          {
-            database_id: selectedDatabase,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${access_token}`,
+      if (!isWeChat) {
+        return await request
+          .post(
+            "/connect_to_notion",
+            {
+              database_id: selectedDatabase,
             },
-          }
-        )
-        .then((res) => res.data);
-      return resp;
+            {
+              headers: {
+                Authorization: `Bearer ${access_token}`,
+              },
+            }
+          )
+          .then((res) => res.data);
+      }
+
+      const database = data?.databases.find(
+        (d) => d.database_id === selectedDatabase
+      );
+
+      if (!database) {
+        toast({
+          title: t("SelectedDatabase.title"),
+          description: t("SelectedDatabase.description"),
+        });
+        return;
+      }
+
+      const resp = await fetch("/api/v1/connect_to_notion", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          database: {
+            id: database.database_id,
+            name: database.database_title,
+            url: database.database_url,
+          },
+        }),
+      });
+
+      if (!resp.ok) {
+        throw new Error("Connect to Notion failed");
+      }
+      return resp.json();
     },
     {
       manual: true,
       onSuccess() {
+        if (isWeChat) {
+          replace(`/user/accounts`);
+          return;
+        }
         replace(`/dashboard/select/success`);
       },
     }
@@ -247,6 +317,7 @@ const SelectDatabases = ({ state, access_token, isAuth }: Props) => {
   return render();
 };
 
-SelectDatabases.Skeleton = SelectDatabasesSkeleton
+SelectDatabases.Skeleton = SelectDatabasesSkeleton;
+SelectDatabases.WeChat = SelectDatabasesByWeChat;
 
 export { SelectDatabases };
