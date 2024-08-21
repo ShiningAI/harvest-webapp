@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import { LoaderCircle, LogOutIcon, RotateCcw } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
@@ -27,36 +27,36 @@ import { useCountDown, useRequest } from "ahooks";
 import { useState } from "react";
 import { useUserMenu } from "@/hooks/useUserMenu";
 import Link from "next/link";
+import { useUser } from "@/hooks/useUser";
 
 export function SignInButton() {
   const router = useRouter();
-  const session = useSession();
+  const [user, isLoading] = useUser();
   const t = useTranslations("UserMenu");
 
   const [userMenuItems] = useUserMenu();
   const [isOpen, setIsOpen] = useState(false);
 
-  if (session.status === "loading") {
+  if (isLoading) {
     return (
       <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full bg-muted animate-pulse"></span>
     );
   }
 
-  if (session.status === "authenticated") {
-    const username = session.data.user?.name || "";
+  if (user) {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-            <span className="sr-only">{username}</span>
+            <span className="sr-only">{user.name}</span>
             <Avatar>
-              <AvatarImage src="/images/avatar/default.png" />
-              <AvatarFallback>{username.slice(-4)}</AvatarFallback>
+              <AvatarImage src={user.avatar || "/images/avatar/default.png"} />
+              <AvatarFallback>{user.name?.slice(-4)}</AvatarFallback>
             </Avatar>
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>{username}</DropdownMenuLabel>
+          <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           {userMenuItems.map((item) => (
             <DropdownMenuItem key={item.key} asChild>
