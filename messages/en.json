@@ -18,7 +18,9 @@
     "bound": "Bound",
     "load": "Loading...",
     "bind": "Bind Account",
-    "rebind": "Rebind Account"
+    "rebind": "Rebind Account",
+    "change": "Change",
+    "selected": "Selected"
   },
   "Maintain": {
     "title": "We are currently under maintenance",
