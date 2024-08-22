@@ -32,6 +32,10 @@ export async function GET() {
         state
     };
 
+    if (user.avatar) {
+        user.avatar = user.avatar.replace("http://", "https://");
+    }
+
     return NextResponse.json({ ok: true, data: user });
 }
 
