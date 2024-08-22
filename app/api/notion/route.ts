@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
         wx_id: decode.unionid,
       })
 
-      const response = NextResponse.json({ ok: true, data: respJson });
+      const response = NextResponse.json({ ok: true, data: respJson, isWeChat: true });
       return response;
     } else {
       const response = NextResponse.json({

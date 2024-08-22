@@ -37,6 +37,10 @@ function Auth({ code, state }: AuthProps) {
     {
       onSuccess: (data) => {
         if (data.ok) {
+          if (data.isWeChat) {
+            replace("/databases/select");
+            return;
+          }
           replace("/auth/notion/success");
         } else {
           replace("/auth/notion/failed");
