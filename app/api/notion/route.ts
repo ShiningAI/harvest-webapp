@@ -1,5 +1,6 @@
 import { signIn } from "@/auth";
 import { redirectUri, clientId, clientSecret } from "@/lib/constant";
+import { ExceptionError, notifyException } from "@/lib/notify";
 import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "edge";
@@ -14,6 +15,7 @@ export async function POST(request: NextRequest) {
   };
 
   if (!code || !state || !clientId || !clientSecret || !redirectUri) {
+    notifyException(new Error("Invalid Request"));
     return NextResponse.json({ ok: false });
   }
 
@@ -35,22 +37,13 @@ export async function POST(request: NextRequest) {
       }
     );
 
-    if (notion_auth_resp.status !== 200) {
-      return NextResponse.json({
-        ok: false,
-        error: "Notion auth failed",
-        message: await notion_auth_resp.text(),
-      });
-    }
-
     const notion_auth_resp_json = await notion_auth_resp.json<any>();
 
     if (!notion_auth_resp_json.access_token) {
-      return NextResponse.json({
-        ok: false,
-        error: "Notion auth failed",
-        message: JSON.stringify(notion_auth_resp_json, null, 2),
-      });
+      const err = new Error("Notion auth failed") as ExceptionError;
+      err.data = JSON.stringify(notion_auth_resp_json, null, 2);
+      notifyException(err);
+      return NextResponse.json({ ok: false, error: err.message, });
     }
 
     if (decode.wxId) {
@@ -104,11 +97,14 @@ export async function POST(request: NextRequest) {
         }),
       });
 
-      if (resp.status !== 200) {
-        return NextResponse.json({ ok: false, error: "Notion auth failed" });
-      }
-
       const respJson = await resp.json<any>();
+
+      if (!respJson.ok) {
+        const err = new Error("Notion auth failed") as ExceptionError;
+        err.data = JSON.stringify(respJson, null, 2);
+        notifyException(err);
+        return NextResponse.json({ ok: false, error: err.message });
+      }
 
       await signIn("credentials", {
         redirect: false,
@@ -126,6 +122,7 @@ export async function POST(request: NextRequest) {
       return response;
     }
   } catch (error: any) {
+    notifyException(error);
     return NextResponse.json({ ok: false, error: error.message });
   }
 }

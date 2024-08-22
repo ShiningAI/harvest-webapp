@@ -1,7 +1,7 @@
 "use server";
 
 export interface ExceptionError extends Error {
-  data: string;
+  data?: string;
 }
 
 export const notifyException = async (error: ExceptionError) => {
