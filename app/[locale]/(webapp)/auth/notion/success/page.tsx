@@ -35,7 +35,7 @@ export default async function Page() {
     // TODO: is extension, can not need select databases
     return <SelectDatabases isAuth state={state} access_token={token.value} />;
   } catch (error: any) {
-    notifyException(error);
+    await notifyException(error).catch();
     return (
       <div className="max-w-md mx-auto w-full space-y-4 text-center">
         Error: {error.message}
