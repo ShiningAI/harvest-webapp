@@ -69,10 +69,10 @@ export default function Page() {
                 </span>
               ) : (
                 <span>
-                  {t("unselected")}
+                  {/* {t("unselected")}
                   <Link className="ml-1 text-blue-500" href="/databases/select">
                     {t("gotoselect")}
-                  </Link>
+                  </Link> */}
                 </span>
               )}
             </>
