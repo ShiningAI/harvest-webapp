@@ -2,7 +2,6 @@ import { cookies } from "next/headers";
 import { notifyException } from "@/lib/notify";
 import { SelectDatabases } from "@/components/SelectDatabases";
 import { LogIn } from "@/components/LogIn";
-import { auth } from "@/auth";
 
 export const runtime = "edge";
 
