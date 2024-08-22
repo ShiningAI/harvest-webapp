@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
   };
 
   if (!code || !state || !clientId || !clientSecret || !redirectUri) {
-    notifyException(new Error("Invalid Request"));
+    await notifyException(new Error("Invalid Request")).catch();
     return NextResponse.json({ ok: false });
   }
 
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     if (!notion_auth_resp_json.access_token) {
       const err = new Error("Notion auth failed") as ExceptionError;
       err.data = JSON.stringify(notion_auth_resp_json, null, 2);
-      notifyException(err);
+      await notifyException(err).catch();
       return NextResponse.json({ ok: false, error: err.message, });
     }
 
@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
           name: notion_auth_resp_json.owner.user.name,
           avatar: notion_auth_resp_json.owner.user.avatar_url,
         }
-        notion_user.name = notion_user.name.replace(/[\u0000-\u001F]+/g,"");
+        notion_user.name = notion_user.name.replace(/[\u0000-\u001F]+/g, "");
         if (notion_auth_resp_json.owner.user?.person?.email) {
           notion_user.email = notion_auth_resp_json.owner.user.person.email
         }
@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
       if (!respJson.ok) {
         const err = new Error("Notion auth failed") as ExceptionError;
         err.data = JSON.stringify(respJson, null, 2);
-        notifyException(err);
+        await notifyException(err).catch();
         return NextResponse.json({ ok: false, error: err.message });
       }
 
@@ -132,7 +132,7 @@ export async function POST(request: NextRequest) {
       return response;
     }
   } catch (error: any) {
-    notifyException(error);
+    await notifyException(error).catch();
     return NextResponse.json({ ok: false, error: error.message });
   }
 }
