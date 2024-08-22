@@ -20,7 +20,9 @@
     "bind": "绑定",
     "rebind": "重新绑定",
     "change": "更换",
-    "selected": "已选择"
+    "selected": "已选择",
+    "unselected": "未选择",
+    "gotoselect": "前往选择"
   },
   "Maintain": {
     "title": "页面正在升级维护中",

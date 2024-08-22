@@ -20,7 +20,9 @@
     "bind": "Bind Account",
     "rebind": "Rebind Account",
     "change": "Change",
-    "selected": "Selected"
+    "selected": "Selected",
+    "unselected": "Unselected",
+    "gotoselect": "Go to select"
   },
   "Maintain": {
     "title": "We are currently under maintenance",
