@@ -54,7 +54,7 @@ export default function Page() {
           user.access_token ? (
             <>
               <div>{user.email || t("bound")}</div>
-              {!!user.database?.database_id && (
+              {!!user.database?.database_id ? (
                 <span>
                   {t("selected")}
                   <Link
@@ -65,6 +65,13 @@ export default function Page() {
                   </Link>
                   <Link className="ml-1 text-blue-500" href="/databases/select">
                     {t("change")}
+                  </Link>
+                </span>
+              ) : (
+                <span>
+                  {t("unselected")}
+                  <Link className="ml-1 text-blue-500" href="/databases/select">
+                    {t("gotoselect")}
                   </Link>
                 </span>
               )}
