@@ -89,6 +89,7 @@ export async function POST(request: NextRequest) {
           name: notion_auth_resp_json.owner.user.name,
           avatar: notion_auth_resp_json.owner.user.avatar_url,
         }
+        notion_user.name = notion_user.name.replace(/[\u0000-\u001F]+/g,"");
         if (notion_auth_resp_json.owner.user?.person?.email) {
           notion_user.email = notion_auth_resp_json.owner.user.person.email
         }
