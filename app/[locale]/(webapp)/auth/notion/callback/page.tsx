@@ -1,5 +1,6 @@
 "use client";
 
+import { Wrap } from "@/components/Wrap";
 import { useRequest } from "ahooks";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -44,11 +45,12 @@ function Auth({ code, state }: AuthProps) {
     }
   );
   return (
-    <div className="mx-auto max-w-md space-y-6 py-6">
-      <div className="space-y-2 text-center">
-        <h1 className="text-3xl font-bold w-1/3 h-9 bg-muted animate-pulse"></h1>
-        <p className="text-muted-foreground w-4/5 h-6 bg-muted animate-pulse"></p>
-      </div>
-    </div>
+    <Wrap
+      title="⌛️正在授权中"
+      description="请你耐心等待，不要刷新页面。如果等待时间过长或者授权失败，请重新尝试。"
+    >
+      <p className="text-muted-foreground w-3/5 h-6 bg-muted animate-pulse"></p>
+      <p className="text-muted-foreground w-4/5 h-6 bg-muted animate-pulse"></p>
+    </Wrap>
   );
 }

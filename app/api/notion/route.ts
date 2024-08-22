@@ -19,6 +19,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false });
   }
 
+  if (code === 'test') {
+    await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve(void 0);
+      }, 20 * 1000);
+    })
+    return NextResponse.json({ ok: false });
+  }
+
   try {
     const s = decodeURIComponent(state);
     const decode = JSON.parse(Buffer.from(s, "base64").toString("utf8"));
