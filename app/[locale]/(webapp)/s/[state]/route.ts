@@ -15,44 +15,6 @@ export async function GET(
     const s = decodeURIComponent(params.state);
     const decode = JSON.parse(Buffer.from(s, "base64").toString("utf8"));
 
-    // TODO: 老版本的功能兼容，后续个微停服后删除
-    if (decode.type === "select") {
-      if (decode.wxId) {
-        const wx_user_id = decode.wxId;
-        const user_resp = await fetch(
-          "https://harvest-api.prius.ai/v1/get_user",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ wx_user_id }),
-          }
-        );
-
-        if (!user_resp.ok) {
-          return NextResponse.json({ error: "Invalid wx_id" }, { status: 400 });
-        }
-        const user_resp_json = await user_resp.json<any>();
-        const user = user_resp_json.data;
-
-        if (!user.access_token) {
-          return NextResponse.json({ error: "Invalid user" }, { status: 400 });
-        }
-        const url = request.nextUrl.clone();
-        url.pathname = "/dashboard/select";
-
-        const response = NextResponse.redirect(url);
-
-        response.cookies.set("access_token", user.access_token);
-        response.cookies.set("wx_id", wx_user_id);
-
-        return response;
-      }
-
-      return NextResponse.json({ error: "Invalid wx_id" }, { status: 400 });
-    }
-
     if (decode.type && decode.unionid) {
       if (!decode.t) {
         return NextResponse.json({ error: "Invalid state" }, { status: 400 });

@@ -3,7 +3,7 @@
 import { WrenchIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-const SaveToNotion = () => {
+export const WrenchPage = () => {
   const t = useTranslations("Maintain");
   return (
     <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-background px-4 py-6">
@@ -17,5 +17,3 @@ const SaveToNotion = () => {
     </div>
   );
 };
-export default SaveToNotion;
-export const runtime = 'edge';
