@@ -1,14 +1,23 @@
 import NextAuth, { User } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
+import Notion from "@/providers/notion"
+import { clientId, clientSecret, redirectUri } from "./lib/constant"
 
 declare module "next-auth" {
   interface User {
+    type: string
   }
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
+    Notion({
+      clientId: clientId,
+      clientSecret: clientSecret,
+      redirectUri: redirectUri
+    }),
     Credentials({
+      id: "wechat",
       name: "wechat",
       credentials: {
         wx_id: { label: "WeChat ID", type: "text" },
@@ -19,6 +28,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           user = {
             id: credentials.wx_id,
             name: `微信用户${credentials.wx_id.slice(-4)}`,
+            type: 'wechat',
           }
         }
 
@@ -33,21 +43,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
 
   callbacks: {
-    async jwt({ token, user }) {
-      // console.log("jwt: token", JSON.stringify(token, null, 2));
-      // console.log("jwt: user", JSON.stringify(user, null, 2));
+    async jwt({ token, user, profile }) {
+      console.log("jwt: token", JSON.stringify(token, null, 2));
+      console.log("jwt: user", JSON.stringify(user, null, 2));
+      console.log("jwt: profile", JSON.stringify(profile, null, 2));
 
       if (user) {
         token.id = user.id
+        token.type = user.type
+      }
+      if (profile) {
+        token.id = profile.id
       }
       return token
     },
     async session({ session, token }) {
-      // console.log("session: token", JSON.stringify(token, null, 2));
-      // console.log("session: session", JSON.stringify(session, null, 2));
+      console.log("session: token", JSON.stringify(token, null, 2));
+      console.log("session: session", JSON.stringify(session, null, 2));
 
       if (session.user) {
         session.user.id = token.id as string
+        session.user.type = token.type as string
       }
       return session
     }
