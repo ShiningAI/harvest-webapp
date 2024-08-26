@@ -1,26 +1,34 @@
-import { cookies } from "next/headers";
+"use client";
+
+import { useUser } from "@/hooks/useUser";
 import { LogIn } from "./LogIn";
 import { SaveToNotionPage } from "./SaveToNotionPage";
+import { LoaderCircleIcon } from "lucide-react";
 
 export const runtime = "edge";
 
-export default async function Page() {
-  const cookieStore = cookies();
-  const token = cookieStore.get("access_token");
-  const current_db = cookieStore.get("current_db");
+export default function Page() {
+  const [user, isLoading] = useUser();
 
-  const data = { t: Date.now() };
-  const state = Buffer.from(JSON.stringify(data)).toString("base64");
+  if (isLoading) {
+    return (
+      <div className="flex flex-col p-3 h-80">
+        <div className="flex gap-1 items-center justify-center">
+          <LoaderCircleIcon size={24} className="animate-spin" />
+          <span>loading...</span>
+        </div>
+      </div>
+    );
+  }
 
-  if (token?.value) {
+  if (user?.access_token) {
     return (
       <SaveToNotionPage
-        state={state}
-        access_token={token.value}
-        current_db={current_db?.value}
+        access_token={user.access_token}
+        current_db={user.current_db}
       />
     );
   }
 
-  return <LogIn state={state} />;
+  return <LogIn />;
 }

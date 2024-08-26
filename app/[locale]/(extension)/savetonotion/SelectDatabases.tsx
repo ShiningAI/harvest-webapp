@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import { closeModal } from "../utility";
 
 interface SelectDatabasesProps {
-  state: string;
   selected: string;
   onSelected: (value: string) => void;
   databases: Databases.Info[];
@@ -20,7 +19,6 @@ interface SelectDatabasesProps {
 }
 
 export const SelectDatabases = ({
-  state,
   selected,
   databases,
   onSuccess,
@@ -83,7 +81,7 @@ export const SelectDatabases = ({
       </div>
 
       <div className="px-3 pt-3 flex items-center justify-between border-t">
-        <Link href={`/s/${state}`} target="_blank" onClick={closeModal}>
+        <Link href="/sign-in" target="_blank" onClick={closeModal}>
           <Button variant="outline">{t("reauthorization")}</Button>
         </Link>
         <Button disabled={saveReq.loading} onClick={saveReq.run}>

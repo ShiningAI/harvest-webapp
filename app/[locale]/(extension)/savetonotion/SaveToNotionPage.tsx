@@ -12,13 +12,11 @@ import { Button } from "@/components/ui/button";
 import { closeModal } from "../utility";
 
 interface SaveToNotionPageProps {
-  state: string;
   access_token: string;
   current_db?: string;
 }
 
 export const SaveToNotionPage = ({
-  state,
   access_token,
   current_db,
 }: SaveToNotionPageProps) => {
@@ -134,7 +132,6 @@ export const SaveToNotionPage = ({
 
   return (
     <SelectDatabases
-      state={state}
       selected={selected}
       databases={databases}
       onSuccess={() => {
