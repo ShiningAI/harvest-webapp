@@ -1,5 +1,6 @@
 
 import { auth } from "@/auth";
+import { NOTION_OAUTH_HOST } from "@/lib/constant";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -14,7 +15,7 @@ export async function POST(req: NextRequest) {
     }
 
 
-    const response = await fetch(`http://api.notion-nice.com/mp/connect_to_notion`, {
+    const response = await fetch(`${NOTION_OAUTH_HOST}/v1/connect_to_notion`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

@@ -45,7 +45,7 @@ export default function Page() {
     <Box>
       <Item
         title="微信"
-        desc={user.id ? t("bound") : t("load")}
+        desc={user.openid ? t("bound") : t("desc")}
         icon={<IconBrandWechat size={24} />}
       ></Item>
       <Item
@@ -82,16 +82,15 @@ export default function Page() {
         }
         icon={<IconBrandNotion size={24} />}
       >
-        {user.state &&
-          (user.access_token ? (
-            <Link href={`/s/${user.state}`}>
-              <Button>{t("rebind")}</Button>
-            </Link>
-          ) : (
-            <Link href={`/s/${user.state}`}>
-              <Button>{t("bind")}</Button>
-            </Link>
-          ))}
+        {user.access_token ? (
+          <Link href="/sign-in">
+            <Button>{t("rebind")}</Button>
+          </Link>
+        ) : (
+          <Link href="/sign-in">
+            <Button>{t("bind")}</Button>
+          </Link>
+        )}
       </Item>
     </Box>
   );

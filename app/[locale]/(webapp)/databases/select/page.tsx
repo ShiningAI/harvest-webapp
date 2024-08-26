@@ -3,7 +3,7 @@
 import { SelectDatabases } from "@/components/SelectDatabases";
 
 export default function Page() {
-  return <SelectDatabases.WeChat />;
+  return <SelectDatabases />;
 }
 
 export const runtime = "edge";
