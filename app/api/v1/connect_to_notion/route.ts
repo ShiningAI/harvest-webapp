@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     }
 
 
-    const response = await fetch(`${NOTION_OAUTH_HOST}/v1/connect_to_notion`, {
+    const resp = await fetch(`${NOTION_OAUTH_HOST}/v1/connect_to_notion`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -28,13 +28,16 @@ export async function POST(req: NextRequest) {
         }),
     })
 
-    if (!response.ok) {
+    if (!resp.ok) {
         return NextResponse.json({ ok: false, error: "Notion auth failed" });
     }
 
-    const respJson = await response.json<any>();
+    const respJson = await resp.json<any>();
 
-    return NextResponse.json({ ok: true, data: respJson });
+    const response =  NextResponse.json({ ok: true, data: respJson });
+    response.cookies.set("current_db", database.id);
+
+    return response;
 }
 
 export const runtime = 'edge';
