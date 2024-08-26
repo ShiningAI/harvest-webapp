@@ -41,6 +41,9 @@ dependencies:
   '@tabler/icons-react':
     specifier: ^3.11.0
     version: 3.11.0(react@18.3.1)
+  '@wecom/crypto':
+    specifier: ^1.0.1
+    version: 1.0.1
   ahooks:
     specifier: ^3.8.0
     version: 3.8.0(react@18.3.1)
@@ -2093,6 +2096,10 @@ packages:
     dependencies:
       '@webassemblyjs/ast': 1.12.1
       '@xtuc/long': 4.2.2
+    dev: false
+
+  /@wecom/crypto@1.0.1:
+    resolution: {integrity: sha512-K4Ilkl1l64ceJDbj/kflx8ND/J88pcl8tKx4Ivp7IiCrshRJU+Uo5uWCjAa+PjUiLIdcQSZ4m4d0t1npMPCX5A==}
     dev: false
 
   /@xobotyi/scrollbar-width@1.9.5:
