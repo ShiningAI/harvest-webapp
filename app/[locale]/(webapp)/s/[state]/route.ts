@@ -23,7 +23,7 @@ export async function GET(
 
       switch (decode.type) {
         case 'database': {
-          await signIn("credentials", {
+          await signIn("wechat", {
             redirect: false,
             wx_id: decode.unionid,
           })
@@ -32,7 +32,7 @@ export async function GET(
           return NextResponse.redirect(url)
         }
         case 'status': {
-          await signIn("credentials", {
+          await signIn("wechat", {
             redirect: false,
             wx_id: decode.unionid,
           })
@@ -41,7 +41,7 @@ export async function GET(
           return NextResponse.redirect(url)
         }
         case 'bind': {
-          await signIn("credentials", {
+          await signIn("wechat", {
             redirect: false,
             wx_id: decode.unionid,
           })

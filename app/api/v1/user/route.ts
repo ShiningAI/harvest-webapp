@@ -23,11 +23,8 @@ export async function GET() {
 
     const respJson = await response.json<any>();
 
-    console.log("GET: respJson", JSON.stringify(respJson, null, 2));
-
-
     if (!respJson.ok) {
-        return NextResponse.json({ ok: false, error: "Notion auth failed" });
+        return NextResponse.json({ ok: false, error: respJson.message || "Notion auth failed" });
     }
 
     const user = {

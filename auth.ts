@@ -44,27 +44,32 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
   callbacks: {
     async jwt({ token, user, profile }) {
-      console.log("jwt: token", JSON.stringify(token, null, 2));
-      console.log("jwt: user", JSON.stringify(user, null, 2));
-      console.log("jwt: profile", JSON.stringify(profile, null, 2));
-
       if (user) {
+        console.log("jwt: user", JSON.stringify(user, null, 2));
         token.id = user.id
         token.type = user.type
       }
       if (profile) {
+        console.log("jwt: profile", JSON.stringify(profile, null, 2));
+
         token.id = profile.id
+        // token.type = profile.type
       }
+
+      console.log("jwt: token", JSON.stringify(token, null, 2));
       return token
     },
     async session({ session, token }) {
-      console.log("session: token", JSON.stringify(token, null, 2));
-      console.log("session: session", JSON.stringify(session, null, 2));
 
       if (session.user) {
+        console.log("session: user", JSON.stringify(session.user, null, 2));
+        console.log("session: token", JSON.stringify(token, null, 2));
+
         session.user.id = token.id as string
         session.user.type = token.type as string
       }
+
+      console.log("session: session", JSON.stringify(session, null, 2));
       return session
     }
   },

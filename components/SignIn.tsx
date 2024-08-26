@@ -136,7 +136,7 @@ export function SignInContent({ onLogin }: SignInContentProps) {
           console.error("Invalid scan result", data);
           return;
         }
-        await signIn("credentials", {
+        await signIn("wechat", {
           redirect: false,
           wx_id: data.data.unionid,
         });
