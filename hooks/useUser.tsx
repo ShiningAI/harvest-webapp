@@ -4,9 +4,10 @@ import useSWR from "swr";
 import { User } from "next-auth";
 
 type UserInfo = User & {
+  openid?: string;
   access_token?: string;
   avatar?: string;
-  state: string;
+  current_db?: string;
   database: null | {
     database_id: string;
     database_url: string;

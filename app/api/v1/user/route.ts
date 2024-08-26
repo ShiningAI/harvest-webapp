@@ -1,35 +1,41 @@
 
 import { auth } from "@/auth";
+import { cookies } from "next/headers";
+import { NOTION_OAUTH_HOST } from "@/lib/constant";
 import { NextResponse } from "next/server";
 
 export async function GET() {
     const session = await auth();
+    const cookieStore = cookies();
+    const current_db = cookieStore.get("current_db");
 
     if (!session?.user) {
         return NextResponse.json({ ok: false }, { status: 401 });
     }
 
-    const data = { t: Date.now(), unionid: session.user.id };
-    const state = Buffer.from(JSON.stringify(data)).toString("base64");
-
-    const response = await fetch(`http://api.notion-nice.com/mp/user?unionid=${data.unionid}`, {
-        method: "GET",
+    const response = await fetch(`${NOTION_OAUTH_HOST}/v1/user`, {
+        method: "POST",
+        body: JSON.stringify(session.user),
         headers: {
             "Content-Type": "application/json",
         },
     })
 
-    if (!response.ok) {
+    const respJson = await response.json<any>();
+
+    console.log("GET: respJson", JSON.stringify(respJson, null, 2));
+
+
+    if (!respJson.ok) {
         return NextResponse.json({ ok: false, error: "Notion auth failed" });
     }
-
-    const respJson = await response.json<any>();
 
     const user = {
         ...respJson.data,
         id: session.user.id,
         name: respJson.data.name || session.user.name,
-        state
+        // extension 临时选择的数据库
+        current_db: current_db?.value,
     };
 
     if (user.avatar) {
