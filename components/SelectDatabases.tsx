@@ -61,13 +61,13 @@ const SelectDatabases = () => {
     return <SelectDatabasesSkeleton />;
   }
 
-  if (!user.access_token) {
+  if (!user.notion?.access_token) {
     return <NotionGuide />;
   }
 
   return (
     <InlineSelectDatabases
-      access_token={user.access_token}
+      access_token={user.notion.access_token}
       defaultDatabase={user.database?.database_id}
     />
   );

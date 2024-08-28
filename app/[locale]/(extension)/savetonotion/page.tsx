@@ -21,10 +21,10 @@ export default function Page() {
     );
   }
 
-  if (user?.access_token) {
+  if (user?.notion?.access_token) {
     return (
       <SaveToNotionPage
-        access_token={user.access_token}
+        access_token={user.notion.access_token}
         current_db={user.current_db}
       />
     );
