@@ -44,19 +44,24 @@ export function SignInButton() {
   }
 
   if (user) {
+    const avatar =
+      user.notion?.avatar ||
+      user.weixin?.avatar ||
+      "/images/avatar/default.png";
+    const username = user.notion?.name || user.weixin?.name || user.email;
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-            <span className="sr-only">{user.name}</span>
+            <span className="sr-only">{username}</span>
             <Avatar>
-              <AvatarImage src={user.avatar || "/images/avatar/default.png"} />
-              <AvatarFallback>{user.name?.slice(-4)}</AvatarFallback>
+              <AvatarImage src={avatar} />
+              <AvatarFallback>{username}</AvatarFallback>
             </Avatar>
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
+          <DropdownMenuLabel>{username}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           {userMenuItems.map((item) => (
             <DropdownMenuItem key={item.key} asChild>
@@ -125,6 +130,7 @@ export function SignInContent({ onLogin }: SignInContentProps) {
   );
   const { run, cancel } = useRequest(
     async () => {
+      if (!ticket) return;
       const response = await fetch(`/api/mp/get-scan-result?ticket=${ticket}`);
       if (response.status !== 200) {
         throw new Error("Failed to get scan result");
@@ -179,7 +185,7 @@ export function SignInContent({ onLogin }: SignInContentProps) {
               <div>请点击刷新</div>
             </div>
           )}
-          {loading && (
+          {(!ticket || loading) && (
             <div className="rounded-lg absolute inset-0 flex items-center justify-center text-white bg-black/60">
               <LoaderCircle size={36} className="animate-spin" />
             </div>

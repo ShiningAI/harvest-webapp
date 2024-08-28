@@ -4,10 +4,18 @@ import useSWR from "swr";
 import { User } from "next-auth";
 
 type UserInfo = User & {
-  openid?: string;
-  access_token?: string;
-  avatar?: string;
   current_db?: string;
+  weixin: null | {
+    unionid: string;
+    name: string;
+    avatar: string;
+  };
+  notion: null | {
+    name: string;
+    email: string;
+    avatar?: string;
+    access_token?: string;
+  };
   database: null | {
     database_id: string;
     database_url: string;

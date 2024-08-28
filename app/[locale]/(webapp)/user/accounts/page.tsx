@@ -45,15 +45,15 @@ export default function Page() {
     <Box>
       <Item
         title="微信"
-        desc={user.openid ? t("bound") : t("desc")}
+        desc={user.weixin?.name ? user.weixin.name : t("desc")}
         icon={<IconBrandWechat size={24} />}
       ></Item>
       <Item
         title="Notion"
         desc={
-          user.access_token ? (
+          user.notion?.access_token ? (
             <>
-              <div>{user.email || t("bound")}</div>
+              <div>{user.notion.email || user.notion.name || t("bound")}</div>
               {!!user.database?.database_id ? (
                 <span>
                   {t("selected")}
@@ -82,7 +82,7 @@ export default function Page() {
         }
         icon={<IconBrandNotion size={24} />}
       >
-        {user.access_token ? (
+        {user.notion?.access_token ? (
           <Link href="/sign-in">
             <Button>{t("rebind")}</Button>
           </Link>
