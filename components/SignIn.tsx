@@ -49,7 +49,7 @@ export function SignInButton() {
       user.weixin?.avatar ||
       "/images/avatar/default.png";
     const username =
-      user.notion?.name || user.weixin?.name || user.email || user.name || "";
+      user.notion?.name || user.weixin?.name || user.email || user.name || "-";
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -57,7 +57,7 @@ export function SignInButton() {
             <span className="sr-only">{username}</span>
             <Avatar>
               <AvatarImage src={avatar} />
-              <AvatarFallback>{username?.slice(-4)}</AvatarFallback>
+              <AvatarFallback>{username.slice(-4)}</AvatarFallback>
             </Avatar>
           </button>
         </DropdownMenuTrigger>
