@@ -118,7 +118,7 @@ export default function NotionProvider<P extends NotionProfile>(
         name: "Notion",
         type: "oauth",
         token: {
-            url: `${NOTION_OAUTH_HOST}/v1/oauth/token`,
+            url: `${NOTION_OAUTH_HOST}/api/v1/oauth/token`,
         },
         userinfo: {
             url: `${NOTION_HOST}/v1/users`,

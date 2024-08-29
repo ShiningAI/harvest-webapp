@@ -56,7 +56,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // token.type = profile.type
       }
 
-      console.log("jwt: token", JSON.stringify(token, null, 2));
+      // console.log("jwt: token", JSON.stringify(token, null, 2));
       return token
     },
     async session({ session, token }) {
@@ -69,7 +69,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.type = token.type as string
       }
 
-      console.log("session: session", JSON.stringify(session, null, 2));
+      // console.log("session: session", JSON.stringify(session, null, 2));
       return session
     }
   },

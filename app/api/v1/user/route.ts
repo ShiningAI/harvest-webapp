@@ -1,7 +1,7 @@
 
 import { auth } from "@/auth";
 import { cookies } from "next/headers";
-import { NOTION_OAUTH_HOST } from "@/lib/constant";
+import { API_NICE_URL } from "@/lib/constant";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -13,7 +13,7 @@ export async function GET() {
         return NextResponse.json({ ok: false }, { status: 401 });
     }
 
-    const response = await fetch(`${NOTION_OAUTH_HOST}/v1/user`, {
+    const response = await fetch(`${API_NICE_URL}/v1/user`, {
         method: "POST",
         body: JSON.stringify(session.user),
         headers: {
