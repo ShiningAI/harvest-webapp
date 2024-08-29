@@ -1,4 +1,4 @@
-import { redirectUri, clientId, clientSecret, API_NICE_URL } from "@/lib/constant";
+import { redirectUri, clientId, clientSecret, API_NICE_URL, redirectUrl } from "@/lib/constant";
 import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "edge";
@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
 
         const data: any = {
             code,
-            'redirect_uri': redirectUri,
+            'redirect_uri': redirectUrl,
             grant_type: 'authorization_code'
         }
 
