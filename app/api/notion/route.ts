@@ -15,6 +15,8 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ ok: false, error: "Invalid code" }, { status: 401 });
     }
 
+    const url = req.nextUrl.clone();
+    url.pathname = "/databases/select";
     try {
         const s = decodeURIComponent(state);
         const decode = JSON.parse(Buffer.from(s, "base64").toString("utf8"));
@@ -30,6 +32,7 @@ export async function GET(req: NextRequest) {
         }
 
         console.log(`[${req.method}]/v1/oauth/token`, JSON.stringify(data, null, 2));
+
         const notion_auth_resp = await fetch(
             `${API_NICE_URL}/v1/oauth/token`,
             {
@@ -45,13 +48,14 @@ export async function GET(req: NextRequest) {
         const notion_auth_resp_json: any = await notion_auth_resp.json();
 
         if (!notion_auth_resp_json.access_token) {
-            return NextResponse.json({ ok: false, error: "Notion auth failed" }, { status: 401 });
+            url.searchParams.append("error", "Notion auth failed")
+            return NextResponse.redirect(url)
+            // return NextResponse.json({ ok: false, error: "Notion auth failed" }, { status: 401 });
         }
 
-        const url = req.nextUrl.clone();
-        url.pathname = "/databases/connect";
         return NextResponse.redirect(url)
-    } catch (error) {
-
+    } catch (error: any) {
+        url.searchParams.append("error", error.message || "Notion auth failed")
+        return NextResponse.redirect(url)
     }
 }
