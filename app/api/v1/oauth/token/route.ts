@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     const authorization = req.headers.get('authorization');
 
     const session = await auth();
-    console.log(`[${req.method}]/v1/oauth/token`, authorization);
+    console.log(`[${req.method}]/v1/oauth/token`, authorization, JSON.stringify(session, null, 2));
 
     if (session?.user?.type === "wechat") {
         notion_auth_form.append("unionid", session.user.id!);
