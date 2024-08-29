@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
     const state = searchParams.get("state")
 
     if (!code || !state || !clientId || !clientSecret || !redirectUri) {
-        return NextResponse.json({ ok: false });
+        return NextResponse.json({ ok: false, error: "Invalid code" }, { status: 401 });
     }
 
     try {
