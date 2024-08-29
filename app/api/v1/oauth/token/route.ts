@@ -3,6 +3,8 @@ import { auth } from "@/auth";
 import { API_NICE_URL } from "@/lib/constant";
 import { NextRequest, NextResponse } from "next/server";
 
+export const runtime = 'edge';
+
 export async function POST(req: NextRequest) {
     const notion_auth_form = await req.formData();
     const authorization = req.headers.get('authorization');
