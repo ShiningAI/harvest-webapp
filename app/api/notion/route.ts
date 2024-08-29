@@ -6,11 +6,10 @@ export const runtime = "edge";
 // encode in base 64
 const encoded = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
 
-export async function POST(req: NextRequest) {
-    const { code, state } = (await req.json()) as {
-        code: string;
-        state: string;
-    };
+export async function GET(req: NextRequest) {
+    const searchParams = req.nextUrl.searchParams;
+    const code = searchParams.get("code")
+    const state = searchParams.get("state")
 
     if (!code || !state || !clientId || !clientSecret || !redirectUri) {
         return NextResponse.json({ ok: false });
