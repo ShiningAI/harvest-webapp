@@ -42,6 +42,7 @@
   "Database": {
     "save": "Save",
     "next": "Next Step",
+    "title": "Untitled",
     "close": "Close Page",
     "refresh": "Refresh Databases",
     "tips": "If your desired database does not appear, please refresh and try again.",
