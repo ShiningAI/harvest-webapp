@@ -24,38 +24,29 @@ export async function GET(
       }
       // TODO: 需要根据 decode.t 判断链接是否过期，过期链接提示用户已过期
 
+      const url = request.nextUrl.clone();
+      await signIn("wechat", {
+        redirect: false,
+        wx_id: decode.unionid,
+      })
       switch (decode.type) {
         case 'database': {
-          await signIn("wechat", {
-            redirect: false,
-            wx_id: decode.unionid,
-          })
-          const url = request.nextUrl.clone();
           url.pathname = "/databases/select";
-          return NextResponse.redirect(url)
-        }
-        case 'status': {
-          await signIn("wechat", {
-            redirect: false,
-            wx_id: decode.unionid,
-          })
-          const url = request.nextUrl.clone();
-          url.pathname = "/user/accounts";
-          return NextResponse.redirect(url)
+          break;
         }
         case 'bind': {
-          await signIn("wechat", {
-            redirect: false,
-            wx_id: decode.unionid,
-          })
-          const url = request.nextUrl.clone();
           url.pathname = "/databases/connect";
-          return NextResponse.redirect(url)
-
+          break;
         }
-        default:
-          return NextResponse.json(decode, { status: 200 });
+        case 'status':
+        default: {
+          url.pathname = "/user/accounts";
+          break;
+        }
       }
+
+      url.searchParams.delete("state");
+      return NextResponse.redirect(url);
     }
 
     if (decode.t) {
