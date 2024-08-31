@@ -29,6 +29,7 @@ export const notifyException = async (error: ExceptionError) => {
     const data = await resp.json();
     return { ok: true, data };
   } catch (error: any) {
+    await notifyException(error).catch(console.error);
     return { ok: false, error: error.message };
   }
 };

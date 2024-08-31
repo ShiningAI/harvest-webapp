@@ -1,5 +1,6 @@
 import { signIn } from "@/auth";
 import { clientId, redirectUri } from "@/lib/constant";
+import { notifyException } from "@/lib/notify";
 import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "edge";
@@ -14,6 +15,8 @@ export async function GET(
   try {
     const s = decodeURIComponent(params.state);
     const decode = JSON.parse(Buffer.from(s, "base64").toString("utf8"));
+
+    console.log(`[${request.method}]/s/${params.state}`, JSON.stringify(decode, null, 2));
 
     if (decode.type && decode.unionid) {
       if (!decode.t) {
@@ -68,8 +71,8 @@ export async function GET(
     }
 
     return NextResponse.json({ error: "Invalid state" }, { status: 400 });
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    await notifyException(error).catch(console.error);
     return NextResponse.json({ error: "Invalid state" }, { status: 400 });
   }
 }

@@ -48,9 +48,8 @@ export async function GET(req: NextRequest) {
         const notion_auth_resp_json: any = await notion_auth_resp.json();
 
         if (!notion_auth_resp_json.access_token) {
-            url.searchParams.append("error", "Notion auth failed")
+            url.searchParams.append("error", "access_token not found")
             return NextResponse.redirect(url)
-            // return NextResponse.json({ ok: false, error: "Notion auth failed" }, { status: 401 });
         }
 
         return NextResponse.redirect(url)
