@@ -45,7 +45,7 @@
     "close": "Close Page",
     "refresh": "Refresh Databases",
     "tips": "If your desired database does not appear, please refresh and try again.",
-    "reauthorization": "Reauthorization",
+    "reauthorization": "Reauthorize",
     "success": "Database selection successful. \nPlease close the page.",
     "Auth": {
       "Fail": {
@@ -66,16 +66,16 @@
       "description": "You need to select a database as the container for storing data"
     },
     "MultipleDatabases": {
-      "title": "Select multiple databases",
-      "description": "You have authorized multiple databases, please select one as the container for storing data"
+      "title": "Select a database",
+      "description": "You have authorized multiple databases. Please select one as the container for storing data. If the desired database is not in the list, please click [Refresh Databases] to try again or [Reauthorize]."
     },
     "NoDatabase": {
-      "title": "No database",
-      "description": "You have not authorized any databases, please reauthorize"
+      "title": "No database found",
+      "description": "No databases found. Click [Refresh Databases] to try again or [Reauthorize]."
     },
     "SingleDatabase": {
       "title": "Authorization successful",
-      "description": "You have authorized a database, it will be used as the default container for storing data"
+      "description": "One database found. If the desired database is not in the list, please click [Refresh Databases] to try again or [Reauthorize]."
     },
     "Authorize": {
       "goto": "Go to Notion to Authorize",

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRequest } from "ahooks";
 import { request } from "@/lib/request";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { LoaderCircleIcon, LinkIcon, RotateCwIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useToast } from "@/components/ui/use-toast";
@@ -56,6 +56,7 @@ const SelectDatabasesSkeleton = () => {
 
 const SelectDatabases = () => {
   const [user, isLoading] = useUser();
+  const searchParams = useSearchParams();
 
   if (isLoading || !user) {
     return <SelectDatabasesSkeleton />;
@@ -67,6 +68,7 @@ const SelectDatabases = () => {
 
   return (
     <InlineSelectDatabases
+      isAuth={!!searchParams.get("code")}
       access_token={user.notion.access_token}
       defaultDatabase={user.database?.database_id}
     />
@@ -124,7 +126,7 @@ const InlineSelectDatabases = ({
           title: t("SelectedDatabase.title"),
           description: t("SelectedDatabase.description"),
         });
-        return;
+        return false;
       }
 
       const database = data?.databases.find(
@@ -136,7 +138,7 @@ const InlineSelectDatabases = ({
           title: t("SelectedDatabase.title"),
           description: t("SelectedDatabase.description"),
         });
-        return;
+        return false;
       }
 
       const resp = await fetch("/api/v1/connect_to_notion", {
@@ -153,20 +155,30 @@ const InlineSelectDatabases = ({
         }),
       });
 
-      if (!resp.ok) {
-        throw new Error("Connect to Notion failed");
+      const resp_json: any = await resp.json();
+
+      if (!resp_json.ok) {
+        // TODO: toast error
+        // toast({
+        //   title: t("SelectedDatabase.title"),
+        //   description: t("SelectedDatabase.description"),
+        // });
+        return false;
       }
-      return resp.json();
+      return true;
     },
     {
       manual: true,
-      onSuccess() {
-        replace(`/user/accounts`);
+      onSuccess(data) {
+        if (data) replace(`/user/accounts`);
       },
     }
   );
 
   const renderList = (databases: Databases.Info[]) => {
+    if (!databases.length) {
+      return <div className="text-center py-6">{t("NoDatabase.title")}</div>;
+    }
     return (
       <RadioGroup
         value={selectedDatabase}
@@ -212,49 +224,56 @@ const InlineSelectDatabases = ({
       return <SelectDatabasesSkeleton />;
     }
 
+    let title = t("MultipleDatabases.title");
+    let description = t("MultipleDatabases.description");
+
     if (data.databases.length === 0) {
-      return (
-        <Wrap
-          hideTitle
-          title={t("NoDatabase.title")}
-          description={t("NoDatabase.description")}
-        >
-          <div className="py-6 flex flex-col items-center">
-            <Link href="/sign-in">
-              <Button>{t("reauthorization")}</Button>
-            </Link>
-          </div>
-        </Wrap>
-      );
+      title = t("NoDatabase.title");
+      description = t("NoDatabase.description");
+    } else if (data.databases.length === 1) {
+      title = t("SingleDatabase.title");
+      description = t("SingleDatabase.description");
     }
 
-    if (data.databases.length === 1) {
-      return (
-        <Wrap
-          hideTitle
-          title={t("SingleDatabase.title")}
-          description={t("SingleDatabase.description")}
-        >
-          <Card>
-            <CardContent className="space-y-4 pt-6 py-4 max-h-[calc(100vh-320px)] overflow-auto">
-              {renderList(data.databases)}
-            </CardContent>
-            <CardFooter className="flex justify-end mt-4 gap-2">
-              <Link href="/sign-in">
-                <Button>{t("reauthorization")}</Button>
-              </Link>
-            </CardFooter>
-          </Card>
-        </Wrap>
-      );
-    }
+    // if (data.databases.length === 0) {
+    //   return (
+    //     <Wrap
+    //       hideTitle
+    //       title={t("NoDatabase.title")}
+    //       description={t("NoDatabase.description")}
+    //     >
+    //       <div className="py-6 flex flex-col items-center">
+    //         <Link href="/sign-in">
+    //           <Button>{t("reauthorization")}</Button>
+    //         </Link>
+    //       </div>
+    //     </Wrap>
+    //   );
+    // }
+
+    // if (data.databases.length === 1) {
+    //   return (
+    //     <Wrap
+    //       hideTitle
+    //       title={t("SingleDatabase.title")}
+    //       description={t("SingleDatabase.description")}
+    //     >
+    //       <Card>
+    //         <CardContent className="space-y-4 pt-6 py-4 max-h-[calc(100vh-320px)] overflow-auto">
+    //           {renderList(data.databases)}
+    //         </CardContent>
+    //         <CardFooter className="flex justify-end mt-4 gap-2">
+    //           <Link href="/sign-in">
+    //             <Button>{t("reauthorization")}</Button>
+    //           </Link>
+    //         </CardFooter>
+    //       </Card>
+    //     </Wrap>
+    //   );
+    // }
 
     return (
-      <Wrap
-        hideTitle
-        title={t("MultipleDatabases.title")}
-        description={t("MultipleDatabases.description")}
-      >
+      <Wrap hideTitle title={title} description={description}>
         <Card>
           <CardTitle className="px-4 py-3 flex items-center justify-between">
             <div>{t("MultipleDatabases.title")}</div>
@@ -284,9 +303,11 @@ const InlineSelectDatabases = ({
             {renderList(data.databases)}
           </CardContent>
           <CardFooter className="flex justify-end mt-4 gap-2">
-            {/* <Button variant="outline">取消</Button> */}
+            <Link href="/sign-in">
+              <Button variant="secondary">{t("reauthorization")}</Button>
+            </Link>
             <Button
-              disabled={saveReq.loading}
+              disabled={saveReq.loading || !selectedDatabase}
               onClick={() => saveReq.run(selectedDatabase)}
               className="space-x-1"
             >
@@ -307,11 +328,11 @@ const InlineSelectDatabases = ({
         <div className="mx-auto w-full max-w-md pt-6">
           <div className="space-y-2 px-3 text-center">
             <h1 className="text-3xl font-bol">{t("Auth.Success.title")}</h1>
-            {loading && (
+            {/* {loading && (
               <p className="text-muted-foreground">
                 {t("Auth.Success.description")}
               </p>
-            )}
+            )} */}
           </div>
         </div>
         {render()}
