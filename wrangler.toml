@@ -21,7 +21,7 @@ pages_build_output_dir = ".vercel/output/static"
 API_NICE_URL= "http://api.notion-nice.com"
 API_BASE_URL= "https://harvest-api.prius.ai"
 NOTION_OAUTH_CLIENT_ID = "b0f11c5f-07f8-469a-a59e-45ce9ca8bc14"
-NOTION_OAUTH_REDIRECT_URI = "https://app.harvest.prius.ai/api/auth/callback/notion"
+NOTION_OAUTH_REDIRECT_URI = "https://harvest.prius.ai/api/auth/callback/notion"
 WECOM_BOT_WEBHOOK_URL = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=512a744f-9df0-4bf3-949d-7016da6140fd"
 
 # Bind the Workers AI model catalog. Run machine learning models, powered by serverless GPUs, on Cloudflare’s global network
