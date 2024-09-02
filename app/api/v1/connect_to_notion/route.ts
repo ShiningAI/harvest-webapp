@@ -14,7 +14,6 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ ok: false, error: "Invalid database_id" });
     }
 
-
     const resp = await fetch(`${API_NICE_URL}/v1/connect_to_notion`, {
         method: "POST",
         headers: {
@@ -24,7 +23,8 @@ export async function POST(req: NextRequest) {
             unionid: session.user.id,
             database_id: database.id,
             database_title: database.name,
-            database_url: database.url
+            database_url: database.url,
+            type: session.user.type,
         }),
     })
 
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
 
     const respJson = await resp.json<any>();
 
-    const response =  NextResponse.json({ ok: true, data: respJson });
+    const response = NextResponse.json({ ok: true, data: respJson });
     response.cookies.set("current_db", database.id);
 
     return response;
