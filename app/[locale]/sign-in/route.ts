@@ -19,8 +19,7 @@ export async function GET() {
     url.searchParams.append("client_id", clientId);
     url.searchParams.append("state", state);
     return NextResponse.redirect(url.toString());
-
   }
-  return await signIn("notion", { redirectTo: "/databases/select" });
+  return await signIn("notion", { redirectTo: "/databases/select?code=code" });
 }
 
