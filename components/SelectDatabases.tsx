@@ -57,6 +57,10 @@ const SelectDatabasesSkeleton = () => {
 const SelectDatabases = () => {
   const [user, isLoading] = useUser();
   const searchParams = useSearchParams();
+  const errMsg = searchParams.get("error");
+  if (errMsg) {
+    return <div>Error: {errMsg}</div>;
+  }
 
   if (isLoading || !user) {
     return <SelectDatabasesSkeleton />;
@@ -197,7 +201,9 @@ const InlineSelectDatabases = ({
               value={database.database_id}
               id={database.database_id}
             />
-            <div className="py-2 flex-1">{database.database_title || t("title")}</div>
+            <div className="py-2 flex-1">
+              {database.database_title || t("title")}
+            </div>
             <Link
               href={database.database_url}
               target="_blank"
