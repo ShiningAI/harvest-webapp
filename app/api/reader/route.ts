@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
         }
 
         if (page_html) {
-            return NextResponse.json({ ok: true, data: {} });
+            return NextResponse.json({ ok: true, data: { page_html } });
         } else {
             return NextResponse.json({ ok: false, message: lastError?.message || 'page is empty.' });
         }
