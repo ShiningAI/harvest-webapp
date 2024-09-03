@@ -68,6 +68,6 @@ function throwWebPage(page_html: string) {
     return page_html;
 }
 
-export async function wait(ms: number) {
+async function wait(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
