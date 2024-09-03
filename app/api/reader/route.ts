@@ -1,11 +1,16 @@
+import { notifyException } from "@/lib/notify";
 import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = 'edge';
 
 export async function POST(req: NextRequest) {
     const body: any = await req.json();
+    const authorization = req.headers.get('authorization')
     if (!body.page_url) {
         return NextResponse.json({ ok: false, message: "page_url is required." });
+    }
+    if (!authorization) {
+        return NextResponse.json({ ok: false, message: "authorization is required." });
     }
     const page_url = decodeURIComponent(body.page_url);
     try {
@@ -28,11 +33,23 @@ export async function POST(req: NextRequest) {
         }
 
         if (page_html) {
-            return NextResponse.json({ ok: true, data: { page_html } });
+            const response = await fetch('http://harvest-api.notion-nice.com/v1/save_page', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': authorization
+                },
+                body: JSON.stringify({ async_save: true, page_url, page_html })
+            })
+
+            const data = await response.json();
+            return NextResponse.json({ ok: true, data });
         } else {
             return NextResponse.json({ ok: false, message: lastError?.message || 'page is empty.' });
         }
     } catch (error: any) {
+        error.data = JSON.stringify({ url: '/api/reader', body: { page_url } }, null, 2);
+        await notifyException(error).catch(console.error);
         return NextResponse.json({ ok: false, message: error.message || 'unknown' });
     }
 }
