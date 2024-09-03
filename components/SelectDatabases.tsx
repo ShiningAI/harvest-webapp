@@ -102,8 +102,18 @@ const InlineSelectDatabases = ({
         }
       )
       .then((res) => res.data);
-    if (resp.databases.length === 1) {
-      const database = resp.databases[0];
+    const databases = resp.databases.sort((a, b) => {
+      if (a.database_title && !b.database_title) {
+        return -1;
+      } else if (!a.database_title && b.database_title) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
+    if (databases.length === 1) {
+      const database = databases[0];
       setSelectedDatabase(database.database_id);
       // TODO 需要重新创建 sync_notion_databases 判断是否保存而不是每次都保存
       fetch("/api/v1/connect_to_notion", {
@@ -120,7 +130,7 @@ const InlineSelectDatabases = ({
         }),
       }).catch(console.error);
     }
-    return { access_token, databases: resp.databases };
+    return { access_token, databases };
   }, {});
 
   const saveReq = useRequest(
