@@ -12,6 +12,15 @@ const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  redirects: async () => {
+    return [
+      {
+        source: "/privacy-policy",
+        destination: "https://priusai.notion.site/Privacy-Policy-c0b43ed5d4c14a8ea74d32e2f810990f",
+        permanent: true,
+      },
+    ]
+  },
   rewrites: async () => {
     return [
       {
@@ -21,10 +30,6 @@ const nextConfig = {
       {
         source: "/api/mp/:path*",
         destination: `http://api.notion-nice.com/mp/:path*`,
-      },
-      {
-        source: "/privacy-policy",
-        destination: "https://priusai.notion.site/Privacy-Policy-c0b43ed5d4c14a8ea74d32e2f810990f",
       }
     ];
   },
