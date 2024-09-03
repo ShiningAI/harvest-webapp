@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
     if (!body.page_url) {
         return NextResponse.json({ ok: false, message: "page_url is required." });
     }
-    const page_url = encodeURIComponent(body.page_url);
+    const page_url = decodeURIComponent(body.page_url);
     try {
         let page_html = '';
         let retryCount = 1;
