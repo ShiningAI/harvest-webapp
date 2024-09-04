@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { useRequest } from "ahooks";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { signOut } from "next-auth/react";
 import { closeModal } from "../utility";
 
 interface SelectDatabasesProps {
@@ -43,6 +44,12 @@ export const SelectDatabases = ({
       onSuccess,
     }
   );
+
+  const reauthorization = async () => {
+    await signOut();
+    window.open("/sign-in", "_blank");
+    closeModal();
+  };
   return (
     <div className="py-3 flex flex-col gap-3 h-80">
       <div className="overflow-auto px-3 pb-3 flex-1">
@@ -81,9 +88,9 @@ export const SelectDatabases = ({
       </div>
 
       <div className="px-3 pt-3 flex items-center justify-between border-t">
-        <Link href="/sign-in" target="_blank" onClick={closeModal}>
-          <Button variant="outline">{t("reauthorization")}</Button>
-        </Link>
+        <Button variant="outline" onClick={reauthorization}>
+          {t("reauthorization")}
+        </Button>
         <Button disabled={saveReq.loading} onClick={saveReq.run}>
           {saveReq.loading ? (
             <LoaderCircleIcon size={16} className="animate-spin" />

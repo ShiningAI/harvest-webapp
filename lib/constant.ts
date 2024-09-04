@@ -6,7 +6,7 @@ export const clientSecret = process.env.NOTION_OAUTH_CLIENT_SECRET!;
 export const redirectUri =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000/api/auth/callback/notion"
-    : process.env.NOTION_OAUTH_REDIRECT_URI!;
+    : "https://harvest.prius.ai/api/auth/callback/notion";
 
 export const redirectUrl =
   process.env.NODE_ENV === "development"
