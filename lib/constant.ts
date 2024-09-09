@@ -9,13 +9,13 @@ export const redirectUri =
     : "https://harvest.prius.ai/api/auth/callback/notion";
 
 export const redirectUrl =
-  process.env.NODE_ENV === "development"
+  process.env.NODE_ENV === "test"
     ? "http://localhost:3000/api/notion"
     : "https://harvest.prius.ai/api/notion";
 
-export const API_NICE_URL = process.env.NODE_ENV === "development"
+export const API_NICE_URL = process.env.NODE_ENV === "test"
   ? "http://localhost:8000"
   : "http://api.notion-nice.com";
-export const NOTION_OAUTH_HOST = process.env.NODE_ENV === "development" ?
+export const NOTION_OAUTH_HOST = process.env.NODE_ENV === "test" ?
   "http://localhost:3000" :
   'https://harvest.prius.ai';
