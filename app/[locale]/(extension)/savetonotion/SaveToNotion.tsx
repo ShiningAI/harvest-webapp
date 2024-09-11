@@ -45,9 +45,10 @@ export const SaveToNotion = ({
   const saveReq = useRequest(
     async () => {
       if (!req.data?.content) return;
+      const html = `<html><head><meta charset="utf-8"><title>${req.data.title}</title></head><body>${req.data.content}</body></html>`;
       const data: NotionDataProgram = {
         async_save: true,
-        page_html: req.data.content,
+        page_html: html,
         page_url: req.data.url,
         page_properties: {
           title: req.data.title,
