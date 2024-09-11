@@ -1,6 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import { RootHeader } from "@/components/RootHeader";
+import {
+  AudioWaveform,
+  FolderSync,
+  MessageSquareHeart,
+  MonitorUpIcon,
+  ShieldCheckIcon,
+  SmileIcon,
+  SparklesIcon,
+} from "lucide-react";
 
 function Home() {
   return (
@@ -324,13 +333,13 @@ function Home() {
                 gradientTransform="translate(512 512) rotate(90) scale(512)"
               >
                 <stop
-                  stop-color="var(--secondary-lighter-hex)"
-                  stop-opacity="0.5"
+                  stopColor="var(--secondary-lighter-hex)"
+                  stopOpacity="0.5"
                 ></stop>
                 <stop
                   offset="1"
-                  stop-color="var(--secondary-dark-hex)"
-                  stop-opacity="0"
+                  stopColor="var(--secondary-dark-hex)"
+                  stopOpacity="0"
                 ></stop>
               </radialGradient>
             </defs>
@@ -346,13 +355,7 @@ function Home() {
                 className="flex items-center justify-center w-16 h-16 rounded-md bg-cyan-100/30 border border-secondary-100/70 dark:border-secondary-900 dark:bg-cyan-900/70 text-secondary-500"
                 aria-describedby="icon"
               >
-                <Image
-                  src="/imgs/icons/1.svg"
-                  alt="社交软件集成"
-                  className="p-3"
-                  width={64}
-                  height={64}
-                />
+                <MessageSquareHeart />
               </div>
               <h3 className="text-lg font-semibold">社交软件集成</h3>
               <p className="text-sm text-gray-800 dark:text-gray-200">
@@ -364,13 +367,7 @@ function Home() {
                 className="flex items-center justify-center w-16 h-16 rounded-md bg-cyan-100/30 border border-secondary-100/70 dark:border-secondary-900 dark:bg-cyan-900/70 text-secondary-500"
                 aria-describedby="icon"
               >
-                <Image
-                  src="/imgs/icons/2.svg"
-                  alt="多平台同步"
-                  className="p-3"
-                  width={64}
-                  height={64}
-                />
+                <MonitorUpIcon />
               </div>
               <h3 className="text-lg font-semibold">多平台同步</h3>
               <p className="text-sm text-gray-800 dark:text-gray-200">
@@ -382,13 +379,7 @@ function Home() {
                 className="flex items-center justify-center w-16 h-16 rounded-md bg-cyan-100/30 border border-secondary-100/70 dark:border-secondary-900 dark:bg-cyan-900/70 text-secondary-500"
                 aria-describedby="icon"
               >
-                <Image
-                  src="/imgs/icons/3.svg"
-                  alt="用户友好界面"
-                  className="p-3"
-                  width={64}
-                  height={64}
-                />
+                <SmileIcon />
               </div>
               <h3 className="text-lg font-semibold">用户友好界面</h3>
               <p className="text-sm text-gray-800 dark:text-gray-200">
@@ -400,13 +391,7 @@ function Home() {
                 className="flex items-center justify-center w-16 h-16 rounded-md bg-cyan-100/30 border border-secondary-100/70 dark:border-secondary-900 dark:bg-cyan-900/70 text-secondary-500"
                 aria-describedby="icon"
               >
-                <Image
-                  src="/imgs/icons/4.svg"
-                  alt="安全性"
-                  className="p-3"
-                  width={64}
-                  height={64}
-                />
+                <ShieldCheckIcon />
               </div>
               <h3 className="text-lg font-semibold">安全性</h3>
               <p className="text-sm text-gray-800 dark:text-gray-200">
@@ -418,13 +403,7 @@ function Home() {
                 className="flex items-center justify-center w-16 h-16 rounded-md bg-cyan-100/30 border border-secondary-100/70 dark:border-secondary-900 dark:bg-cyan-900/70 text-secondary-500"
                 aria-describedby="icon"
               >
-                <Image
-                  src="/imgs/icons/5.svg"
-                  alt="高效收藏"
-                  className="p-3"
-                  width={64}
-                  height={64}
-                />
+                <SparklesIcon />
               </div>
               <h3 className="text-lg font-semibold">高效收藏</h3>
               <p className="text-sm text-gray-800 dark:text-gray-200">
@@ -436,13 +415,7 @@ function Home() {
                 className="flex items-center justify-center w-16 h-16 rounded-md bg-cyan-100/30 border border-secondary-100/70 dark:border-secondary-900 dark:bg-cyan-900/70 text-secondary-500"
                 aria-describedby="icon"
               >
-                <Image
-                  src="/imgs/icons/6.svg"
-                  alt="灵活性"
-                  className="p-3"
-                  width={64}
-                  height={64}
-                />
+                <AudioWaveform />
               </div>
               <h3 className="text-lg font-semibold">灵活性</h3>
               <p className="text-sm text-gray-800 dark:text-gray-200">
