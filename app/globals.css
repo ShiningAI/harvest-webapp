@@ -48,4 +48,8 @@
   .max-w-container {
     max-width: 85rem;
   }
+
+  .container-narrow {
+    max-width: 60rem;
+  }
 }

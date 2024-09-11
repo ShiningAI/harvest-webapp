@@ -1,40 +1,11 @@
 import { PropsWithChildren } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { SignInButton } from "@/components/SignIn";
+import { RootHeader } from "@/components/RootHeader";
 
 function RootLayout({ children }: PropsWithChildren) {
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      <header className="relative z-50 w-full flex-none text-sm font-semibold leading-6 text-slate-900">
-        <nav className="mx-auto max-w-container border-b px-4 sm:px-6 lg:px-8">
-          <div className="relative flex items-center py-8">
-            <Link
-              href="/"
-              className="flex items-center gap-2 flex-none text-slate-900"
-            >
-              <Image src="/icon.png" alt="logo" width={24} height={24} />
-              <span className="text-lg font-medium">Harvest</span>
-            </Link>
-
-            <div className="ml-auto hidden lg:flex lg:items-center">
-              <Link href="/next" className="hover:underline">
-                {`What's next`}
-              </Link>
-              <Link href="/pricing" className="ml-8 hover:underline">
-                Pricing
-              </Link>
-              <Link href="/docs" className="ml-8 hover:underline">
-                Docs
-              </Link>
-            </div>
-
-            <div className="hidden lg:ml-8 lg:flex lg:items-center lg:border-l lg:border-slate-900/15 lg:pl-8">
-              <SignInButton />
-            </div>
-          </div>
-        </nav>
-      </header>
+      <RootHeader />
       <main className="relative mx-auto w-full max-w-container flex-1 flex flex-col px-4 sm:px-6 lg:px-8">
         {children}
       </main>

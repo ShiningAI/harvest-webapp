@@ -19,6 +19,11 @@ const nextConfig = {
         destination: "https://priusai.notion.site/Privacy-Policy-c0b43ed5d4c14a8ea74d32e2f810990f",
         permanent: true,
       },
+      {
+        source: "/terms-of-use",
+        destination: "https://priusai.notion.site/Terms-of-use-789f242f42ca4f43bdf8bb1de1b5c684",
+        permanent: true,
+      },
     ]
   },
   rewrites: async () => {
