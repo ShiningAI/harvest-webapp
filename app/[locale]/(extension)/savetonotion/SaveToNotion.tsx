@@ -45,7 +45,8 @@ export const SaveToNotion = ({
   const saveReq = useRequest(
     async () => {
       if (!req.data?.content) return;
-      const html = `<html><head><title>${req.data.title}</title></head><body>${req.data.content}</body></html>`;
+      let html = req.data.content.replace(/<noscript[^>]*>([\s\S]*?)<\/noscript>/gi, "")
+      html = `<html><head><title>${req.data.title}</title></head><body>${html}</body></html>`;
       const data: NotionDataProgram = {
         async_save: true,
         page_html: html,
