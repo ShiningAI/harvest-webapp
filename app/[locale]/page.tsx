@@ -3,7 +3,7 @@ import Image from "next/image";
 import { RootHeader } from "@/components/RootHeader";
 import {
   AudioWaveform,
-  FolderSync,
+  CheckIcon,
   MessageSquareHeart,
   MonitorUpIcon,
   ShieldCheckIcon,
@@ -23,7 +23,7 @@ function Home() {
             </h1>
             <p className="md:text-lg md:max-w-lg">
               使用 Harvest，您可以快速将社交软件中的信息保存到 Notion
-              和飞书，提升工作效率。
+              等平台，提升工作效率。
             </p>
             <div className="flex flex-wrap gap-4 mt-2 justify-start">
               <Link
@@ -67,23 +67,13 @@ function Home() {
               Harvest
               是一个收藏助手，帮助您将社交软件中的信息轻松保存到笔记软件。
             </p>
-            <dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-600 dark:text-gray-500 lg:max-w-md">
+            <dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-600 dark:text-gray-500">
               <div className="">
                 <dt className="inline font-semibold text-gray-900 dark:text-gray-100">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    className="lucide lucide-check h-5 w-5 inline -mt-0.5 text-primary-500"
-                  >
-                    <path d="M20 6 9 17l-5-5"></path>
-                  </svg>
+                  <CheckIcon
+                    size={20}
+                    className="inline -mt-0.5 text-primary-500"
+                  />
                   社交软件集成.
                 </dt>
                 <dd className="inline">
@@ -92,42 +82,22 @@ function Home() {
               </div>
               <div className="">
                 <dt className="inline font-semibold text-gray-900 dark:text-gray-100">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    className="lucide lucide-check h-5 w-5 inline -mt-0.5 text-primary-500"
-                  >
-                    <path d="M20 6 9 17l-5-5"></path>
-                  </svg>
+                  <CheckIcon
+                    size={20}
+                    className="inline -mt-0.5 text-primary-500"
+                  />
                   多平台同步.
                 </dt>
                 <dd className="inline">
-                  将信息保存到 Notion、飞书等笔记软件，随时随地访问。
+                  将信息保存到 Notion 等笔记软件，随时随地访问。
                 </dd>
               </div>
               <div className="">
                 <dt className="inline font-semibold text-gray-900 dark:text-gray-100">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    className="lucide lucide-check h-5 w-5 inline -mt-0.5 text-primary-500"
-                  >
-                    <path d="M20 6 9 17l-5-5"></path>
-                  </svg>
+                  <CheckIcon
+                    size={20}
+                    className="inline -mt-0.5 text-primary-500"
+                  />
                   用户友好界面.
                 </dt>
                 <dd className="inline">简单易用的界面，让您轻松上手。</dd>
@@ -156,60 +126,30 @@ function Home() {
             <dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-600 dark:text-gray-500 lg:max-w-md">
               <div className="">
                 <dt className="inline font-semibold text-gray-900 dark:text-gray-100">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    className="lucide lucide-check h-5 w-5 inline -mt-0.5 text-primary-500"
-                  >
-                    <path d="M20 6 9 17l-5-5"></path>
-                  </svg>
+                  <CheckIcon
+                    size={20}
+                    className="inline -mt-0.5 text-primary-500"
+                  />
                   高效.
                 </dt>
                 <dd className="inline">快速保存信息，节省时间。</dd>
               </div>
               <div className="">
                 <dt className="inline font-semibold text-gray-900 dark:text-gray-100">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    className="lucide lucide-check h-5 w-5 inline -mt-0.5 text-primary-500"
-                  >
-                    <path d="M20 6 9 17l-5-5"></path>
-                  </svg>
+                  <CheckIcon
+                    size={20}
+                    className="inline -mt-0.5 text-primary-500"
+                  />
                   安全.
                 </dt>
                 <dd className="inline">确保您的数据安全，隐私保护。</dd>
               </div>
               <div className="">
                 <dt className="inline font-semibold text-gray-900 dark:text-gray-100">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    className="lucide lucide-check h-5 w-5 inline -mt-0.5 text-primary-500"
-                  >
-                    <path d="M20 6 9 17l-5-5"></path>
-                  </svg>
+                  <CheckIcon
+                    size={20}
+                    className="inline -mt-0.5 text-primary-500"
+                  />
                   灵活.
                 </dt>
                 <dd className="inline">支持多种社交软件，满足不同需求。</dd>
@@ -238,63 +178,43 @@ function Home() {
             <dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-600 dark:text-gray-500 lg:max-w-md">
               <div className="">
                 <dt className="inline font-semibold text-gray-900 dark:text-gray-100">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    className="lucide lucide-check h-5 w-5 inline -mt-0.5 text-primary-500"
-                  >
-                    <path d="M20 6 9 17l-5-5"></path>
-                  </svg>
+                  <CheckIcon
+                    size={20}
+                    className="inline -mt-0.5 text-primary-500"
+                  />
                   1. 连接社交软件.
                 </dt>
                 <dd className="inline">将 Harvest 与您的社交软件账户连接。</dd>
               </div>
               <div className="">
                 <dt className="inline font-semibold text-gray-900 dark:text-gray-100">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    className="lucide lucide-check h-5 w-5 inline -mt-0.5 text-primary-500"
-                  >
-                    <path d="M20 6 9 17l-5-5"></path>
-                  </svg>
-                  2. 选择要保存的信息.
+                  <CheckIcon
+                    size={20}
+                    className="inline -mt-0.5 text-primary-500"
+                  />
+                  2. 连接笔记软件.
+                </dt>
+                <dd className="inline">将 Harvest 与您的笔记软件账户连接。</dd>
+              </div>
+              <div className="">
+                <dt className="inline font-semibold text-gray-900 dark:text-gray-100">
+                  <CheckIcon
+                    size={20}
+                    className="inline -mt-0.5 text-primary-500"
+                  />
+                  3. 选择要保存的信息.
                 </dt>
                 <dd className="inline">在社交软件中选择链接或聊天记录。</dd>
               </div>
               <div className="">
                 <dt className="inline font-semibold text-gray-900 dark:text-gray-100">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    className="lucide lucide-check h-5 w-5 inline -mt-0.5 text-primary-500"
-                  >
-                    <path d="M20 6 9 17l-5-5"></path>
-                  </svg>
-                  3. 保存到笔记软件.
+                  <CheckIcon
+                    size={20}
+                    className="inline -mt-0.5 text-primary-500"
+                  />
+                  4. 保存到笔记软件.
                 </dt>
-                <dd className="inline">一键保存到 Notion 或飞书。</dd>
+                <dd className="inline">一键发送到 Harvest 收藏助手。</dd>
               </div>
             </dl>
             <div className="flex flex-row gap-4"></div>
