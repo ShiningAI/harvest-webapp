@@ -26,15 +26,16 @@ export const RootHeader = ({ className }: Props) => {
           </Link>
 
           <div className="ml-auto hidden lg:flex lg:items-center">
-            <Link href="/next" className="hover:underline">
-              {`What's next`}
+            <Link
+              href="https://priusai.notion.site/Harvest-Home-2ec5486ba6fa42a799e05ebc03c4cc1c"
+              target="_blank"
+              className="hover:underline"
+            >
+              博客
             </Link>
-            <Link href="/pricing" className="ml-8 hover:underline">
+            {/* <Link href="/pricing" className="ml-8 hover:underline">
               Pricing
-            </Link>
-            <Link href="/docs" className="ml-8 hover:underline">
-              Docs
-            </Link>
+            </Link> */}
           </div>
 
           <div className="hidden lg:ml-8 lg:flex lg:items-center lg:border-l lg:border-slate-900/15 lg:pl-8">
