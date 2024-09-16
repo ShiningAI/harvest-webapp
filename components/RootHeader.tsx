@@ -34,7 +34,7 @@ export const RootHeader = ({ className }: Props) => {
               博客
             </Link>
             {/* <Link href="/pricing" className="ml-8 hover:underline">
-              Pricing
+              价格
             </Link> */}
           </div>
 

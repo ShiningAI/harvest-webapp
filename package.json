@@ -38,6 +38,7 @@
     "next-intl": "^3.15.5",
     "notion-client": "^6.16.0",
     "notion-types": "^6.16.0",
+    "qrcode.react": "^4.0.1",
     "react": "^18",
     "react-dom": "^18",
     "react-notion-x": "^6.16.0",
