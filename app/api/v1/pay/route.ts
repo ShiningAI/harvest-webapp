@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
 
     const response = await fetch(`${API_NICE_URL}/pay/transactions`, {
         method: "POST",
-        body: JSON.stringify({ user: session.user, type }),
+        body: JSON.stringify({ user: session.user, type, productIds: [1] }),
         headers: {
             "Content-Type": "application/json",
         },
@@ -23,7 +23,9 @@ export async function POST(req: NextRequest) {
 
     const respJson = await response.json<any>();
 
+    console.log(respJson);
     if (!respJson.ok) {
+        
         return NextResponse.json(respJson, { status: 500 });
     }
 
