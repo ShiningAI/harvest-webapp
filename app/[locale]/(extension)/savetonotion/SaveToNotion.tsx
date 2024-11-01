@@ -45,7 +45,10 @@ export const SaveToNotion = ({
   const saveReq = useRequest(
     async () => {
       if (!req.data?.content) return;
-      let html = req.data.content.replace(/<noscript[^>]*>([\s\S]*?)<\/noscript>/gi, "")
+      let html = req.data.content.replace(
+        /<noscript[^>]*>([\s\S]*?)<\/noscript>/gi,
+        ""
+      );
       html = `<html><head><title>${req.data.title}</title></head><body>${html}</body></html>`;
       const data: NotionDataProgram = {
         async_save: true,
@@ -112,7 +115,14 @@ export const SaveToNotion = ({
     }
 
     if (req.error) {
-      return <div className="text-red-500">Error: {req.error.message}</div>;
+      return (
+        <div className="text-red-500">
+          <details>
+            <summary>获取页面信息失败，请刷新页面再尝试。</summary>
+            <span>Error: {req.error.message}</span>
+          </details>
+        </div>
+      );
     }
 
     return (
@@ -138,7 +148,10 @@ export const SaveToNotion = ({
 
         {!saveReq.loading && saveReq.error && (
           <div className="text-red-500 mt-2">
-            Error: {saveReq.error.message}
+            <details>
+              <summary>保存失败</summary>
+              <span>Error: {saveReq.error.message}</span>
+            </details>
           </div>
         )}
       </>
