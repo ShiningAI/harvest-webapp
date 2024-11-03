@@ -6,6 +6,7 @@ import { useUserMenu } from "@/hooks/useUserMenu";
 import { usePathname } from "next/navigation";
 import { Clock3Icon, UnplugIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useUser } from "@/hooks/useUser";
 
 const getMenuIcon = (key: string) => {
   switch (key) {
@@ -20,6 +21,7 @@ const getMenuIcon = (key: string) => {
 
 function UserLayout({ children }: PropsWithChildren) {
   const pathname = usePathname();
+  const [user, isLoading] = useUser();
   const [userMenuItems] = useUserMenu();
 
   return (
@@ -47,7 +49,7 @@ function UserLayout({ children }: PropsWithChildren) {
         </div>
       </aside>
       <div className="flex w-full flex-col overflow-y-auto p-4 md:px-10">
-        {children}
+        {isLoading ? null : user ? children : <div>请先登录</div>}
       </div>
     </div>
   );

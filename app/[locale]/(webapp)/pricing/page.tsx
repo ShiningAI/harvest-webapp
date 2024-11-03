@@ -21,11 +21,24 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
+import Image from "next/image";
+import { useUser } from "@/hooks/useUser";
 
 function Page() {
+  const { toast } = useToast();
+  const [user, isLoading] = useUser();
   const [open, setOpen] = useState(false);
   const { loading, data, run } = useRequest(
     async () => {
+      if (!user) {
+        toast({
+          title: "错误",
+          description: "请先登录",
+          variant: "destructive",
+        });
+        return;
+      }
       const resp = await fetch("/api/v1/pay", {
         method: "POST",
         body: JSON.stringify({ type: "native" }),
@@ -34,15 +47,26 @@ function Page() {
         },
       });
       const resp_json: any = await resp.json();
+      if (resp_json.ok === false) {
+        toast({
+          title: "错误",
+          description: resp_json.message,
+          variant: "destructive",
+        });
+        return;
+      }
       return resp_json.data;
     },
     {
       manual: true,
-      onSuccess: () => {
-        setOpen(true);
+      onSuccess: (data) => {
+        if (data) setOpen(true);
       },
     }
   );
+  if (isLoading) {
+    return null;
+  }
   return (
     <>
       <div className="container w-full py-24 lg:py-32">
@@ -117,14 +141,26 @@ function Page() {
         </div>
       </div>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
-          <DialogHeader>
+        <DialogContent className="flex flex-col items-center">
+          <DialogHeader className="flex flex-col items-center">
             <DialogTitle>微信扫码支付</DialogTitle>
-            <DialogDescription>39.9 元</DialogDescription>
+            <DialogDescription>
+              <span className="text-4xl font-semibold text-foreground">
+                39.9
+              </span>
+              <span className="text-xs">元</span>
+            </DialogDescription>
           </DialogHeader>
           <div className="flex justify-center mt-6">
             <QRCodeCanvas value={data?.code_url} size={200} />
           </div>
+          <Image
+            width={184}
+            height={45}
+            src="/images/wechat-payment.png"
+            alt="微信支付"
+            className="mt-6 w-1/4"
+          ></Image>
         </DialogContent>
       </Dialog>
     </>
