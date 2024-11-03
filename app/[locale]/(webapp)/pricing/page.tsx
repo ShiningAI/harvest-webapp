@@ -30,12 +30,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import Image from "next/image";
 import { useUser } from "@/hooks/useUser";
+import { useRouter } from "next/navigation";
 
 function Page() {
+  const router = useRouter();
   const { toast } = useToast();
   const [user, isLoading] = useUser();
   const [open, setOpen] = useState(false);
@@ -71,8 +73,29 @@ function Page() {
     {
       manual: true,
       onSuccess: (data) => {
-        if (data) setOpen(true);
+        if (data?.code_url) setOpen(true);
+        if (data?.trade_no) req.run();
       },
+    }
+  );
+  const req = useRequest(
+    async () => {
+      if (!data?.trade_no) return;
+      const response = await fetch(
+        `/api/pay/get-pay-result?trade_no=${data.trade_no}`
+      );
+      const resp_json: any = await response.json();
+      if (resp_json.ok && resp_json.data.trade_state == "SUCCESS") {
+        setOpen(false);
+        setAlertOpen(false);
+        // TODO: 需要跳转到支付成功页面
+        router.push("/user/orders");
+      }
+    },
+    {
+      manual: true,
+      pollingInterval: 1200,
+      pollingErrorRetryCount: 3,
     }
   );
 
@@ -83,6 +106,14 @@ function Page() {
     }
     run();
   };
+
+  useEffect(() => {
+    if (!open) {
+      req.cancel();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
   if (isLoading) {
     return null;
   }
