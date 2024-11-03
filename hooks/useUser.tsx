@@ -21,6 +21,11 @@ type UserInfo = User & {
     database_url: string;
     database_title: string;
   };
+  harvest: null | {
+    id: number;
+    startDate: string;
+    endDate: string;
+  }
 };
 
 export const useUser = () => {

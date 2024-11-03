@@ -20,6 +20,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import Image from "next/image";
@@ -29,6 +39,7 @@ function Page() {
   const { toast } = useToast();
   const [user, isLoading] = useUser();
   const [open, setOpen] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
   const { loading, data, run } = useRequest(
     async () => {
       if (!user) {
@@ -64,6 +75,14 @@ function Page() {
       },
     }
   );
+
+  const handleBuy = () => {
+    if (user?.harvest?.id) {
+      setAlertOpen(true);
+      return;
+    }
+    run();
+  };
   if (isLoading) {
     return null;
   }
@@ -133,7 +152,7 @@ function Page() {
               </ul>
             </CardContent>
             <CardFooter>
-              <Button className="w-full" loading={loading} onClick={run}>
+              <Button className="w-full" loading={loading} onClick={handleBuy}>
                 立刻购买
               </Button>
             </CardFooter>
@@ -163,6 +182,20 @@ function Page() {
           ></Image>
         </DialogContent>
       </Dialog>
+      <AlertDialog open={alertOpen} onOpenChange={setAlertOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>再次购买</AlertDialogTitle>
+            <AlertDialogDescription>
+              您已经是会员，是否继续购买？
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>取消</AlertDialogCancel>
+            <AlertDialogAction onClick={run}>继续购买</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }
