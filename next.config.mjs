@@ -38,8 +38,8 @@ const nextConfig = {
       },
       {
         source: "/api/pay/:path*",
-        destination: `http://localhost:8000/pay/:path*`,
-        // destination: `https://notion-nice.com/api/pay/:path*`,
+        // destination: `http://localhost:8000/pay/:path*`,
+        destination: `https://notion-nice.com/api/pay/:path*`,
       }
     ];
   },
