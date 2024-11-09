@@ -23,28 +23,28 @@ export const SaveToNotionPage = ({
   const [step, setStep] = useState(0);
   const [selected, setSelected] = useState<string>("");
   const [savePageId, setSavePageId] = useState<string | null>(null);
-  const { loading, data, error } = useRequest(async () => {
-    const resp = await request
-      .post<Databases.Response>(
-        "/sync_notion_databases",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
-        }
-      )
-      .then((res) => res.data);
+  const {
+    loading,
+    data: databases,
+    error,
+    run,
+  } = useRequest(async (noCache = false) => {
+    const response = await fetch("/api/notion/databases", {
+      method: "POST",
+      body: JSON.stringify({ noCache }),
+    }).then((res) => res.json<Databases.APIResponse>());
+
+    if (response.ok === false) {
+      throw new Error(response.message || "Notion auth failed");
+    }
+    const databases = response.data;
 
     let selected_database_id: string | undefined;
 
-    if (
-      current_db &&
-      resp.databases.find((db) => db.database_id === current_db)
-    ) {
+    if (current_db && databases.find((db) => db.database_id === current_db)) {
       selected_database_id = current_db;
-    } else if (resp.databases.length === 1) {
-      selected_database_id = resp.databases[0].database_id;
+    } else if (databases.length === 1) {
+      selected_database_id = databases[0].database_id;
       await fetch(`/api/notion/db/${selected_database_id}`, { method: "POST" });
     }
 
@@ -53,10 +53,8 @@ export const SaveToNotionPage = ({
       setStep(2);
     }
 
-    return resp;
+    return databases;
   }, {});
-
-  const databases = data?.databases;
 
   const dbName = useMemo(() => {
     if (databases) {
@@ -132,12 +130,14 @@ export const SaveToNotionPage = ({
 
   return (
     <SelectDatabases
+      loading={loading}
       selected={selected}
       databases={databases}
       onSuccess={() => {
         setStep(2);
       }}
       onSelected={(value) => setSelected(value)}
+      onRefresh={() => run(true)}
     />
   );
 };

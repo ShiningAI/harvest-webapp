@@ -10,4 +10,14 @@ declare namespace Databases {
     // selected_database_id: string;
     databases: Info[];
   }
+
+  type APIResponse =
+    | {
+        ok: true;
+        data: Info[];
+      }
+    | {
+        ok: false;
+        message: string;
+      };
 }

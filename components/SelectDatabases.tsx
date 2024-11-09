@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useRequest } from "ahooks";
-import { request } from "@/lib/request";
 import { useRouter, useSearchParams } from "next/navigation";
 import { LoaderCircleIcon, LinkIcon, RotateCwIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -90,19 +89,15 @@ const InlineSelectDatabases = ({
   const [selectedDatabase, setSelectedDatabase] = useState<string>(
     defaultDatabase || ""
   );
-  const { loading, data, error, refresh } = useRequest(async () => {
-    const resp = await request
-      .post<Databases.Response>(
-        "/sync_notion_databases",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
-        }
-      )
-      .then((res) => res.data);
-    const databases = resp.databases.sort((a, b) => {
+  const { loading, data, error, run } = useRequest(async (noCache = false) => {
+    const response = await fetch("/api/notion/databases", {
+      method: "POST",
+      body: JSON.stringify({ noCache }),
+    }).then((res) => res.json<Databases.APIResponse>());
+    if (response.ok === false) {
+      throw new Error(response.message || "Notion auth failed");
+    }
+    const databases = response.data.sort((a, b) => {
       if (a.database_title && !b.database_title) {
         return -1;
       } else if (!a.database_title && b.database_title) {
@@ -299,7 +294,7 @@ const InlineSelectDatabases = ({
                   <Button
                     variant="outline"
                     disabled={loading}
-                    onClick={refresh}
+                    onClick={() => run(true)}
                   >
                     {loading ? (
                       <LoaderCircleIcon size={16} className="animate-spin" />

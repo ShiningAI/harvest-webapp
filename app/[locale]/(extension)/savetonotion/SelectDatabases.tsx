@@ -3,7 +3,12 @@
 import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
 import { Label } from "@/components/ui/label";
-import { LinkIcon, StepForwardIcon, LoaderCircleIcon } from "lucide-react";
+import {
+  LinkIcon,
+  StepForwardIcon,
+  LoaderCircleIcon,
+  RotateCwIcon,
+} from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 import { useRequest } from "ahooks";
@@ -11,19 +16,29 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { signOut } from "next-auth/react";
 import { closeModal } from "../utility";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface SelectDatabasesProps {
+  loading: boolean;
   selected: string;
   onSelected: (value: string) => void;
   databases: Databases.Info[];
   onSuccess?: () => void;
+  onRefresh?: () => void;
 }
 
 export const SelectDatabases = ({
+  loading,
   selected,
   databases,
   onSuccess,
   onSelected,
+  onRefresh,
 }: SelectDatabasesProps) => {
   const { toast } = useToast();
   const t = useTranslations("Database");
@@ -52,6 +67,25 @@ export const SelectDatabases = ({
   };
   return (
     <div className="py-3 flex flex-col gap-3 h-80">
+      <div className="px-3 pb-3 flex justify-end">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="outline" disabled={loading} onClick={onRefresh}>
+                {loading ? (
+                  <LoaderCircleIcon size={16} className="animate-spin" />
+                ) : (
+                  <RotateCwIcon size={16} />
+                )}
+                <span className="ml-1">{t("refresh")}</span>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{t("tips")}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
       <div className="overflow-auto px-3 pb-3 flex-1">
         <RadioGroup
           value={selected}
@@ -91,6 +125,7 @@ export const SelectDatabases = ({
         <Button variant="outline" onClick={reauthorization}>
           {t("reauthorization")}
         </Button>
+
         <Button disabled={saveReq.loading} onClick={saveReq.run}>
           {saveReq.loading ? (
             <LoaderCircleIcon size={16} className="animate-spin" />
