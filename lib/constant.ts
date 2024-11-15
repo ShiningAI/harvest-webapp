@@ -11,7 +11,7 @@ export const redirectUri =
 export const redirectUrl =
   process.env.NODE_ENV === "test"
     ? "http://localhost:3000/api/notion"
-    : "https://harvest.prius.ai/api/notion";
+    : "https://harvest.superai42.com/api/notion";
 
 export const API_NICE_URL =
   process.env.NODE_ENV === "test"
