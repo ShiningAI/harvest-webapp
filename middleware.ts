@@ -8,22 +8,30 @@ import {
 import { auth } from "./auth";
 import { NextRequest, NextResponse } from "next/server";
 
+const redirectOrigin = ["http://harvest.prius.ai", "https://harvest.prius.ai"];
+
 export default async function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname.startsWith("/user") ||
+  if (redirectOrigin.includes(request.nextUrl.origin)) {
+    return NextResponse.redirect(
+      new URL(request.nextUrl.pathname, "https://harvest.superai42.com")
+    );
+  }
+  if (
+    request.nextUrl.pathname.startsWith("/user") ||
     request.nextUrl.pathname.startsWith("/databases")
   ) {
     const session = await auth();
     if (!session) {
-      const url = new URL('/login', request.url)
-      url.searchParams.set('callbackUrl', request.nextUrl.pathname)
-      return NextResponse.redirect(url)
+      const url = new URL("/login", request.url);
+      url.searchParams.set("callbackUrl", request.nextUrl.pathname);
+      return NextResponse.redirect(url);
     }
   }
 
   if (request.nextUrl.pathname.startsWith("/login")) {
     const session = await auth();
     if (session) {
-      return NextResponse.redirect(new URL('/user/accounts', request.url))
+      return NextResponse.redirect(new URL("/user/accounts", request.url));
     }
   }
 
@@ -46,7 +54,7 @@ export default async function middleware(request: NextRequest) {
     defaultLocale: default_locale,
     localeDetection: false,
   })(request);
-};
+}
 
 export const config = {
   // Include all paths that should be internationalized,

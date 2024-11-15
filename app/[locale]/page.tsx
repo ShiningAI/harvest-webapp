@@ -390,7 +390,7 @@ function Home() {
                 </li>
                 <li>
                   <Link
-                    href="https://harvest.prius.ai/"
+                    href="https://harvest.superai42.com/"
                     target="_blank"
                     className="hover:underline"
                     prefetch={false}
@@ -454,7 +454,7 @@ function Home() {
                 </li>
                 <li>
                   <Link
-                    href="https://harvest.prius.ai/privacy-policy"
+                    href="https://harvest.superai42.com/privacy-policy"
                     target="_blank"
                     className="hover:underline"
                     prefetch={false}
@@ -464,7 +464,7 @@ function Home() {
                 </li>
                 <li>
                   <Link
-                    href="https://harvest.prius.ai/terms-of-use"
+                    href="https://harvest.superai42.com/terms-of-use"
                     target="_blank"
                     className="hover:underline"
                     prefetch={false}

@@ -21,7 +21,7 @@ export const LogIn = () => {
         {t.rich("description", {
           terms: (chunks) => (
             <Link
-              href="https://harvest.prius.ai/terms-of-use"
+              href="https://harvest.superai42.com/terms-of-use"
               target="_blank"
               className="text-blue-500 hover:underline"
               prefetch={false}
@@ -31,7 +31,7 @@ export const LogIn = () => {
           ),
           privacy: (chunks) => (
             <Link
-              href="https://harvest.prius.ai/privacy-policy"
+              href="https://harvest.superai42.com/privacy-policy"
               target="_blank"
               className="text-blue-500 hover:underline"
               prefetch={false}
@@ -59,7 +59,7 @@ export const LogIn = () => {
       <div className="w-full text-center text-sm text-[12px] text-primary mt-4">
         Powered by
         <Link
-          href="https://harvest.prius.ai"
+          href="https://harvest.superai42.com"
           target="_blank"
           rel="noreferrer"
           className="hover:underline"

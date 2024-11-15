@@ -16,7 +16,7 @@ function RootLayout({ children }: PropsWithChildren) {
         </p>
         <div className="flex items-center gap-4">
           <Link
-            href="https://harvest.prius.ai/privacy-policy"
+            href="https://harvest.superai42.com/privacy-policy"
             target="_blank"
             className="hover:underline"
             prefetch={false}
@@ -24,7 +24,7 @@ function RootLayout({ children }: PropsWithChildren) {
             Privacy
           </Link>
           <Link
-            href="https://harvest.prius.ai/terms-of-use"
+            href="https://harvest.superai42.com/terms-of-use"
             target="_blank"
             className="hover:underline"
             prefetch={false}
