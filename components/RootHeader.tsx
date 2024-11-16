@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { SignInButton } from "./SignIn";
 import { cn } from "@/lib/utils";
+import { SignInButton } from "./SignInButton";
 
 interface Props {
   className?: string;
