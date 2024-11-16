@@ -47,7 +47,17 @@ export default function RootLayout({ children }: PropsWithChildren) {
                     className="hover:underline"
                     prefetch={false}
                   >
-                    Notion Nice
+                    Notion Nice 一键排版
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://www.shining.so/"
+                    target="_blank"
+                    className="hover:underline"
+                    prefetch={false}
+                  >
+                    Shining 妙绘灵光
                   </Link>
                 </li>
               </ul>
