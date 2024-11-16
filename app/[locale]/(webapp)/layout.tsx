@@ -5,7 +5,7 @@ import { RootHeader } from "@/components/RootHeader";
 function RootLayout({ children }: PropsWithChildren) {
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      <RootHeader />
+      <RootHeader shouldShowSignInButton />
       <main className="relative mx-auto w-full max-w-container flex-1 flex flex-col px-4 sm:px-6 lg:px-8">
         {children}
       </main>

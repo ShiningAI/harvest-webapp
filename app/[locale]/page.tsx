@@ -14,7 +14,7 @@ import {
 function Home() {
   return (
     <>
-      <RootHeader className="bg-cyan-100/20 dark:bg-cyan-900/10" />
+      <RootHeader shouldShowSignInButton />
       <section className="w-full flex flex-col justify-center items-center gap-8 py-12 lg:py-16 bg-cyan-100/20 dark:bg-cyan-900/10">
         <div className="w-full p-6 flex-col gap-8 relative max-w-full xl:max-w-6xl grid lg:grid-cols-2 items-start">
           <div className="flex flex-col gap-4 justify-center">
@@ -28,7 +28,7 @@ function Home() {
             <div className="flex flex-wrap gap-4 mt-2 justify-start">
               <Link
                 className="font-inter rounded-lg lg:hover:text-gray-800"
-                href="/login"
+                href="/pricing"
               >
                 <button className="inline-flex items-center justify-center font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-cyan-300/70 text-secondary-foreground hover:bg-cyan-300/90 dark:bg-cyan-700 dark:hover:bg-cyan-700/90 h-12 rounded-md px-6 text-md">
                   立刻开始
@@ -356,7 +356,7 @@ function Home() {
             <Link
               rel="nofollow"
               className="font-inter rounded-lg lg:hover:text-gray-800"
-              href="/login"
+              href="/pricing"
             >
               <button className="inline-flex items-center justify-center font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-amber-300/70 hover:bg-amber-300/90 dark:bg-amber-700 dark:hover:bg-amber-700/90 h-12 rounded-md px-6 text-md shrink-0">
                 立刻开始

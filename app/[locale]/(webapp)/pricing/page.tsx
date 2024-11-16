@@ -107,6 +107,18 @@ function Page() {
     run();
   };
 
+  const onFree = () => {
+    if (!user) {
+      toast({
+        title: "错误",
+        description: "请先登录",
+        variant: "destructive",
+      });
+      return;
+    }
+    router.push("/user/accounts");
+  };
+
   useEffect(() => {
     if (!open) {
       req.cancel();
@@ -152,7 +164,7 @@ function Page() {
               </ul>
             </CardContent>
             <CardFooter>
-              <Button className="w-full" variant={"outline"}>
+              <Button className="w-full" variant={"outline"} onClick={onFree}>
                 立刻开始
               </Button>
             </CardFooter>
@@ -164,7 +176,7 @@ function Page() {
               <span className="font-bold text-5xl">¥ 39.9</span>
             </CardHeader>
             <CardDescription className="text-center w-11/12 mx-auto">
-              包含全部高级功能
+              包含全部免费版功能
             </CardDescription>
             <CardContent>
               <ul className="mt-7 space-y-2.5 text-sm">
