@@ -39,10 +39,10 @@ export const RootHeader = ({ className, shouldShowSignInButton }: Props) => {
                   width={128}
                   height={128}
                   src="/icon.png"
-                  alt="人生发展体系"
+                  alt="Harvest"
                   className="w-8 h-8"
                 />
-                <h1 className="text-xl font-bold">人生发展体系</h1>
+                <h1 className="text-xl font-bold">Harvest</h1>
               </div>
             </Link>
             <div className="flex-1"></div>
