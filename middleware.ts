@@ -13,7 +13,7 @@ const redirectOrigin = ["http://harvest.prius.ai", "https://harvest.prius.ai"];
 export default async function middleware(request: NextRequest) {
   if (
     redirectOrigin.includes(request.nextUrl.origin) &&
-    request.nextUrl.pathname.startsWith("/pricing")
+    !request.nextUrl.pathname.startsWith("/savetonotion")
   ) {
     return NextResponse.redirect(
       new URL(request.nextUrl.pathname, "https://harvest.superai42.com")
