@@ -57,4 +57,9 @@
   .container-narrow {
     max-width: 60rem;
   }
+
+  @font-face {
+    font-family: "YSHaoShenTi";
+    src: url(/fonts/YSHaoShenTi.ttf) format("truetype");
+  }
 }
