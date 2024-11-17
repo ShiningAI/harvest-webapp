@@ -24,7 +24,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { isWechat } from "@/lib/wx";
+import { genAuthUrl, isWechat } from "@/lib/wx";
 import { useToast } from "@/components/ui/use-toast";
 
 interface BuyButtonProps {
@@ -48,10 +48,11 @@ export const BuyButton = ({
     async () => {
       if (!user) {
         toast({
-          title: "错误",
+          title: "提示",
           description: "请先登录",
           variant: "destructive",
         });
+        router.push("/login");
         return;
       }
       const resp = await fetch("/api/v1/pay", {
@@ -84,10 +85,12 @@ export const BuyButton = ({
     async () => {
       if (!user) {
         toast({
-          title: "错误",
+          title: "提示",
           description: "请先登录",
           variant: "destructive",
         });
+
+        window.open(genAuthUrl("/pricing"));
         return;
       }
       const response = await fetch("/api/v1/pay", {
