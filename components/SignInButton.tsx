@@ -71,7 +71,7 @@ export function SignInButton() {
                 </div>
                 <span>
                   {t("ValidUntil")}:{" "}
-                  {dayjs(user.harvest.endDate).format("YYYY-MM-DD")}
+                  {dayjs(user.harvest.nextBillingDate).format("YYYY-MM-DD")}
                 </span>
               </div>
             )}

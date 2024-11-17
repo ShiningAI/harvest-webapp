@@ -25,6 +25,7 @@ type UserInfo = User & {
     id: number;
     startDate: string;
     endDate: string;
+    nextBillingDate: string;
   }
 };
 
