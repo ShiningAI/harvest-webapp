@@ -35,6 +35,10 @@ import { useToast } from "@/components/ui/use-toast";
 import Image from "next/image";
 import { useUser } from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
+import { isWechat } from "@/lib/wx";
+
+// TODO: 需要跳转到支付成功页面
+const paysuccessUrl = "/user/orders";
 
 function Page() {
   const router = useRouter();
@@ -45,11 +49,7 @@ function Page() {
   const { loading, data, run } = useRequest(
     async () => {
       if (!user) {
-        toast({
-          title: "错误",
-          description: "请先登录",
-          variant: "destructive",
-        });
+        router.push("/login");
         return;
       }
       const resp = await fetch("/api/v1/pay", {
@@ -88,8 +88,7 @@ function Page() {
       if (resp_json.ok && resp_json.data.trade_state == "SUCCESS") {
         setOpen(false);
         setAlertOpen(false);
-        // TODO: 需要跳转到支付成功页面
-        router.push("/user/orders");
+        router.push(paysuccessUrl);
       }
     },
     {
@@ -99,7 +98,76 @@ function Page() {
     }
   );
 
+  const wxPayReq = useRequest(
+    async () => {
+      if (!user) {
+        toast({
+          title: "错误",
+          description: "请先登录",
+          variant: "destructive",
+        });
+        return;
+      }
+      const response = await fetch("/api/v1/pay", {
+        method: "POST",
+        body: JSON.stringify({ type: "jsapi", url: window.location.href }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const resp_json: any = await response.json();
+      if (resp_json.ok === false) {
+        toast({
+          title: "错误",
+          description: resp_json.message,
+          variant: "destructive",
+        });
+        return;
+      }
+      const data = resp_json.data;
+
+      const wx = (await import("weixin-js-sdk")).default;
+      const payResult = await new Promise<boolean>((resolve, reject) => {
+        wx.config({
+          debug: false,
+          appId: data.appId,
+          timestamp: data.timeStamp,
+          nonceStr: data.nonceStr,
+          signature: data.signature,
+          jsApiList: ["chooseWXPay"],
+        });
+        wx.ready(function () {
+          wx.chooseWXPay({
+            timestamp: data.timeStamp,
+            nonceStr: data.nonceStr,
+            package: data.package,
+            signType: data.signType,
+            paySign: data.paySign,
+            success: function (res) {
+              if (res.errMsg === "chooseWXPay:ok") {
+                resolve(true);
+              }
+            },
+            fail: function (res) {
+              reject(res);
+            },
+          });
+        });
+      });
+      if (payResult) {
+        router.push(paysuccessUrl);
+      }
+    },
+    {
+      manual: true,
+    }
+  );
+
   const handleBuy = () => {
+    if (isWechat()) {
+      wxPayReq.run();
+      return;
+    }
     if (user?.harvest?.id) {
       setAlertOpen(true);
       return;

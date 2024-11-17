@@ -9,7 +9,7 @@ import {
   SparklesIcon,
 } from "lucide-react";
 import { Hero } from "./Hero";
-import { Section1, Section2, Section3 } from "./Sections";
+import { Section1, Section2, Section3 } from "@/components/Sections";
 
 function Home() {
   return (

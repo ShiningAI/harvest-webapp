@@ -3,15 +3,29 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { LoaderCircle, RotateCcw } from "lucide-react";
-import { useCountDown, useRequest } from "ahooks";
-import { useState } from "react";
-import Image from "next/image";
+import { useCountDown, useMount, useRequest } from "ahooks";
+import { useCallback, useState } from "react";
 import { genAuthUrl, isWechat } from "@/lib/wx";
+import { Section1, Section2, Section3 } from "@/components/Sections";
 
 export function SignInPage() {
   const router = useRouter();
+  const [section, setSection] = useState(-1);
   const [targetDate, setTargetDate] = useState<number>();
   const [countdown] = useCountDown({ targetDate, onEnd: () => cancel() });
+
+  useMount(() => {
+    setSection(Math.floor(Math.random() * 3));
+  });
+
+  const renderSection = useCallback(() => {
+    if (section === -1) return null;
+    const Section = [Section1, Section2, Section3][section];
+    return (
+      <Section className="relative w-full rounded-md lg:scale-90 hover:scale-100 transition-all hard-shadow" />
+    );
+  }, [section]);
+
   const {
     loading,
     data: ticket,
@@ -65,13 +79,7 @@ export function SignInPage() {
   return (
     <>
       <div className="hidden md:flex w-1/2 flex-none flex-col items-center justify-center bg-[#181818] py-6 pt-8 text-center">
-        <Image
-          width={800}
-          height={600}
-          alt="人生发展体系"
-          src="/imgs/sections/02.png"
-          className="w-full"
-        />
+        {renderSection()}
       </div>
       <div className="flex flex-1 flex-col gap-3 items-center justify-center bg-gray-50 p-4 md:px-10 md:py-8">
         <div>

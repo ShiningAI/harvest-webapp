@@ -107,6 +107,9 @@ dependencies:
   uuid:
     specifier: ^10.0.0
     version: 10.0.0
+  weixin-js-sdk:
+    specifier: ^1.6.5
+    version: 1.6.5
 
 devDependencies:
   '@cloudflare/next-on-pages':
@@ -7405,6 +7408,10 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
+    dev: false
+
+  /weixin-js-sdk@1.6.5:
+    resolution: {integrity: sha512-Gph1WAWB2YN/lMOFB/ymb+hbU/wYazzJgu6PMMktCy9cSCeW5wA6Zwt0dpahJbJ+RJEwtTv2x9iIu0U4enuVSQ==}
     dev: false
 
   /whatwg-url@5.0.0:
