@@ -1,6 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { CircleCheckIcon } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
+import { QRCode } from "./QRCode";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "支付成功 - Harvest",
+};
 
 export const runtime = "edge";
 const PaymentSuccess = () => {
@@ -27,6 +34,8 @@ const PaymentSuccess = () => {
           <Button>查看入门教程</Button>
         </Link>
       </div>
+      <Separator className="max-w-sm" />
+      <QRCode />
     </div>
   );
 };
