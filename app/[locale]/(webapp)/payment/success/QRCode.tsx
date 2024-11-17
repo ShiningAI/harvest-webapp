@@ -28,24 +28,14 @@ export const QRCode = () => {
             alt="微信二维码"
           />
         )}
-        <Image
-          src="/icon.png"
-          width={32}
-          height={32}
-          alt="Logo"
-          className="absolute"
-        />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white flex items-center justify-center">
+          <Image src="/icon.png" width={32} height={32} alt="Logo" />
+        </div>
         <QRCodeCanvas
           value={WX_QRCODE}
           size={192}
           ref={canvasRef}
           className="hidden"
-          imageSettings={{
-            src: "/icon.png",
-            width: 32,
-            height: 32,
-            excavate: true,
-          }}
         />
       </div>
       <p className="text-sm text-gray-500 text-center">
