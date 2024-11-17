@@ -128,6 +128,8 @@ export const BuyButton = ({
             success: function (res) {
               if (res.errMsg === "chooseWXPay:ok") {
                 resolve(true);
+              } else {
+                reject(res);
               }
             },
             fail: function (res) {
@@ -142,6 +144,13 @@ export const BuyButton = ({
     },
     {
       manual: true,
+      onError: (error) => {
+        toast({
+          title: "错误",
+          description: error.message || "支付失败",
+          variant: "destructive",
+        });
+      },
     }
   );
   const req = useRequest(
