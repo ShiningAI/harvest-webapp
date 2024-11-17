@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export const runtime = "edge";
 const PaymentSuccess = () => {
   return (
-    <div className="flex flex-col items-center justify-center gap-6 mt-12 py-12 md:py-24">
+    <div className="flex flex-col items-center justify-center gap-6 py-12 md:py-36">
       <CircleCheckIcon className="size-12 text-green-500" />
       <div className="space-y-2 text-center">
         <h2 className="text-2xl font-bold">支付成功</h2>

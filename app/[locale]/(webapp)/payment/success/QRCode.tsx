@@ -1,16 +1,45 @@
 "use client";
 
 import { WX_QRCODE } from "@/lib/constant";
+import Image from "next/image";
 import { QRCodeCanvas } from "qrcode.react";
+import { useEffect, useRef, useState } from "react";
 
 export const QRCode = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [imgSrc, setImgSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (canvasRef.current) {
+      setImgSrc(canvasRef.current.toDataURL());
+    }
+  }, []);
+
   return (
     <div className="flex flex-col items-center">
       <p className="mb-4 text-center">扫描下方二维码，添加我的微信</p>
-      <div className="w-48 h-48 bg-gray-200 flex items-center justify-center mb-4">
+      <div className="w-48 h-48 relative bg-gray-200 flex items-center justify-center mb-4">
+        {imgSrc && (
+          <Image
+            src={imgSrc}
+            width={192}
+            height={192}
+            className="w-48 h-48"
+            alt="微信二维码"
+          />
+        )}
+        <Image
+          src="/icon.png"
+          width={32}
+          height={32}
+          alt="Logo"
+          className="absolute"
+        />
         <QRCodeCanvas
           value={WX_QRCODE}
           size={192}
+          ref={canvasRef}
+          className="hidden"
           imageSettings={{
             src: "/icon.png",
             width: 32,
