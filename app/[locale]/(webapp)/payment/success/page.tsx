@@ -20,7 +20,7 @@ const PaymentSuccess = () => {
           您的支付已经成功完成。感谢您的支持!
         </p>
       </div>
-      <div className="flex flex-col items-center md:flex-row gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         <Link href="/">
           <Button variant="secondary">返回首页</Button>
         </Link>
