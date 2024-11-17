@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { signOut } from "next-auth/react";
-import { LogOutIcon } from "lucide-react";
+import { CrownIcon, LogOutIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CircleUserRound } from "lucide-react";
 import {
@@ -13,11 +13,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useUserMenu } from "@/hooks/useUserMenu";
+import { useUserMenu, getMenuIcon } from "@/hooks/useUserMenu";
 import Link from "next/link";
 import { useUser } from "@/hooks/useUser";
 import { usePathname, useRouter } from "next/navigation";
 import { genAuthUrl, isWechat } from "@/lib/wx";
+import dayjs from "dayjs";
 
 export function SignInButton() {
   const router = useRouter();
@@ -60,11 +61,28 @@ export function SignInButton() {
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>{username}</DropdownMenuLabel>
+          <DropdownMenuLabel>
+            <span>{username}</span>
+            {user.harvest && (
+              <div className="text-sm  text-gray-500">
+                <div className="flex items-center space-x-1">
+                  <CrownIcon size={16} className="text-orange-200" />
+                  <span>{t("Member")}</span>
+                </div>
+                <span>
+                  {t("ValidUntil")}:{" "}
+                  {dayjs(user.harvest.endDate).format("YYYY-MM-DD")}
+                </span>
+              </div>
+            )}
+          </DropdownMenuLabel>
           <DropdownMenuSeparator />
           {userMenuItems.map((item) => (
             <DropdownMenuItem key={item.key} asChild>
-              <Link href={item.href}>{item.label}</Link>
+              <Link href={item.href}>
+                {getMenuIcon(item.key, "mr-2 h-4 w-4")}
+                <span>{item.label}</span>
+              </Link>
             </DropdownMenuItem>
           ))}
           <DropdownMenuSeparator />

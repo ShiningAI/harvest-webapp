@@ -10,7 +10,9 @@
   "UserMenu": {
     "Accounts": "账号绑定",
     "Orders": "订单记录",
-    "LogOut": "退出登录"
+    "LogOut": "退出登录",
+    "Member": "年度会员",
+    "ValidUntil": "有效期至"
   },
   "Accounts": {
     "title": "账号绑定",

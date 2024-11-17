@@ -10,7 +10,9 @@
   "UserMenu": {
     "Accounts": "Accounts",
     "Orders": "Orders",
-    "LogOut": "Log Out"
+    "LogOut": "Log Out",
+    "Member": "Member",
+    "ValidUntil": "Valid until"
   },
   "Accounts": {
     "title": "Accounts",

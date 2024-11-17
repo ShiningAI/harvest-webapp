@@ -17,6 +17,9 @@ const PaymentSuccess = () => {
         <Link href="/">
           <Button variant="secondary">返回首页</Button>
         </Link>
+        <Link href="/user/accounts">
+          <Button variant="outline">绑定账号</Button>
+        </Link>
         <Link
           href="https://mp.weixin.qq.com/s/TyRMsprIZskL46zYnK7rEA"
           target="_blank"

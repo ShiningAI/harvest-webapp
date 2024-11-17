@@ -1,7 +1,19 @@
 "use client";
 
+import { Clock3Icon, UnplugIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
+
+export const getMenuIcon = (key: string, className?: string) => {
+  switch (key) {
+    case "Accounts":
+      return <UnplugIcon size={16} className={className} />;
+    case "Orders":
+      return <Clock3Icon size={16} className={className} />;
+    default:
+      return null;
+  }
+};
 
 const userMenuItems = [
   { label: "Accounts", href: "/user/accounts" },

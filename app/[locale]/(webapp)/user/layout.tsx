@@ -2,22 +2,10 @@
 
 import { PropsWithChildren } from "react";
 import Link from "next/link";
-import { useUserMenu } from "@/hooks/useUserMenu";
+import { useUserMenu, getMenuIcon } from "@/hooks/useUserMenu";
 import { usePathname } from "next/navigation";
-import { Clock3Icon, UnplugIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUser } from "@/hooks/useUser";
-
-const getMenuIcon = (key: string) => {
-  switch (key) {
-    case "Accounts":
-      return <UnplugIcon size={16} />;
-    case "Orders":
-      return <Clock3Icon size={16} />;
-    default:
-      return null;
-  }
-};
 
 function UserLayout({ children }: PropsWithChildren) {
   const pathname = usePathname();
