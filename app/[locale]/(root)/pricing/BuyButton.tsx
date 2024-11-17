@@ -31,8 +31,7 @@ interface BuyButtonProps {
   price: number;
 }
 
-// TODO: 需要跳转到支付成功页面
-const paysuccessUrl = "/user/orders";
+const paysuccessUrl = "/payment/success";
 
 export const BuyButton = ({
   price,
