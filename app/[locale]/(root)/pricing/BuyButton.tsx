@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRequest } from "ahooks";
+import { useMount, useRequest } from "ahooks";
 import { useRouter } from "next/navigation";
 import { QRCodeCanvas } from "qrcode.react";
 import { PropsWithChildren, useEffect, useState } from "react";
@@ -42,6 +42,12 @@ export const BuyButton = ({
   const [user, isLoading] = useUser();
   const [open, setOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
+
+  useMount(() => {
+    if (isWechat()) {
+      import("weixin-js-sdk");
+    }
+  });
 
   const { loading, data, run } = useRequest(
     async () => {
