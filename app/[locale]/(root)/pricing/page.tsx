@@ -37,7 +37,7 @@ const pricingList: PricingProps[] = [
     benefitList: ["每日可发送5条消息", "仅支持文本消息和文本链接"],
   },
   {
-    title: "Harvest 年度会员",
+    title: "年度会员",
     popular: 1,
     nowPrice: 39.9,
     description: "包含全部免费版功能",
@@ -59,7 +59,7 @@ export default function Home() {
           <Card
             key={pricing.title}
             className={cn(
-              "max-w-sm flex-1",
+              "w-full max-w-xs flex-1",
               pricing.popular === PopularPlanType.YES
                 ? "drop-shadow-xl shadow-black/10 dark:shadow-white/10"
                 : ""

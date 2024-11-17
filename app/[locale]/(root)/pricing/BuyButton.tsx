@@ -135,6 +135,10 @@ export const BuyButton = ({
             fail: function (res) {
               reject(res);
             },
+            cancel: function () {
+              const error = new Error("取消支付");
+              reject(error);
+            },
           });
         });
       });
