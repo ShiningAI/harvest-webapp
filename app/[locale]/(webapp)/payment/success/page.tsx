@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { CircleCheckIcon } from "lucide-react";
 import Link from "next/link";
 
+export const runtime = "edge";
 const PaymentSuccess = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-6 mt-12 py-12 md:py-24">
