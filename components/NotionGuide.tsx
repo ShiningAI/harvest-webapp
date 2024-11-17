@@ -15,8 +15,7 @@ export const NotionGuide = ({ rebind }: Props) => {
         <Button>{rebind ? t("Authorize.rebind") : t("Authorize.goto")}</Button>
       </Link>
       <p>
-        👉 在接下来的操作中，请按照如下指引选择一个 Notion
-        数据库作为保存数据的容器。
+        👉 {t("guide")}
       </p>
       <div className="w-full flex flex-col sm:flex-row gap-3 py-3">
         <div className="flex-1">

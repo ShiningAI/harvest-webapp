@@ -7,6 +7,9 @@
     "title": "Something went wrong!",
     "reset": "Try again"
   },
+  "RootMenu": {
+    "pricing": "Pricing"
+  },
   "UserMenu": {
     "Accounts": "Accounts",
     "Orders": "Orders",
@@ -50,6 +53,7 @@
     "tips": "If your desired database does not appear, please refresh and try again.",
     "reauthorization": "Reauthorize",
     "success": "Database selection successful. \nPlease close the page.",
+    "guide": "In the following steps, please follow the guide to select a Notion database as the container for storing data.",
     "Auth": {
       "Fail": {
         "title": "Authorization failed",

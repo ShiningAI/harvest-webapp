@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { SignInButton } from "./SignInButton";
+import { RootMenu } from "./RootMenu";
 
 interface Props {
   className?: string;
@@ -49,9 +50,7 @@ export const RootHeader = ({ className, shouldShowSignInButton }: Props) => {
           </div>
         </div>
 
-        <Link href="/pricing" className="ml-8 hover:underline">
-          价格
-        </Link>
+        <RootMenu />
         {shouldShowSignInButton && (
           <div className="ml-4 lg:ml-8 flex items-center lg:border-l lg:border-slate-900/15 lg:pl-8">
             <SignInButton />

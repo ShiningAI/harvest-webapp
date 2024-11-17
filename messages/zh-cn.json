@@ -7,6 +7,9 @@
     "title": "出错了！",
     "reset": "重试"
   },
+  "RootMenu": {
+    "pricing": "价格"
+  },
   "UserMenu": {
     "Accounts": "账号绑定",
     "Orders": "订单记录",
@@ -37,6 +40,7 @@
     "close": "关闭页面",
     "refresh": "刷新列表",
     "reauthorization": "重新授权",
+    "guide": "在接下来的操作中，请按照如下指引选择一个 Notion 数据库作为保存数据的容器。",
     "SelectedDatabase": {
       "title": "请选择一个数据库",
       "description": "你需要选择一个数据库，作为保存数据的容器"
