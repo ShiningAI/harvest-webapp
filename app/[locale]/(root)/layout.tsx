@@ -57,7 +57,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
                     className="hover:underline"
                     prefetch={false}
                   >
-                    Shining 妙绘灵光
+                    Shining 文字可视化
                   </Link>
                 </li>
               </ul>

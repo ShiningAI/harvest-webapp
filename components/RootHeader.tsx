@@ -53,7 +53,7 @@ export const RootHeader = ({ className, shouldShowSignInButton }: Props) => {
           价格
         </Link>
         {shouldShowSignInButton && (
-          <div className="ml-3 lg:ml-8 flex items-center lg:border-l lg:border-slate-900/15 lg:pl-8">
+          <div className="ml-4 lg:ml-8 flex items-center lg:border-l lg:border-slate-900/15 lg:pl-8">
             <SignInButton />
           </div>
         )}
