@@ -65,14 +65,14 @@ const SelectDatabases = () => {
     return <SelectDatabasesSkeleton />;
   }
 
-  if (!user.notion?.access_token) {
+  if (!user.bindedNotion?.access_token) {
     return <NotionGuide />;
   }
 
   return (
     <InlineSelectDatabases
       isAuth={!!searchParams.get("code")}
-      access_token={user.notion.access_token}
+      access_token={user.bindedNotion.access_token}
       defaultDatabase={user.database?.database_id}
     />
   );
@@ -314,7 +314,7 @@ const InlineSelectDatabases = ({
             {renderList(data.databases)}
           </CardContent>
           <CardFooter className="flex justify-end mt-4 gap-2">
-            <Link href="/sign-in">
+            <Link href="/sign-in" prefetch={false}>
               <Button variant="secondary">{t("reauthorization")}</Button>
             </Link>
             <Button

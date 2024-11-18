@@ -16,6 +16,12 @@ type UserInfo = User & {
     avatar?: string;
     access_token?: string;
   };
+  bindedNotion: null | {
+    name: string;
+    email: string;
+    avatar?: string;
+    access_token?: string;
+  };
   database: null | {
     database_id: string;
     database_url: string;
@@ -26,7 +32,7 @@ type UserInfo = User & {
     startDate: string;
     endDate: string;
     nextBillingDate: string;
-  }
+  };
 };
 
 export const useUser = () => {

@@ -11,12 +11,10 @@ export const NotionGuide = ({ rebind }: Props) => {
   const t = useTranslations("Database");
   return (
     <div className="mx-auto w-full space-y-6 py-6">
-      <Link href="/sign-in">
+      <Link href="/sign-in" prefetch={false}>
         <Button>{rebind ? t("Authorize.rebind") : t("Authorize.goto")}</Button>
       </Link>
-      <p>
-        👉 {t("guide")}
-      </p>
+      <p>👉 {t("guide")}</p>
       <div className="w-full flex flex-col sm:flex-row gap-3 py-3">
         <div className="flex-1">
           <Image
@@ -35,7 +33,7 @@ export const NotionGuide = ({ rebind }: Props) => {
           ></Image>
         </div>
       </div>
-      <Link href="/sign-in">
+      <Link href="/sign-in" prefetch={false}>
         <Button>{rebind ? t("Authorize.rebind") : t("Authorize.goto")}</Button>
       </Link>
     </div>

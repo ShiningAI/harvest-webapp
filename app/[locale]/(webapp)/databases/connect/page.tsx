@@ -10,7 +10,7 @@ export default function Page() {
   if (!user) {
     return <SelectDatabases.Skeleton />;
   }
-  return <NotionGuide rebind={!!user.notion?.access_token} />;
+  return <NotionGuide rebind={!!user.bindedNotion?.access_token} />;
 }
 
 export const runtime = "edge";

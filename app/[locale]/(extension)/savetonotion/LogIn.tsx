@@ -13,7 +13,12 @@ export const LogIn = () => {
     <div className="flex-1 flex flex-col p-3 items-center justify-center text-sm">
       <h2 className="block text-center mt-auto mb-4">{t("title")}</h2>
 
-      <Link href={`/sign-in`} target="_blank" onClick={closeModal}>
+      <Link
+        href={`/sign-in`}
+        target="_blank"
+        prefetch={false}
+        onClick={closeModal}
+      >
         <Button>{t("button")}</Button>
       </Link>
 

@@ -45,9 +45,9 @@ export default function Page() {
       <Item
         title="Notion"
         desc={
-          user.notion?.access_token ? (
+          user.bindedNotion?.access_token ? (
             <>
-              <div>{user.notion.email || user.notion.name || t("bound")}</div>
+              <div>{user.bindedNotion.email || user.bindedNotion.name || t("bound")}</div>
               {!!user.database?.database_id ? (
                 <span>
                   {t("selected")}
@@ -76,12 +76,12 @@ export default function Page() {
         }
         icon={<IconBrandNotion size={24} />}
       >
-        {user.notion?.access_token ? (
-          <Link href="/sign-in">
+        {user.bindedNotion?.access_token ? (
+          <Link href="/sign-in" prefetch={false}>
             <Button>{t("rebind")}</Button>
           </Link>
         ) : (
-          <Link href="/sign-in">
+          <Link href="/sign-in" prefetch={false}>
             <Button>{t("bind")}</Button>
           </Link>
         )}
