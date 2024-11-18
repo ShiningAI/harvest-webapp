@@ -44,11 +44,11 @@ export function SignInButton() {
 
   if (user) {
     const avatar =
-      user.notion?.avatar ||
       user.weixin?.avatar ||
+      user.notion?.avatar ||
       "/images/avatar/default.png";
     const username =
-      user.notion?.name || user.weixin?.name || user.email || user.name || "-";
+      user.weixin?.name || user.notion?.name || user.email || user.name || "-";
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
