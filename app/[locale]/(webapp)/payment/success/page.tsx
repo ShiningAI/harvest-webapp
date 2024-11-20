@@ -30,7 +30,7 @@ const PaymentSuccess = () => {
           </Link>
         </div>
         <Link
-          href="https://mp.weixin.qq.com/s/TyRMsprIZskL46zYnK7rEA"
+          href="https://mp.weixin.qq.com/s/bDYPTlaF770qHH4FhgRP9g"
           target="_blank"
         >
           <Button>查看入门教程</Button>

@@ -8,7 +8,8 @@
     "reset": "重试"
   },
   "RootMenu": {
-    "pricing": "价格"
+    "pricing": "价格",
+    "help": "帮助中心"
   },
   "UserMenu": {
     "Accounts": "账号绑定",
