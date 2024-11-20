@@ -8,7 +8,7 @@ export const RootMenu = () => {
   return (
     <>
       <Link
-        href="https://mp.weixin.qq.com/mp/homepage?__biz=MzU4NzQwNzQzNg==&hid=1&sn=41d075bd7a174a8b1f34bd7677f3bc70"
+        href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU4NzQwNzQzNg==&action=getalbum&album_id=3733392827078918148#wechat_redirect"
         target="_blank"
         className="ml-8 hover:underline"
       >
