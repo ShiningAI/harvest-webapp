@@ -11,6 +11,8 @@ import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
 import { BuyButton } from "./BuyButton";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { FREE_GUIDE_URL } from "@/lib/constant";
 
 enum PopularPlanType {
   NO = 0,
@@ -100,7 +102,7 @@ export default function Home() {
                 </BuyButton>
               ) : (
                 <Button className="w-full" variant="outline">
-                  {pricing.buttonText}
+                  <Link href={FREE_GUIDE_URL}>{pricing.buttonText}</Link>
                 </Button>
               )}
             </CardContent>

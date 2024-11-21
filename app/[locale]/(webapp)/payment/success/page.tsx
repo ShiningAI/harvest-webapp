@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { QRCode } from "./QRCode";
 import { Metadata } from "next";
+import { GUIDE_URL } from "@/lib/constant";
 
 export const metadata: Metadata = {
   title: "支付成功 - Harvest",
@@ -29,10 +30,7 @@ const PaymentSuccess = () => {
             <Button variant="outline">绑定账号</Button>
           </Link>
         </div>
-        <Link
-          href="https://mp.weixin.qq.com/s/bDYPTlaF770qHH4FhgRP9g"
-          target="_blank"
-        >
+        <Link href={GUIDE_URL} target="_blank">
           <Button>查看入门教程</Button>
         </Link>
       </div>

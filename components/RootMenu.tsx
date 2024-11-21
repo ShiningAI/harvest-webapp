@@ -1,22 +1,64 @@
 "use client";
 
-import Link from "next/link";
+import Link, { LinkProps } from "next/link";
 import { useTranslations } from "next-intl";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "./ui/button";
+import { MenuIcon } from "lucide-react";
+import { HTMLAttributeAnchorTarget } from "react";
+import { HELP_URL } from "@/lib/constant";
+
+const menus: Array<
+  LinkProps & { label: string; target?: HTMLAttributeAnchorTarget }
+> = [
+  { label: "pricing", href: "/pricing" },
+  {
+    label: "help",
+    target: "_blank",
+    href: HELP_URL,
+  },
+];
 
 export const RootMenu = () => {
   const t = useTranslations("RootMenu");
   return (
     <>
-      <Link
-        href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU4NzQwNzQzNg==&action=getalbum&album_id=3733392827078918148#wechat_redirect"
-        target="_blank"
-        className="ml-8 hover:underline"
-      >
-        {t("help")}
-      </Link>
-      <Link href="/pricing" className="ml-8 hover:underline">
-        {t("pricing")}
-      </Link>
+      <div className="hidden md:flex items-center space-x-4">
+        {menus.map(({ label, ...props }) => (
+          <Link key={label} className="hover:underline" {...props}>
+            {t(label)}
+          </Link>
+        ))}
+      </div>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline">
+            <MenuIcon />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          {menus.map(({ label, ...props }) => (
+            <DropdownMenuItem key={label} asChild>
+              <Link key={label} className="hover:underline" {...props}>
+                {t(label)}
+              </Link>
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
     </>
   );
 };
