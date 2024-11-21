@@ -36,7 +36,7 @@ export const RootMenu = () => {
   const t = useTranslations("RootMenu");
   return (
     <>
-      <div className="hidden md:flex items-center space-x-4">
+      <div className="hidden md:flex items-center space-x-8">
         {menus.map(({ label, ...props }) => (
           <Link key={label} className="hover:underline" {...props}>
             {t(label)}
@@ -45,7 +45,7 @@ export const RootMenu = () => {
       </div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline">
+          <Button variant="outline" className="md:hidden">
             <MenuIcon />
           </Button>
         </DropdownMenuTrigger>

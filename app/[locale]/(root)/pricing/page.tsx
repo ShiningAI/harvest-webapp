@@ -101,9 +101,11 @@ export default function Home() {
                   {pricing.buttonText}
                 </BuyButton>
               ) : (
-                <Button className="w-full" variant="outline">
-                  <Link href={FREE_GUIDE_URL}>{pricing.buttonText}</Link>
-                </Button>
+                <Link href={FREE_GUIDE_URL} prefetch={false} target="_blank">
+                  <Button className="w-full" variant="outline">
+                    {pricing.buttonText}
+                  </Button>
+                </Link>
               )}
             </CardContent>
 
