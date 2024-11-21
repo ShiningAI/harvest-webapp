@@ -8,8 +8,7 @@ import {
   SmileIcon,
   SparklesIcon,
 } from "lucide-react";
-import { Hero } from "./Hero";
-import { Section1, Section2, Section3 } from "@/components/Sections";
+import { Section1, Section2, Section3, Section5 } from "@/components/Sections";
 
 function Home() {
   return (
@@ -43,7 +42,7 @@ function Home() {
               </Link>
             </div>
           </div>
-          <Hero className="w-full lg:w-4/5 mx-auto rounded-md relative z-10 hard-shadow my-4 bg-gray-800" />
+          <Section5 className="w-full lg:w-4/5 mx-auto rounded-md relative z-10 hard-shadow my-4 bg-gray-800" />
         </div>
       </section>
       <section

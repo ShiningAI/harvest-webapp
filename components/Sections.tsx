@@ -198,3 +198,124 @@ export const Section3: React.FC<Props> = ({ className }) => (
     </g>
   </svg>
 );
+
+export const Section4: React.FC<Props> = ({ className }) => (
+  <svg viewBox="0 0 800 600" className={className}>
+    {/* 背景 */}
+
+    <g transform="translate(200,150)" fill="#FFFFFF">
+      <path d="m54,18v38h-30.69c-2.37,0-3.98-.67-5.66-2.34l-5.31-5.31c-1.68-1.68-2.34-3.29-2.34-5.66V8h34v38h-25.52l4,4h25.52V18h6Z" />
+    </g>
+    <g transform="translate(100,120)" fill="#FFFFFF">
+      <path d="m24,36.5c0,1.29.11,2.51.29,3.7-1.91.52-4.01.8-6.29.8-2.05,0-3.95-.22-5.69-.63-3.01,2.27-6.75,3.63-10.81,3.63l-1.5-2.25,5.03-5.03c-3.23-2.86-5.03-7.04-5.03-12.22C0,14.32,6.89,8,18,8c8.61,0,14.67,3.81,16.96,10.25-6.89,3.21-10.96,9.69-10.96,18.25Zm40,0c0-10.18-6.89-16.5-18-16.5s-18,6.32-18,16.5,6.89,16.5,18,16.5c2.05,0,3.95-.22,5.69-.63,3.01,2.27,6.75,3.63,10.81,3.63l1.5-2.25-5.03-5.03c3.23-2.86,5.03-7.04,5.03-12.22Z" />
+    </g>
+    <g transform="translate(300,130)" fill="#FFFFFF">
+      <path d="m42,23v18c0,4.92-3.08,8-8,8H12c-4.92,0-8-3.08-8-8v-18c0-4.92,3.08-8,8-8h22c4.92,0,8,3.08,8,8Zm14-5l-10,10v8l10,10h4v-28h-4Z" />
+    </g>
+    <g transform="translate(400,160)" fill="#FFFFFF">
+      <path d="m38,27c0-2.76,2.24-5,5-5s5,2.24,5,5-2.24,5-5,5-5-2.24-5-5Zm20-15v40H6V12h52Zm-6,6H12v26l14-14h4l16,16h6v-28Z" />
+    </g>
+
+    {/* 收藏动画路径 */}
+    <path
+      d="M230,180 C280,180 320,250 370,320"
+      stroke="#808080"
+      strokeWidth="3"
+      fill="none"
+      strokeDasharray="8,8"
+    />
+
+    {/* 笔记本图标 */}
+    <g transform="translate(350,300)" fill="#FFFFFF">
+      <rect x="0" y="0" width="100" height="120" rx="10" />
+      {/* 笔记本内部线条 */}
+      <line x1="20" y1="30" x2="80" y2="30" stroke="#000000" strokeWidth="2" />
+      <line x1="20" y1="60" x2="80" y2="60" stroke="#000000" strokeWidth="2" />
+      <line x1="20" y1="90" x2="80" y2="90" stroke="#000000" strokeWidth="2" />
+    </g>
+
+    {/* 标题文字 */}
+    <text
+      x="400"
+      y="500"
+      fontFamily="YSHaoShenTi"
+      fontSize="24"
+      fill="#FFFFFF"
+      textAnchor="middle"
+    >
+      轻松收藏，随时随地
+    </text>
+
+    {/* 动画效果：信息流动 */}
+    <circle className="moving-dot" r="5" fill="#FFFFFF">
+      <animateMotion
+        path="M230,180 C280,180 320,250 370,320"
+        dur="2s"
+        repeatCount="indefinite"
+      />
+    </circle>
+  </svg>
+);
+
+export const Section5: React.FC<Props> = ({ className }) => (
+  <svg viewBox="0 0 800 600" className={className}>
+    <g transform="translate(150,120)" fill="#FFFFFF">
+      <path d="m24,36.5c0,1.29.11,2.51.29,3.7-1.91.52-4.01.8-6.29.8-2.05,0-3.95-.22-5.69-.63-3.01,2.27-6.75,3.63-10.81,3.63l-1.5-2.25,5.03-5.03c-3.23-2.86-5.03-7.04-5.03-12.22C0,14.32,6.89,8,18,8c8.61,0,14.67,3.81,16.96,10.25-6.89,3.21-10.96,9.69-10.96,18.25Zm40,0c0-10.18-6.89-16.5-18-16.5s-18,6.32-18,16.5,6.89,16.5,18,16.5c2.05,0,3.95-.22,5.69-.63,3.01,2.27,6.75,3.63,10.81,3.63l1.5-2.25-5.03-5.03c3.23-2.86,5.03-7.04,5.03-12.22Z" />
+    </g>
+    <g transform="translate(250,150)" fill="#FFFFFF">
+      <path d="m54,18v38h-30.69c-2.37,0-3.98-.67-5.66-2.34l-5.31-5.31c-1.68-1.68-2.34-3.29-2.34-5.66V8h34v38h-25.52l4,4h25.52V18h6Z" />
+    </g>
+    <g transform="translate(350,120)" fill="#FFFFFF">
+      <path d="m42,23v18c0,4.92-3.08,8-8,8H12c-4.92,0-8-3.08-8-8v-18c0-4.92,3.08-8,8-8h22c4.92,0,8,3.08,8,8Zm14-5l-10,10v8l10,10h4v-28h-4Z" />
+    </g>
+    <g transform="translate(450,160)" fill="#FFFFFF">
+      <path d="m38,27c0-2.76,2.24-5,5-5s5,2.24,5,5-2.24,5-5,5-5-2.24-5-5Zm20-15v40H6V12h52Zm-6,6H12v26l14-14h4l16,16h6v-28Z" />
+    </g>
+
+    {/* 收藏动画路径 */}
+    <path
+      d="M300,180 C400,180 400,350 500,350"
+      stroke="#FFFFFF"
+      strokeWidth="3"
+      fill="none"
+      strokeDasharray="8,8"
+    >
+      <animate
+        attributeName="stroke-dashoffset"
+        from="100"
+        to="0"
+        dur="2s"
+        repeatCount="indefinite"
+      />
+    </path>
+
+    {/* 笔记本图标 */}
+    <g transform="translate(500,320)">
+      <rect
+        x="0"
+        y="0"
+        width="100"
+        height="120"
+        fill="none"
+        stroke="#FFFFFF"
+        strokeWidth="3"
+      />
+      {/* 笔记本线条装饰 */}
+      <line x1="20" y1="30" x2="80" y2="30" stroke="#FFFFFF" strokeWidth="2" />
+      <line x1="20" y1="60" x2="80" y2="60" stroke="#FFFFFF" strokeWidth="2" />
+      <line x1="20" y1="90" x2="80" y2="90" stroke="#FFFFFF" strokeWidth="2" />
+    </g>
+
+    {/* 标题文字 */}
+    <text
+      x="400"
+      y="520"
+      fontFamily="YSHaoShenTi"
+      fontSize="28"
+      fill="#FFFFFF"
+      textAnchor="middle"
+    >
+      Harvest 收藏助手：轻松收藏，随时随地
+    </text>
+  </svg>
+);

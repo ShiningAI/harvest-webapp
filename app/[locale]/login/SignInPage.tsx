@@ -6,7 +6,13 @@ import { LoaderCircle, RotateCcw } from "lucide-react";
 import { useCountDown, useMount, useRequest } from "ahooks";
 import { useCallback, useState } from "react";
 import { genAuthUrl, isWechat } from "@/lib/wx";
-import { Section1, Section2, Section3 } from "@/components/Sections";
+import {
+  Section1,
+  Section2,
+  Section3,
+  Section4,
+  Section5,
+} from "@/components/Sections";
 
 export function SignInPage() {
   const router = useRouter();
@@ -15,12 +21,12 @@ export function SignInPage() {
   const [countdown] = useCountDown({ targetDate, onEnd: () => cancel() });
 
   useMount(() => {
-    setSection(Math.floor(Math.random() * 3));
+    setSection(Math.floor(Math.random() * 5));
   });
 
   const renderSection = useCallback(() => {
     if (section === -1) return null;
-    const Section = [Section1, Section2, Section3][section];
+    const Section = [Section1, Section2, Section3, Section4, Section5][section];
     return (
       <Section className="relative w-full rounded-md lg:scale-90 hover:scale-100 transition-all hard-shadow" />
     );

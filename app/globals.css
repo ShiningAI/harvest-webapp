@@ -62,4 +62,19 @@
     font-family: "YSHaoShenTi";
     src: url(/fonts/YSHaoShenTi.ttf) format("truetype");
   }
+
+  @keyframes fade {
+    0% {
+      opacity: 0.2;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.2;
+    }
+  }
+  .moving-dot {
+    animation: fade 2s infinite;
+  }
 }
