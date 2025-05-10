@@ -36,15 +36,25 @@ const pricingList: PricingProps[] = [
     nowPrice: 0,
     description: "受限制的基本功能",
     buttonText: "立刻开始",
-    benefitList: ["每日可发送5条消息", "仅支持文本消息和文本链接"],
+    benefitList: [
+      "每日可发送5条消息",
+      "仅支持文本消息和文本链接",
+      "只能通过公众号进行消息发送",
+    ],
   },
   {
     title: "年度会员",
     popular: 1,
-    nowPrice: 39.9,
+    nowPrice: 59.9,
     description: "包含全部免费版功能",
     buttonText: "立刻购买",
-    benefitList: ["每日可发送30条消息", "支持多种消息格式"],
+    benefitList: [
+      "每日可发送30条消息",
+      "支持保存微信文章、网页、普通文本",
+      "支持保存聊天记录、图片、视频、文档",
+      "收藏信息的AI摘要功能",
+      "可通过微信小助手进行消息发送",
+    ],
   },
 ];
 
@@ -61,7 +71,7 @@ export default function Home() {
           <Card
             key={pricing.title}
             className={cn(
-              "w-full max-w-xs flex-1",
+              "w-full max-w-sm flex-1",
               pricing.popular === PopularPlanType.YES
                 ? "drop-shadow-xl shadow-black/10 dark:shadow-white/10"
                 : ""
