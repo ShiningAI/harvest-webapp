@@ -13,6 +13,7 @@ import { BuyButton } from "./BuyButton";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { FREE_GUIDE_URL } from "@/lib/constant";
+import { Metadata } from "next";
 
 enum PopularPlanType {
   NO = 0,
@@ -57,6 +58,12 @@ const pricingList: PricingProps[] = [
     ],
   },
 ];
+
+export const metadata: Metadata = {
+  title: "会员方案与定价 - Harvest 收藏助手",
+  description:
+    "解锁完整功能，每日30条消息、AI摘要、保存微信文章与聊天记录，轻松收藏，随时随地。年度会员仅需59.9元。",
+};
 
 export const runtime = "edge";
 export default function Home() {
