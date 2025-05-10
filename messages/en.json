@@ -88,7 +88,9 @@
     "Authorize": {
       "goto": "Go to Notion to Authorize",
       "rebind": "Go to Notion to Authorize"
-    }
+    },
+    "contactSupport": "If you have any questions, please feel free to contact me",
+    "scanQRCode": "Scan the QR code below to add customer service WeChat and join the group"
   },
   "NotFoundPage": {
     "title": "Not Found Page"

@@ -3,10 +3,13 @@
 import { useTranslations } from "next-intl";
 import { IconBrandNotion, IconBrandWechat } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import { useUser } from "@/hooks/useUser";
 import Link from "next/link";
 import { UserBox } from "@/components/UserBox";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { QRCode } from "./QRCode";
 
 export const runtime = "edge";
 
@@ -16,7 +19,19 @@ function Box({ children }: PropsWithChildren) {
 
 export default function Page() {
   const [user] = useUser();
+  const router = useRouter();
+  const pathname = usePathname();
   const t = useTranslations("Accounts");
+  const searchParams = useSearchParams();
+  const firstSelected = searchParams.get("firstSelected") === "true";
+  const [showQRCodeDialog, setShowQRCodeDialog] = useState(false);
+
+  // 检查是否是首次选择数据库并显示二维码对话框
+  useEffect(() => {
+    if (firstSelected) {
+      setShowQRCodeDialog(true);
+    }
+  }, [firstSelected]);
 
   if (!user) {
     return (
@@ -36,57 +51,81 @@ export default function Page() {
   }
 
   return (
-    <Box>
-      <Item
-        title="微信"
-        desc={user.weixin?.name ? user.weixin.name : t("desc")}
-        icon={<IconBrandWechat size={24} />}
-      ></Item>
-      <Item
-        title="Notion"
-        desc={
-          user.bindedNotion?.access_token ? (
-            <>
-              <div>{user.bindedNotion.email || user.bindedNotion.name || t("bound")}</div>
-              {!!user.database?.database_id ? (
-                <span>
-                  {t("selected")}
-                  <Link
-                    className="ml-1 text-primary underline"
-                    href={user.database.database_url}
-                  >
-                    {user.database.database_title}
-                  </Link>
-                  <Link className="ml-1 text-blue-500" href="/databases/select">
-                    {t("change")}
-                  </Link>
-                </span>
-              ) : (
-                <span>
-                  {/* {t("unselected")}
-                  <Link className="ml-1 text-blue-500" href="/databases/select">
-                    {t("gotoselect")}
-                  </Link> */}
-                </span>
-              )}
-            </>
+    <>
+      <Box>
+        <Item
+          title="微信"
+          desc={user.weixin?.name ? user.weixin.name : t("desc")}
+          icon={<IconBrandWechat size={24} />}
+        ></Item>
+        <Item
+          title="Notion"
+          desc={
+            user.bindedNotion?.access_token ? (
+              <>
+                <div>
+                  {user.bindedNotion.email ||
+                    user.bindedNotion.name ||
+                    t("bound")}
+                </div>
+                {!!user.database?.database_id ? (
+                  <span>
+                    {t("selected")}
+                    <Link
+                      className="ml-1 text-primary underline"
+                      href={user.database.database_url}
+                    >
+                      {user.database.database_title}
+                    </Link>
+                    <Link
+                      className="ml-1 text-blue-500"
+                      href="/databases/select"
+                    >
+                      {t("change")}
+                    </Link>
+                  </span>
+                ) : (
+                  <span>
+                    {/* {t("unselected")}
+                    <Link className="ml-1 text-blue-500" href="/databases/select">
+                      {t("gotoselect")}
+                    </Link> */}
+                  </span>
+                )}
+              </>
+            ) : (
+              t("desc")
+            )
+          }
+          icon={<IconBrandNotion size={24} />}
+        >
+          {user.bindedNotion?.access_token ? (
+            <Link href="/sign-in" prefetch={false}>
+              <Button>{t("rebind")}</Button>
+            </Link>
           ) : (
-            t("desc")
-          )
-        }
-        icon={<IconBrandNotion size={24} />}
+            <Link href="/sign-in" prefetch={false}>
+              <Button>{t("bind")}</Button>
+            </Link>
+          )}
+        </Item>
+      </Box>
+
+      {/* 首次选择数据库时显示客服二维码对话框 */}
+      <Dialog
+        open={showQRCodeDialog}
+        onOpenChange={(open) => {
+          setShowQRCodeDialog(open);
+          if (!open) {
+            router.replace(pathname);
+          }
+        }}
       >
-        {user.bindedNotion?.access_token ? (
-          <Link href="/sign-in" prefetch={false}>
-            <Button>{t("rebind")}</Button>
-          </Link>
-        ) : (
-          <Link href="/sign-in" prefetch={false}>
-            <Button>{t("bind")}</Button>
-          </Link>
-        )}
-      </Item>
-    </Box>
+        <DialogContent className="sm:max-w-md">
+          <QRCode />
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
 

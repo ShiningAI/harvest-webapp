@@ -17,7 +17,7 @@ export const redirectUri =
     : "https://harvest.superai42.com/api/auth/callback/notion";
 
 export const redirectUrl =
-  process.env.NODE_ENV === "test"
+  process.env.NODE_ENV === "development"
     ? "http://localhost:3000/api/notion"
     : "https://harvest.superai42.com/api/notion";
 
@@ -26,6 +26,6 @@ export const API_NICE_URL =
     ? "http://localhost:8000"
     : "http://api.notion-nice.com";
 export const NOTION_OAUTH_HOST =
-  process.env.NODE_ENV === "test"
+  process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
     : "https://harvest.prius.ai";

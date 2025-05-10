@@ -179,7 +179,14 @@ const InlineSelectDatabases = ({
     {
       manual: true,
       onSuccess(data) {
-        if (data) replace(`/user/accounts`);
+        if (data) {
+          // 根据用户当前是否已有数据库来判断是否是首次选择
+          if (defaultDatabase) {
+            replace(`/user/accounts`);
+          } else {
+            replace(`/user/accounts?firstSelected=true`);
+          }
+        }
       },
     }
   );
