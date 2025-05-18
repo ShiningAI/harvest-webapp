@@ -10,6 +10,8 @@ if (process.env.NODE_ENV === "development") {
 
 const withNextIntl = createNextIntlPlugin();
 
+const apiBaseUrl = 'http://api.notion-nice.com';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   redirects: async () => {
@@ -34,12 +36,11 @@ const nextConfig = {
       },
       {
         source: "/api/mp/:path*",
-        destination: `http://api.notion-nice.com/mp/:path*`,
+        destination: `${apiBaseUrl}/mp/:path*`,
       },
       {
         source: "/api/pay/:path*",
-        // destination: `http://localhost:8000/pay/:path*`,
-        destination: `https://notion-nice.com/api/pay/:path*`,
+        destination: `${apiBaseUrl}/pay/:path*`,
       }
     ];
   },

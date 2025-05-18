@@ -42,7 +42,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
                 </li>
                 <li>
                   <Link
-                    href="https://notion-nice.com/"
+                    href="https://nice.superai42.com/"
                     target="_blank"
                     className="hover:underline"
                     prefetch={false}
