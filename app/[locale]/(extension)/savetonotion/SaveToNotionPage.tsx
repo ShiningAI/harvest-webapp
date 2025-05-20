@@ -10,6 +10,7 @@ import { LoaderCircleIcon } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { closeModal } from "../utility";
+import { useTranslations } from "next-intl";
 
 interface SaveToNotionPageProps {
   access_token: string;
@@ -21,6 +22,7 @@ export const SaveToNotionPage = ({
   current_db,
 }: SaveToNotionPageProps) => {
   const [step, setStep] = useState(0);
+  const t = useTranslations("Database");
   const [selected, setSelected] = useState<string>("");
   const [savePageId, setSavePageId] = useState<string | null>(null);
   const {
@@ -58,10 +60,12 @@ export const SaveToNotionPage = ({
 
   const dbName = useMemo(() => {
     if (databases) {
-      return databases.find((db) => db.database_id === selected)
-        ?.database_title;
+      const db = databases.find((db) => db.database_id === selected);
+      if (db) {
+        return db.database_title || t("title");
+      }
     }
-    return "";
+    return t("title");
   }, [databases, selected]);
 
   if (error) {

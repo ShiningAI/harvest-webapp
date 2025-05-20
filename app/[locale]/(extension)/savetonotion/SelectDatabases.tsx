@@ -104,7 +104,9 @@ export const SelectDatabases = ({
                 value={database.database_id}
                 id={database.database_id}
               />
-              <div className="py-2 flex-1">{database.database_title}</div>
+              <div className="py-2 flex-1">
+                {database.database_title || t("title")}
+              </div>
               <Link
                 href={database.database_url}
                 target="_blank"
