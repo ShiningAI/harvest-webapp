@@ -24,7 +24,7 @@ export const redirectUrl =
 export const API_NICE_URL =
   process.env.NODE_ENV === "test"
     ? "http://localhost:8000"
-    : "http://api.notion-nice.com";
+    : "https://nice.superai42.com/api";
 export const NOTION_OAUTH_HOST =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"

@@ -3,7 +3,7 @@
 import { useRequest } from "ahooks";
 import { getWebContent } from "../utility";
 import { Button } from "@/components/ui/button";
-import { ChevronLeftIcon, LoaderCircleIcon, SendIcon } from "lucide-react";
+import { LoaderCircleIcon, SendIcon } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { request } from "@/lib/request";
@@ -12,7 +12,6 @@ interface SaveToNotionProps {
   token: string;
   db_name?: string;
   current_db?: string;
-  onBack?: () => void;
   onSuccess?: (notion_page_id: string) => void;
 }
 interface NotionDataProgram {
@@ -38,7 +37,6 @@ export const SaveToNotion = ({
   token,
   db_name,
   current_db,
-  onBack,
   onSuccess,
 }: SaveToNotionProps) => {
   const req = useRequest(getWebContent);
@@ -101,83 +99,63 @@ export const SaveToNotion = ({
     }
   );
 
-  const render = () => {
-    if (req.loading) {
-      return (
-        <div className="w-full flex items-center space-x-4">
-          <Skeleton className="h-12 w-12 rounded-full" />
-          <div className="flex-1 space-y-2">
-            <Skeleton className="h-4 w-2/5" />
-            <Skeleton className="h-4 w-4/5" />
-          </div>
-        </div>
-      );
-    }
-
-    if (req.error) {
-      return (
-        <div className="text-red-500">
-          <details>
-            <summary>获取页面信息失败，请刷新页面再尝试。</summary>
-            <span>Error: {req.error.message}</span>
-          </details>
-        </div>
-      );
-    }
-
+  if (req.loading) {
     return (
-      <>
-        <div className="mb-4">
-          <Input
-            disabled
-            type="text"
-            value={req.data?.title}
-            placeholder="Search Databases"
-          />
+      <div className="w-full flex items-center space-x-4">
+        <Skeleton className="h-12 w-12 rounded-full" />
+        <div className="flex-1 space-y-2">
+          <Skeleton className="h-4 w-2/5" />
+          <Skeleton className="h-4 w-4/5" />
         </div>
-        <div className="flex items-center gap-2">
-          <Button disabled={saveReq.loading} onClick={saveReq.run}>
-            {saveReq.loading ? (
-              <LoaderCircleIcon size={16} className="animate-spin" />
-            ) : (
-              <SendIcon size={16} />
-            )}
-            <span className="ml-1">Save Page</span>
-          </Button>
-        </div>
-
-        {!saveReq.loading && saveReq.error && (
-          <div className="text-red-500 mt-2">
-            <details>
-              <summary>保存失败</summary>
-              <span>Error: {saveReq.error.message}</span>
-            </details>
-          </div>
-        )}
-      </>
+      </div>
     );
-  };
+  }
+
+  if (req.error) {
+    return (
+      <div className="text-red-500">
+        <details>
+          <summary>获取页面信息失败，请刷新页面再尝试。</summary>
+          <span>Error: {req.error.message}</span>
+        </details>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex flex-col p-3 h-80">
-      <div className="flex items-center justify-between p-2">
-        <div className="flex items-center">
-          <Button
-            size="icon"
-            variant="secondary"
-            className="rounded-full text-foreground mr-2"
-            onClick={onBack}
-          >
-            <ChevronLeftIcon size={16} />
-          </Button>
-          <span>form</span>
-        </div>
-        {db_name && (
-          <div className="pl-2 font-medium leading-none">{db_name}</div>
-        )}
+    <div className="flex flex-col gap-4">
+      <div>
+        <div className="text-sm font-medium mb-2">页面标题</div>
+        <Input
+          disabled
+          type="text"
+          value={req.data?.title}
+          placeholder="Page Title"
+        />
+      </div>
+      <div className="flex items-center gap-2">
+        <Button
+          disabled={saveReq.loading}
+          onClick={saveReq.run}
+          className="w-full"
+        >
+          {saveReq.loading ? (
+            <LoaderCircleIcon size={16} className="animate-spin mr-2" />
+          ) : (
+            <SendIcon size={16} className="mr-2" />
+          )}
+          <span>保存到 {db_name}</span>
+        </Button>
       </div>
 
-      <div className="w-full flex-1">{render()}</div>
+      {!saveReq.loading && saveReq.error && (
+        <div className="text-red-500 mt-2">
+          <details>
+            <summary>保存失败</summary>
+            <span>Error: {saveReq.error.message}</span>
+          </details>
+        </div>
+      )}
     </div>
   );
 };

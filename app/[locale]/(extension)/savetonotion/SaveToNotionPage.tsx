@@ -5,12 +5,18 @@ import { CircleCheckIcon } from "lucide-react";
 import { request } from "@/lib/request";
 import { useRequest } from "ahooks";
 import { SaveToNotion } from "./SaveToNotion";
-import { SelectDatabases } from "./SelectDatabases";
 import { LoaderCircleIcon } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { closeModal } from "../utility";
 import { useTranslations } from "next-intl";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface SaveToNotionPageProps {
   access_token: string;
@@ -21,10 +27,10 @@ export const SaveToNotionPage = ({
   access_token,
   current_db,
 }: SaveToNotionPageProps) => {
-  const [step, setStep] = useState(0);
   const t = useTranslations("Database");
   const [selected, setSelected] = useState<string>("");
   const [savePageId, setSavePageId] = useState<string | null>(null);
+
   const {
     loading,
     data: databases,
@@ -52,7 +58,6 @@ export const SaveToNotionPage = ({
 
     if (selected_database_id) {
       setSelected(selected_database_id);
-      setStep(2);
     }
 
     return databases;
@@ -66,7 +71,12 @@ export const SaveToNotionPage = ({
       }
     }
     return t("title");
-  }, [databases, selected]);
+  }, [databases, selected, t]);
+
+  const handleSelectChange = async (value: string) => {
+    setSelected(value);
+    await fetch(`/api/notion/db/${value}`, { method: "POST" });
+  };
 
   if (error) {
     return (
@@ -74,7 +84,7 @@ export const SaveToNotionPage = ({
     );
   }
 
-  if (loading || databases === undefined) {
+  if (databases === undefined) {
     return (
       <div className="flex flex-col p-3 h-80">
         <div className="flex gap-1 items-center justify-center">
@@ -91,27 +101,7 @@ export const SaveToNotionPage = ({
     );
   }
 
-  if (step === 2) {
-    return (
-      <SaveToNotion
-        token={access_token}
-        db_name={dbName}
-        current_db={selected}
-        onBack={() => {
-          setStep(1);
-        }}
-        onSuccess={(pageId) => {
-          setSavePageId(pageId);
-          setStep(3);
-        }}
-      />
-    );
-  }
-
-  if (step === 3) {
-    if (!savePageId) {
-      return <div className="flex flex-col p-3 h-80">Error: No page found</div>;
-    }
+  if (savePageId) {
     return (
       <div className="w-full h-80 px-4 flex flex-col items-center justify-center">
         <p className="my-3">
@@ -133,15 +123,54 @@ export const SaveToNotionPage = ({
   }
 
   return (
-    <SelectDatabases
-      loading={loading}
-      selected={selected}
-      databases={databases}
-      onSuccess={() => {
-        setStep(2);
-      }}
-      onSelected={(value) => setSelected(value)}
-      onRefresh={() => run(true)}
-    />
+    <div className="flex flex-col p-3 h-80">
+      <div className="flex flex-col gap-4 p-0 mb-3">
+        <div className="flex items-center justify-between">
+          <div className="text-sm font-medium">
+            {t("MultipleDatabases.title")}
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => run(true)}
+            disabled={loading}
+          >
+            {loading ? (
+              <LoaderCircleIcon size={16} className="animate-spin mr-1" />
+            ) : null}
+            {t("refresh")}
+          </Button>
+        </div>
+
+        <Select value={selected} onValueChange={handleSelectChange}>
+          <SelectTrigger disabled={loading} className="w-full">
+            <SelectValue placeholder={t("SelectedDatabase.title")} />
+          </SelectTrigger>
+          <SelectContent>
+            {databases.map((database) => (
+              <SelectItem
+                key={database.database_id}
+                value={database.database_id}
+              >
+                {database.database_title || t("title")}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {selected && (
+        <div className="flex-1 flex flex-col border-t pt-3">
+          <SaveToNotion
+            token={access_token}
+            db_name={dbName}
+            current_db={selected}
+            onSuccess={(pageId) => {
+              setSavePageId(pageId);
+            }}
+          />
+        </div>
+      )}
+    </div>
   );
 };
