@@ -1,7 +1,9 @@
 {
   "Metadata": {
-    "title": "Harvest",
-    "description": "将网页保存到 Notion"
+    "title": "Harvest 知识助理",
+    "description": "将网页保存到 Notion",
+    "slogan": "将网页保存到 Notion",
+    "keywords": "Harvest, Notion, 知识助理, 网页保存, 知识管理"
   },
   "GlobalError": {
     "title": "出错了！",

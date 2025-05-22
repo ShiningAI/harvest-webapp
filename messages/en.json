@@ -1,7 +1,9 @@
 {
   "Metadata": {
-    "title": "Harvest",
-    "description": "Save the Web to Notion"
+    "title": "Harvest Assistant",
+    "description": "Save the Web to Notion",
+    "slogan": "Save the Web to Notion",
+    "keywords": "Harvest, Notion, Assistant, Web, Save"
   },
   "GlobalError": {
     "title": "Something went wrong!",
