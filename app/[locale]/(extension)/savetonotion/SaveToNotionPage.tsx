@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { CircleCheckIcon } from "lucide-react";
-import { request } from "@/lib/request";
-import { useRequest } from "ahooks";
+import { useRequest, useLocalStorageState } from "ahooks";
 import { SaveToNotion } from "./SaveToNotion";
 import { LoaderCircleIcon } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -28,8 +27,13 @@ export const SaveToNotionPage = ({
   current_db,
 }: SaveToNotionPageProps) => {
   const t = useTranslations("Database");
-  const [selected, setSelected] = useState<string>("");
   const [savePageId, setSavePageId] = useState<string | null>(null);
+  const [currentDb, setCurrentDb] = useLocalStorageState<string | undefined>(
+    "use-notion-db",
+    {
+      defaultValue: current_db,
+    }
+  );
 
   const {
     loading,
@@ -57,7 +61,7 @@ export const SaveToNotionPage = ({
     }
 
     if (selected_database_id) {
-      setSelected(selected_database_id);
+      setCurrentDb(selected_database_id);
     }
 
     return databases;
@@ -65,16 +69,16 @@ export const SaveToNotionPage = ({
 
   const dbName = useMemo(() => {
     if (databases) {
-      const db = databases.find((db) => db.database_id === selected);
+      const db = databases.find((db) => db.database_id === currentDb);
       if (db) {
         return db.database_title || t("title");
       }
     }
     return t("title");
-  }, [databases, selected, t]);
+  }, [databases, currentDb, t]);
 
   const handleSelectChange = async (value: string) => {
-    setSelected(value);
+    setCurrentDb(value);
     await fetch(`/api/notion/db/${value}`, { method: "POST" });
   };
 
@@ -142,7 +146,7 @@ export const SaveToNotionPage = ({
           </Button>
         </div>
 
-        <Select value={selected} onValueChange={handleSelectChange}>
+        <Select value={currentDb} onValueChange={handleSelectChange}>
           <SelectTrigger disabled={loading} className="w-full">
             <SelectValue placeholder={t("SelectedDatabase.title")} />
           </SelectTrigger>
@@ -159,12 +163,12 @@ export const SaveToNotionPage = ({
         </Select>
       </div>
 
-      {selected && (
+      {currentDb && (
         <div className="flex-1 flex flex-col border-t pt-3">
           <SaveToNotion
             token={access_token}
             db_name={dbName}
-            current_db={selected}
+            current_db={currentDb}
             onSuccess={(pageId) => {
               setSavePageId(pageId);
             }}
