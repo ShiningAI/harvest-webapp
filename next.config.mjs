@@ -32,7 +32,7 @@ const nextConfig = {
     return [
       {
         source: "/api/harvest/:path*",
-        destination: `https://harvest-api.prius.ai/v1/:path*`,
+        destination: `http://api.harvest.superai42.com/v1/:path*`,
       },
       {
         source: "/api/mp/:path*",

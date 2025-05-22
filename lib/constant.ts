@@ -28,4 +28,4 @@ export const API_NICE_URL =
 export const NOTION_OAUTH_HOST =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
-    : "https://harvest.prius.ai";
+    : "https://harvest.superai42.com";
