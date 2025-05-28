@@ -30,7 +30,12 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    return NextResponse.json({ ok: true, data: respJson.data });
+    // 对 database_id 去重
+    const uniqueDatabases = respJson.data.filter((database, index, self) => 
+      index === self.findIndex(d => d.database_id === database.database_id)
+    );
+
+    return NextResponse.json({ ok: true, data: uniqueDatabases });
   } catch (error: any) {
     console.log(error);
 
