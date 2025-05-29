@@ -45,7 +45,13 @@
         "title": "Can't login?",
         "description": "If you keep getting logged out frequently or cannot login at all, try <a>enabling third party cookies</a>."
       }
-    }
+    },
+    "getPageInfoFailed": "Failed to get page information, please refresh the page and try again.",
+    "pageTitle": "Page Title",
+    "pageTitlePlaceholder": "Page Title",
+    "saveTo": "Save to {dbName}",
+    "saveFailed": "Save failed",
+    "error": "Error"
   },
   "Database": {
     "save": "Save",
@@ -57,6 +63,11 @@
     "reauthorization": "Reauthorize",
     "success": "Database selection successful. \nPlease close the page.",
     "guide": "In the following steps, please follow the guide to select a Notion database as the container for storing data.",
+    "loading": "loading...",
+    "error": "Error",
+    "noDatabasesFound": "No databases found",
+    "openPageInNotion": "Open Page in Notion",
+    "closePopup": "Close Popup",
     "Auth": {
       "Fail": {
         "title": "Authorization failed",

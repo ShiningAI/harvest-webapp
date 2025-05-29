@@ -84,7 +84,7 @@ export const SaveToNotionPage = ({
 
   if (error) {
     return (
-      <div className="flex flex-col p-3 h-80">{`Error: ${error.message}`}</div>
+      <div className="flex flex-col p-3 h-80">{`${t("error")}: ${error.message}`}</div>
     );
   }
 
@@ -93,7 +93,7 @@ export const SaveToNotionPage = ({
       <div className="flex flex-col p-3 h-80">
         <div className="flex gap-1 items-center justify-center">
           <LoaderCircleIcon size={24} className="animate-spin" />
-          <span>loading...</span>
+          <span>{t("loading")}</span>
         </div>
       </div>
     );
@@ -101,7 +101,7 @@ export const SaveToNotionPage = ({
 
   if (databases.length === 0) {
     return (
-      <div className="flex flex-col p-3 h-80">Error: No databases found</div>
+      <div className="flex flex-col p-3 h-80">{t("error")}: {t("noDatabasesFound")}</div>
     );
   }
 
@@ -116,11 +116,11 @@ export const SaveToNotionPage = ({
           target="_blank"
           prefetch={false}
         >
-          <Button>Open Page in Notion</Button>
+          <Button>{t("openPageInNotion")}</Button>
         </Link>
 
         <Button className="mt-2" variant="link" onClick={closeModal}>
-          Close Popup
+          {t("closePopup")}
         </Button>
       </div>
     );

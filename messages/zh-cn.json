@@ -44,6 +44,11 @@
     "refresh": "刷新列表",
     "reauthorization": "重新授权",
     "guide": "在接下来的操作中，请按照如下指引选择一个 Notion 数据库作为保存数据的容器。",
+    "loading": "加载中...",
+    "error": "错误",
+    "noDatabasesFound": "未找到数据库",
+    "openPageInNotion": "在 Notion 中打开页面",
+    "closePopup": "关闭弹窗",
     "SelectedDatabase": {
       "title": "请选择一个数据库",
       "description": "你需要选择一个数据库，作为保存数据的容器"
@@ -95,6 +100,12 @@
         "description": "如果您经常退出或根本无法登录，请尝试<a>启用第三方 cookie</a>。",
         "title": "无法登录？"
       }
-    }
+    },
+    "getPageInfoFailed": "获取页面信息失败，请刷新页面再尝试。",
+    "pageTitle": "页面标题",
+    "pageTitlePlaceholder": "页面标题",
+    "saveTo": "保存到 {dbName}",
+    "saveFailed": "保存失败",
+    "error": "错误"
   }
 }

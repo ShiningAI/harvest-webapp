@@ -7,6 +7,7 @@ import { LoaderCircleIcon, SendIcon } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { request } from "@/lib/request";
+import { useTranslations } from "next-intl";
 
 interface SaveToNotionProps {
   token: string;
@@ -39,6 +40,7 @@ export const SaveToNotion = ({
   current_db,
   onSuccess,
 }: SaveToNotionProps) => {
+  const t = useTranslations("SaveToNotion");
   const req = useRequest(getWebContent);
   const saveReq = useRequest(
     async () => {
@@ -115,8 +117,8 @@ export const SaveToNotion = ({
     return (
       <div className="text-red-500">
         <details>
-          <summary>获取页面信息失败，请刷新页面再尝试。</summary>
-          <span>Error: {req.error.message}</span>
+          <summary>{t("getPageInfoFailed")}</summary>
+          <span>{t("error")}: {req.error.message}</span>
         </details>
       </div>
     );
@@ -125,12 +127,12 @@ export const SaveToNotion = ({
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <div className="text-sm font-medium mb-2">页面标题</div>
+        <div className="text-sm font-medium mb-2">{t("pageTitle")}</div>
         <Input
           disabled
           type="text"
           value={req.data?.title}
-          placeholder="Page Title"
+          placeholder={t("pageTitlePlaceholder")}
         />
       </div>
       <div className="flex items-center gap-2">
@@ -144,15 +146,15 @@ export const SaveToNotion = ({
           ) : (
             <SendIcon size={16} className="mr-2" />
           )}
-          <span>保存到 {db_name}</span>
+          <span>{t("saveTo", { dbName: db_name })}</span>
         </Button>
       </div>
 
       {!saveReq.loading && saveReq.error && (
         <div className="text-red-500 mt-2">
           <details>
-            <summary>保存失败</summary>
-            <span>Error: {saveReq.error.message}</span>
+            <summary>{t("saveFailed")}</summary>
+            <span>{t("error")}: {saveReq.error.message}</span>
           </details>
         </div>
       )}
