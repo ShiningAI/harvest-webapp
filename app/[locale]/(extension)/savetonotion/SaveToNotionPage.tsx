@@ -6,6 +6,7 @@ import { useRequest, useLocalStorageState } from "ahooks";
 import { SaveToNotion } from "./SaveToNotion";
 import { LoaderCircleIcon } from "lucide-react";
 import { useMemo, useState } from "react";
+import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { closeModal } from "../utility";
 import { useTranslations } from "next-intl";
@@ -77,6 +78,12 @@ export const SaveToNotionPage = ({
     return t("title");
   }, [databases, currentDb, t]);
 
+  const reauthorization = async () => {
+    await signOut();
+    window.open("/sign-in", "_blank");
+    closeModal();
+  };
+
   const handleSelectChange = async (value: string) => {
     setCurrentDb(value);
     await fetch(`/api/notion/db/${value}`, { method: "POST" });
@@ -84,7 +91,9 @@ export const SaveToNotionPage = ({
 
   if (error) {
     return (
-      <div className="flex flex-col p-3 h-80">{`${t("error")}: ${error.message}`}</div>
+      <div className="flex flex-col p-3 h-80">{`${t("error")}: ${
+        error.message
+      }`}</div>
     );
   }
 
@@ -101,7 +110,9 @@ export const SaveToNotionPage = ({
 
   if (databases.length === 0) {
     return (
-      <div className="flex flex-col p-3 h-80">{t("error")}: {t("noDatabasesFound")}</div>
+      <div className="flex flex-col p-3 h-80">
+        {t("error")}: {t("noDatabasesFound")}
+      </div>
     );
   }
 
@@ -129,8 +140,8 @@ export const SaveToNotionPage = ({
   return (
     <div className="flex flex-col p-3 h-80">
       <div className="flex flex-col gap-4 p-0 mb-3">
-        <div className="flex items-center justify-between">
-          <div className="text-sm font-medium">
+        <div className="flex items-center gap-2">
+          <div className="text-sm font-medium flex-1">
             {t("MultipleDatabases.title")}
           </div>
           <Button
@@ -143,6 +154,9 @@ export const SaveToNotionPage = ({
               <LoaderCircleIcon size={16} className="animate-spin mr-1" />
             ) : null}
             {t("refresh")}
+          </Button>
+          <Button variant="outline" size="sm" onClick={reauthorization}>
+            {t("reauthorization")}
           </Button>
         </div>
 
