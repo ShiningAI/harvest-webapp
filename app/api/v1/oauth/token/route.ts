@@ -40,5 +40,10 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ ok: false, error: "Notion auth failed" }, { status: 401 });
     }
 
+    // 确保 refresh_token 是字符串类型
+    if (notion_auth_resp_json.refresh_token === null) {
+        notion_auth_resp_json.refresh_token = "";
+    }
+
     return NextResponse.json(notion_auth_resp_json);
 }
