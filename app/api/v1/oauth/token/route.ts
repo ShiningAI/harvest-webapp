@@ -41,8 +41,8 @@ export async function POST(req: NextRequest) {
     }
 
     // 确保 refresh_token 是字符串类型
-    if (notion_auth_resp_json.refresh_token === null) {
-        notion_auth_resp_json.refresh_token = "";
+    if (!notion_auth_resp_json.refresh_token) {
+        notion_auth_resp_json.refresh_token = notion_auth_resp_json.access_token;
     }
 
     return NextResponse.json(notion_auth_resp_json);
