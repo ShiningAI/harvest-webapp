@@ -2,7 +2,7 @@ export const SELECTD_FORMS = "FormList";
 export const SELECTED_FORM = "SelectedForm";
 
 export const WX_QRCODE =
-  "https://work.weixin.qq.com/u/vc7190ffe7e6076089?v=4.1.31.32492&bb=0d2c04c42b";
+  "https://work.weixin.qq.com/u/vceacd26d9afdfcffa?v=4.1.39.194962&bb=734e271b8a";
 export const FREE_GUIDE_URL =
   "https://mp.weixin.qq.com/s/ywDlisdSv-6KVFJjOJr38g";
   export const GUIDE_URL = "https://mp.weixin.qq.com/s/bDYPTlaF770qHH4FhgRP9g";
