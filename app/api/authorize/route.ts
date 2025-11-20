@@ -7,13 +7,16 @@ export async function GET(
   { params }: { params: { code: string; state: string } }
 ) {
   try {
-    if (!params.code) {
+    const code = request.nextUrl.searchParams.get("code") || "";
+    const stateParam = request.nextUrl.searchParams.get("state") || "";
+
+    if (!code) {
       return NextResponse.json({ ok: false, error: "Invalid code" });
     }
 
     const url = new URL(`${API_NICE_URL}/lifedev/authorize`);
-    url.searchParams.set("code", params.code);
-    if (params.state) url.searchParams.set("state", params.state);
+    url.searchParams.set("code", code);
+    if (stateParam) url.searchParams.set("state", stateParam);
     const response = await fetch(url);
 
     const respJson = await response.json<any>();

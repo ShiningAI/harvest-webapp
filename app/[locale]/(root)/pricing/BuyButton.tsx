@@ -105,8 +105,19 @@ export const BuyButton = ({
           "Content-Type": "application/json",
         },
       });
+      const status = response.status;
       const resp_json: any = await response.json();
       if (resp_json.ok === false) {
+        // 当后端判定缺少 openid（通常返回 401 且 message 含 openid）
+        if (
+          status === 401 &&
+          typeof resp_json.message === "string" &&
+          /openid/i.test(resp_json.message)
+        ) {
+          // 触发微信授权，完成后回填 openid
+          window.location.href = genAuthUrl("/pricing");
+          return;
+        }
         toast({
           title: "错误",
           description: resp_json.message,
