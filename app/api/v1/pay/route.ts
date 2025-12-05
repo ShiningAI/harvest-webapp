@@ -24,7 +24,8 @@ export async function POST(req: NextRequest) {
 
   console.log(respJson);
   if (!respJson.ok) {
-    return NextResponse.json(respJson, { status: 500 });
+    // 转发后端的实际状态码，而不是统一返回 500
+    return NextResponse.json(respJson, { status: response.status });
   }
 
   return NextResponse.json(respJson);
