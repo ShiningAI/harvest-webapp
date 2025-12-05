@@ -253,10 +253,10 @@ export const BuyButton = ({
 
   const onBuy = () => {
     setAlertOpen(false);
-    // if (isWechat()) {
-    //   wxPayReq.run();
-    //   return;
-    // }
+    if (isWechat()) {
+      wxPayReq.run();
+      return;
+    }
     run();
   };
 
