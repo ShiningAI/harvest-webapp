@@ -18,7 +18,9 @@
     "Orders": "订单记录",
     "LogOut": "退出登录",
     "Member": "年度会员",
-    "ValidUntil": "有效期至"
+    "ValidUntil": "有效期至",
+    "ExpiredAt": "会员已于 {date} 到期",
+    "RenewNow": "立即续费"
   },
   "Accounts": {
     "title": "账号绑定",

@@ -19,6 +19,7 @@ import { useUser } from "@/hooks/useUser";
 import { usePathname, useRouter } from "next/navigation";
 import { genAuthUrl, isWechat } from "@/lib/wx";
 import dayjs from "dayjs";
+import { isMemberActive } from "@/lib/membership";
 
 export function SignInButton() {
   const router = useRouter();
@@ -64,15 +65,30 @@ export function SignInButton() {
           <DropdownMenuLabel>
             <span>{username}</span>
             {user.harvest && (
-              <div className="text-sm  text-gray-500">
+              <div className="text-sm text-gray-500">
                 <div className="flex items-center space-x-1">
-                  <CrownIcon size={16} className="text-orange-200" />
+                  <CrownIcon
+                    size={16}
+                    className={
+                      isMemberActive(user.harvest)
+                        ? "text-orange-200"
+                        : "text-gray-400"
+                    }
+                  />
                   <span>{t("Member")}</span>
                 </div>
-                <span>
-                  {t("ValidUntil")}:{" "}
-                  {dayjs(user.harvest.endDate).format("YYYY-MM-DD")}
-                </span>
+                {isMemberActive(user.harvest) ? (
+                  <span>
+                    {t("ValidUntil")}:{" "}
+                    {dayjs(user.harvest.endDate).format("YYYY-MM-DD")}
+                  </span>
+                ) : (
+                  <span className="text-red-500">
+                    {t("ExpiredAt", {
+                      date: dayjs(user.harvest.endDate).format("YYYY-MM-DD"),
+                    })}
+                  </span>
+                )}
               </div>
             )}
           </DropdownMenuLabel>

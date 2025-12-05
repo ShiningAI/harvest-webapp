@@ -18,7 +18,9 @@
     "Orders": "Orders",
     "LogOut": "Log Out",
     "Member": "Member",
-    "ValidUntil": "Valid until"
+    "ValidUntil": "Valid until",
+    "ExpiredAt": "Membership expired on {date}",
+    "RenewNow": "Renew Now"
   },
   "Accounts": {
     "title": "Accounts",
