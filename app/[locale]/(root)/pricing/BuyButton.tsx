@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { QRCodeCanvas } from "qrcode.react";
 import { PropsWithChildren, useEffect, useState, useRef } from "react";
 import { useUser } from "@/hooks/useUser";
-import { isMemberActive } from "@/lib/membership";
+import { isMemberActive, hasPurchasedMembership } from "@/lib/membership";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -30,7 +30,6 @@ import { useToast } from "@/components/ui/use-toast";
 
 interface BuyButtonProps {
   price: number;
-  isRenew?: boolean;
 }
 
 // 二维码图片组件 - 将 canvas 转换为 img，支持微信长按识别
@@ -79,13 +78,16 @@ const paysuccessUrl = "/payment/success";
 export const BuyButton = ({
   price,
   children,
-  isRenew = false,
 }: PropsWithChildren<BuyButtonProps>) => {
   const router = useRouter();
   const { toast } = useToast();
   const [user, isLoading] = useUser();
   const [open, setOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
+
+  // 判断是否是已到期会员（需要续费）
+  const isExpiredMember =
+    hasPurchasedMembership(user?.harvest) && !isMemberActive(user?.harvest);
 
   useMount(() => {
     if (isWechat()) {
@@ -285,7 +287,7 @@ export const BuyButton = ({
         loading={loading || wxPayReq.loading}
         onClick={handleBuy}
       >
-        {children}
+        {isExpiredMember ? "立即续费" : children}
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
