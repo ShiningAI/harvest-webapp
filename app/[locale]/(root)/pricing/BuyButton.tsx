@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useMount, useRequest } from "ahooks";
 import { useRouter } from "next/navigation";
 import { QRCodeCanvas } from "qrcode.react";
-import { PropsWithChildren, useEffect, useState } from "react";
+import { PropsWithChildren, useEffect, useState, useRef } from "react";
 import { useUser } from "@/hooks/useUser";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,6 +30,47 @@ import { useToast } from "@/components/ui/use-toast";
 interface BuyButtonProps {
   price: number;
 }
+
+// 二维码图片组件 - 将 canvas 转换为 img，支持微信长按识别
+const QRCodeImage = ({ value, size }: { value: string; size: number }) => {
+  const canvasRef = useRef<HTMLDivElement>(null);
+  const [imgSrc, setImgSrc] = useState<string>("");
+
+  useEffect(() => {
+    if (!value || !canvasRef.current) return;
+    
+    // 等待 canvas 渲染完成后转换为图片
+    const timer = setTimeout(() => {
+      const canvas = canvasRef.current?.querySelector("canvas");
+      if (canvas) {
+        const dataUrl = canvas.toDataURL("image/png");
+        setImgSrc(dataUrl);
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [value]);
+
+  return (
+    <div className="relative" style={{ width: size, height: size }}>
+      {/* 隐藏的 canvas 用于生成图片 */}
+      <div ref={canvasRef} className={imgSrc ? "hidden" : ""}>
+        <QRCodeCanvas value={value} size={size} />
+      </div>
+      {/* 显示转换后的图片，支持长按识别 */}
+      {imgSrc && (
+        <img
+          src={imgSrc}
+          alt="微信支付二维码"
+          width={size}
+          height={size}
+          className="block"
+          style={{ width: size, height: size }}
+        />
+      )}
+    </div>
+  );
+};
 
 const paysuccessUrl = "/payment/success";
 
@@ -255,7 +296,7 @@ export const BuyButton = ({
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-center mt-6">
-            <QRCodeCanvas value={data?.code_url} size={200} />
+            {data?.code_url && <QRCodeImage value={data.code_url} size={200} />}
           </div>
           <Image
             width={184}
